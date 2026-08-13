@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "skills": {
+    "r3f-animation": {
+      "source": "enzed/r3f-skills",
+      "sourceType": "github",
+      "skillPath": "skills/r3f-animation/SKILL.md",
+      "computedHash": "4afdfaa4e854a84b02d87732a99a1ab4ec2d09588d84f1a266d722fdb0b803b0"
+    },
+    "threejs-animation": {
+      "source": "cloudai-x/threejs-skills",
+      "sourceType": "github",
+      "skillPath": "skills/threejs-animation/SKILL.md",
+      "computedHash": "8c50b1493812bd88f3ed0637c0c3c5d846afdb322157b67b2ffba4ce8e552835"
+    },
+    "web-design-guidelines": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/web-design-guidelines/SKILL.md",
+      "computedHash": "f3bc47f890f42a44db1007ab390709ec368e4b8c089baee6b0007182236ac474"
+    }
+  }
+}
