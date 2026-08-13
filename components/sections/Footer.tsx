@@ -29,11 +29,11 @@ export function Footer() {
       <Container>
         <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
           <Image
-            src="/assets/brand/class-gray.webp"
+            src="/assets/brand/class-gray.png"
             alt={siteConfig.name}
-            width={752}
-            height={264}
-            className="h-10 w-[calc(2.5rem*752/264)] object-contain"
+            width={2172}
+            height={724}
+            className="h-10 w-[calc(2.5rem*2172/724)] object-contain"
           />
 
           <address className="not-italic">

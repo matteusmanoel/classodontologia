@@ -22,6 +22,7 @@ const inter = Inter({
 const defaultTitle = `${siteConfig.name} | ${siteConfig.address.city}`;
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   title: {
     default: defaultTitle,
     template: `%s | ${siteConfig.name}`,
@@ -66,6 +67,14 @@ export default function RootLayout({
       lang="pt-BR"
       className={`${cormorant.variable} ${inter.variable}`}
     >
+      <head>
+        <link
+          rel="preload"
+          as="image"
+          href="/assets/cinematic/tooth/tooth-cinematic-prototype-poster.webp"
+          fetchPriority="high"
+        />
+      </head>
       <body className="font-sans antialiased">
         <a href="#main-content" className="skip-link">
           Ir para o conteúdo principal
@@ -73,11 +82,11 @@ export default function RootLayout({
         <header role="banner" className="border-b border-border px-[--section-px] py-4">
           <Link href="/" className="inline-flex items-center">
             <Image
-              src="/assets/brand/class-gray.webp"
+              src="/assets/brand/class-gray.png"
               alt={siteConfig.name}
-              width={752}
-              height={264}
-              className="h-8 w-[calc(2rem*752/264)] object-contain"
+              width={2172}
+              height={724}
+              className="h-8 w-[calc(2rem*2172/724)] object-contain"
               priority
             />
           </Link>

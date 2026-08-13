@@ -14,12 +14,13 @@ export function GoldenLogo({ className }: GoldenLogoProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [videoFailed, setVideoFailed] = useState(false);
-  const [preload, setPreload] = useState<"metadata" | "auto">("metadata");
+  const [emerged, setEmerged] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
     if (video) {
       video.muted = true;
+      video.loop = false;
     }
   }, [videoFailed]);
 
@@ -58,13 +59,20 @@ export function GoldenLogo({ className }: GoldenLogoProps) {
           return;
         }
 
-        setPreload("auto");
+        setEmerged(true);
         if (video) {
           video.preload = "auto";
+          video.loop = false;
+          const play = video.play();
+          if (play) {
+            play.catch(() => {
+              setVideoFailed(true);
+            });
+          }
         }
         observer.disconnect();
       },
-      { root: null, threshold: 0 },
+      { root: null, threshold: 0.2 },
     );
 
     observer.observe(container);
@@ -75,7 +83,11 @@ export function GoldenLogo({ className }: GoldenLogoProps) {
     };
   }, [videoFailed]);
 
-  const rootClassName = ["golden-logo relative w-full", className]
+  const rootClassName = [
+    "golden-logo relative w-full",
+    emerged ? "is-emerged" : "",
+    className,
+  ]
     .filter(Boolean)
     .join(" ");
 
@@ -88,16 +100,17 @@ export function GoldenLogo({ className }: GoldenLogoProps) {
       {!videoFailed ? (
         <video
           ref={videoRef}
-          className="golden-logo-video motion-reduce:hidden absolute inset-0 h-full w-full object-contain"
-          autoPlay
+          className="golden-logo-video motion-reduce:hidden cinematic-video absolute inset-0 h-full w-full object-contain"
           muted
-          loop
           playsInline
           poster={GOLDEN_POSTER_PATH}
           aria-hidden="true"
-          preload={preload}
+          preload="auto"
           width={GOLDEN_WIDTH}
           height={GOLDEN_HEIGHT}
+          onEnded={(event) => {
+            event.currentTarget.pause();
+          }}
           onError={() => setVideoFailed(true)}
         >
           <source
@@ -107,7 +120,6 @@ export function GoldenLogo({ className }: GoldenLogoProps) {
           />
         </video>
       ) : null}
-      {/* Native img is the contracted decorative fallback (ISSUE-009 / ACCESSIBILITY.md). */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={GOLDEN_POSTER_PATH}
@@ -116,8 +128,8 @@ export function GoldenLogo({ className }: GoldenLogoProps) {
         height={GOLDEN_HEIGHT}
         className={
           videoFailed
-            ? "golden-logo-poster absolute inset-0 block h-full w-full object-contain"
-            : "golden-logo-poster absolute inset-0 hidden h-full w-full object-contain motion-reduce:block"
+            ? "golden-logo-poster cinematic-poster absolute inset-0 block h-full w-full object-contain"
+            : "golden-logo-poster cinematic-poster absolute inset-0 hidden h-full w-full object-contain motion-reduce:block"
         }
       />
     </div>

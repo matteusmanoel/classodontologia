@@ -1,20 +1,16 @@
 "use client";
 
 /**
- * Hero cinematic island — ISSUE-011 placeholder composition (STOP-06).
+ * Hero cinematic island.
  *
- * Composes GoldenLogo + narrative text layer. ToothScrubber is omitted:
- * ISSUE-010 is blocked because the only tooth source has a visible Vidu
- * watermark. Do not import, crop, blur, cover, or disguise that file.
- *
- * Pinning direction is CSS sticky at 100dvh — not a 300vh scrubber shell.
- * No GSAP (Foundation owns package.json; scrubber JS belongs to ISSUE-010).
- * GoldenLogo already handles prefers-reduced-motion; text stays readable
- * without cinematic JavaScript (ADR-007 Pattern A, ADR-001 no runtime 3D).
+ * ToothScrubber (scroll-scrubbed, watermark cropped to the right) +
+ * GoldenLogo (emerge once, no loop, blended into the field) + narrative.
+ * Pinning is CSS sticky at 100dvh inside a 300vh scroll shell.
  */
 
-import type { ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 import { GoldenLogo } from "@/components/cinematic/GoldenLogo";
+import { ToothScrubber } from "@/components/cinematic/ToothScrubber";
 import { Container } from "@/components/ui/Container";
 
 export interface HeroCinematicProps {
@@ -29,12 +25,16 @@ export function HeroCinematic({
   tagline,
   children,
 }: HeroCinematicProps) {
+  const shellRef = useRef<HTMLDivElement>(null);
+
   return (
-    <div className="hero-cinematic relative min-h-dvh">
-      <div className="sticky top-0 flex min-h-dvh flex-col justify-center overflow-hidden py-[--section-py]">
-        <Container>
-          <GoldenLogo className="mx-auto w-full max-w-3xl" />
-          <div className="relative z-[--z-content] mt-10">
+    <div ref={shellRef} className="hero-cinematic relative">
+      <div className="hero-cinematic-pin sticky top-0 flex h-dvh flex-col justify-end overflow-hidden">
+        <ToothScrubber triggerRef={shellRef} />
+        <div className="hero-cinematic-scrim pointer-events-none absolute inset-0" />
+        <Container className="relative z-[--z-content] pb-[--section-py] pt-24">
+          <GoldenLogo className="mx-auto mb-8 w-full max-w-xl md:max-w-2xl" />
+          <div className="max-w-3xl">
             {children ?? (
               <h1 className="font-display text-hero tracking-display text-balance text-text-primary">
                 {heading}
