@@ -1,0 +1,10 @@
+{
+  "name": "Class Odontologia MVP",
+  "install": "bash .cursor/install.sh",
+  "terminals": [
+    {
+      "name": "dev",
+      "command": "bash .cursor/dev.sh"
+    }
+  ]
+}
