@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
+import { Footer } from "@/components/sections/Footer";
 import { siteConfig } from "@/config/site";
 import "./globals.css";
 
@@ -60,8 +61,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const year = new Date().getFullYear();
-
   return (
     <html
       lang="pt-BR"
@@ -84,14 +83,7 @@ export default function RootLayout({
           </Link>
         </header>
         <main id="main-content">{children}</main>
-        <footer
-          role="contentinfo"
-          className="border-t border-border px-[--section-px] py-6"
-        >
-          <p className="text-sm text-text-secondary">
-            © {year} {siteConfig.name}
-          </p>
-        </footer>
+        <Footer />
       </body>
     </html>
   );
