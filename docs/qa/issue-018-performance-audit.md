@@ -245,3 +245,7 @@ SEO 85: placeholder canonical and `robots.txt` sitemap URL. Content replacement,
 | First-load JS / CSS gzip from `.next/static` | JS **138.7 KB**; CSS **5.0 KB** |
 | `package.json` + chunk grep for `three` / `gsap` | Not present |
 | Vercel Preview Lighthouse | **Not run** (SSO 302; Protection left on) |
+
+## Follow-up — IR-018-1 (2026-08-13)
+
+Header/footer logo boxes reserved in `62770cd` ([PR #18](https://github.com/matteusmanoel/classodontologia/pull/18)). Lab re-run (Lighthouse 12.8.2, mobile, simulated Fast 4G, local `pnpm start`): CLS **0** (was 0.129). Original scores above are unchanged. LCP remains GoldenLogo `<video>` (IR-018-2 deferred).

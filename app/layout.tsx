@@ -77,7 +77,7 @@ export default function RootLayout({
               alt={siteConfig.name}
               width={752}
               height={264}
-              className="h-8 w-auto"
+              className="h-8 w-[calc(2rem*752/264)] object-contain"
               priority
             />
           </Link>
