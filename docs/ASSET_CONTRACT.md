@@ -26,7 +26,7 @@ No spaces. No uppercase. No UUIDs in filenames (the current source filenames are
 
 | Current filename | Target filename | Status |
 |---|---|---|
-| `vidu-video-3419599273445859.mp4` | `tooth-cinematic-v1.mp4` | Source only — encode before use |
+| `vidu-video-3419599273445859.mp4` | `tooth-cinematic-v1.mp4` | Source only — **STOP-06**: visible “Vidu AI” watermark; encoding blocked pending clean substitute |
 | `copy_CDD43597-F083-4C89-ACD6-EC9311933303.mov` | `golden-identity-v1.mp4` | Source only — encode + convert |
 | `Gemini_Generated_Image_*.png` | Archive in `cinematic/tooth/source/` | Source stills — not for web delivery |
 
@@ -41,10 +41,10 @@ No spaces. No uppercase. No UUIDs in filenames (the current source filenames are
 | Pixel format | `yuv420p` |
 | `faststart` | Required (moov before mdat) |
 | Audio | None (stripped) |
-| GOP | Determined by Spike A |
+| GOP | Determined by Spike A — **not recorded** (STOP-06) |
 | Desktop resolution | 1920×1080 |
 | Mobile resolution | Determined by Spike C |
-| Poster | `tooth-cinematic-v1-poster.webp` — frame 0, ≤ 30 KB |
+| Poster | `tooth-cinematic-v1-poster.webp` — frame 0, ≤ 30 KB — **not produced** (STOP-06) |
 
 ### Golden Identity
 
@@ -120,3 +120,15 @@ Configured in `vercel.json`.
 ## WebM / Alternative Codecs
 
 H.264 MP4 is the only required delivery format for the MVP. WebM/VP9 is not generated until Spike D demonstrates a concrete benefit (file size, bandwidth, or CDN cost). Do not generate WebM speculatively.
+
+## Spike A — Tooth encoding parameters
+
+**Not recorded.** Spike A stopped at the watermark pre-condition (STOP-06).
+
+Inspected source: `public/assets/cinematic/tooth/vidu-video-3419599273445859.mp4` at 0%, 25%, 50%, 75%, and 100% of duration. A visible “Vidu AI” production watermark is present in the bottom-right corner at every inspected frame. No approved clean substitute exists.
+
+Encoding variants A1–A5 were **not run**. `tooth-cinematic-v1.mp4` and `tooth-cinematic-v1-poster.webp` were **not produced**. The source file was not overwritten.
+
+Frame evidence: [docs/spikes/spike-a-stop-06/STOP-06.md](spikes/spike-a-stop-06/STOP-06.md).
+
+Final CRF, GOP, preset, and keyframe counts will be appended here only after a clean source passes inspection and Spike A encoding completes.

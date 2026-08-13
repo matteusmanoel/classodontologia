@@ -77,6 +77,18 @@ Adding WebM doubles the asset pipeline (encoding, storage, QA). The `<source>` o
 
 ---
 
+## Spike A — Final encoding parameters
+
+**Not recorded.** Spike A (ISSUE-002) stopped at the watermark pre-condition on 2026-08-13 (STOP-06).
+
+The only tooth cinematic source (`vidu-video-3419599273445859.mp4`) contains a visible “Vidu AI” production watermark at 0%, 25%, 50%, 75%, and 100% of duration. No approved clean substitute was available. Encoding was not started. The Accepted H.264 MP4 codec decision in this ADR is unchanged.
+
+Evidence: [docs/spikes/spike-a-stop-06/STOP-06.md](../spikes/spike-a-stop-06/STOP-06.md).
+
+Append CRF, GOP, resolution, preset, and output measurements here only after a clean source passes inspection.
+
+---
+
 ## Revisit Condition
 
 If browser market share data shows HEVC support becoming universal, or if bandwidth measurements from Spike D strongly favor WebM. Any codec change requires a new ADR.
