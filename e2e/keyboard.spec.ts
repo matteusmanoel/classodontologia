@@ -49,7 +49,6 @@ test.describe("keyboard and CTA", () => {
 
     const cta = page.getByRole("link", { name: copy.cta.buttonLabel });
     await expect(cta).toHaveAttribute("href", siteConfig.whatsapp);
-    expect(siteConfig.whatsapp).toContain("[WHATSAPP_NUMBER");
-    expect(siteConfig.whatsapp).not.toMatch(/^\+?\d/);
+    expect(siteConfig.whatsapp).toMatch(/^https:\/\/wa\.me\/55\d+/);
   });
 });

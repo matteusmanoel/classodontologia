@@ -1,13 +1,9 @@
 /**
- * Hero section — ISSUE-011 placeholder composition (STOP-06).
+ * Hero section — Server Component (ADR-007).
  *
- * Server Component (ADR-007). Semantic `<section aria-label="Hero">` and
- * the page `<h1>` live here so they appear in the HeroSection server HTML.
- * Copy is passed to HeroCinematic as serializable props; this file never
- * invents clinic content.
- *
- * Tooth poster preload is not requested: no approved tooth poster exists
- * (STOP-06). Integration request to ISSUE-008 remains deferred.
+ * Semantic `<section aria-label="Hero">` and the page `<h1>` live here
+ * so they appear in the HeroSection server HTML. Copy is passed to
+ * HeroCinematic as serializable props.
  */
 
 import { HeroCinematic } from "@/components/cinematic/HeroCinematic";

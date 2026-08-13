@@ -1,17 +1,19 @@
 /**
- * Contracted cinematic delivery paths and duration guard.
- * Tooth encode is BLOCKED (STOP-06: Vidu watermark). Paths remain the
- * ASSET_CONTRACT destinations so ISSUE-009/010 can import them.
- * Golden identity files exist at the paths below.
+ * Cinematic delivery paths.
+ *
+ * Prototype override (Project Owner, 2026-08-13): the watermarked Vidu
+ * source is encoded to H.264 for scroll-scrub validation. The watermark
+ * is cropped by overflowing the frame to the right — not blurred.
+ * Replace with a clean encode before production.
  */
 
 /** Fallback duration when `video.duration` is NaN/Infinity (source: 5.041667s). */
 export const TOOTH_DURATION = 5.042;
 
 export const TOOTH_VIDEO_PATH =
-  "/assets/cinematic/tooth/tooth-cinematic-v1.mp4";
+  "/assets/cinematic/tooth/tooth-cinematic-prototype.mp4";
 export const TOOTH_POSTER_PATH =
-  "/assets/cinematic/tooth/tooth-cinematic-v1-poster.webp";
+  "/assets/cinematic/tooth/tooth-cinematic-prototype-poster.webp";
 
 export const GOLDEN_VIDEO_PATH =
   "/assets/cinematic/logo/golden-identity-v1.mp4";
