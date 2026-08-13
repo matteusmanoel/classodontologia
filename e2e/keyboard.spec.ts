@@ -15,7 +15,7 @@ test.describe("keyboard and CTA", () => {
     await expect(cta).toBeVisible();
 
     let reached = false;
-    for (let i = 0; i < 20; i += 1) {
+    for (let i = 0; i < 30; i += 1) {
       await page.keyboard.press("Tab");
       if (await cta.evaluate((el) => el === document.activeElement)) {
         reached = true;

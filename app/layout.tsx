@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Inter } from "next/font/google";
-import Image from "next/image";
-import Link from "next/link";
+import { Cormorant_Garamond, Montserrat } from "next/font/google";
 import { Footer } from "@/components/sections/Footer";
+import { SiteHeader } from "@/components/sections/SiteHeader";
 import { siteConfig } from "@/config/site";
 import "./globals.css";
 
@@ -13,9 +12,10 @@ const cormorant = Cormorant_Garamond({
   display: "swap",
 });
 
-const inter = Inter({
+const montserrat = Montserrat({
   subsets: ["latin", "latin-ext"],
-  variable: "--font-inter",
+  weight: ["300", "400", "500"],
+  variable: "--font-montserrat",
   display: "swap",
 });
 
@@ -65,7 +65,7 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
-      className={`${cormorant.variable} ${inter.variable}`}
+      className={`${cormorant.variable} ${montserrat.variable}`}
     >
       <head>
         <link
@@ -75,22 +75,11 @@ export default function RootLayout({
           fetchPriority="high"
         />
       </head>
-      <body className="font-sans antialiased">
+      <body className="font-sans font-light antialiased">
         <a href="#main-content" className="skip-link">
           Ir para o conteúdo principal
         </a>
-        <header role="banner" className="border-b border-border px-[--section-px] py-4">
-          <Link href="/" className="inline-flex items-center">
-            <Image
-              src="/assets/brand/class-gray.png"
-              alt={siteConfig.name}
-              width={2172}
-              height={724}
-              className="h-8 w-[calc(2rem*2172/724)] object-contain"
-              priority
-            />
-          </Link>
-        </header>
+        <SiteHeader />
         <main id="main-content">{children}</main>
         <Footer />
       </body>

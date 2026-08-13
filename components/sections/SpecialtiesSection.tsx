@@ -1,19 +1,26 @@
 import { Container } from "@/components/ui/Container";
+import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { copy } from "@/content/copy";
 import { specialties, type Specialty } from "@/content/specialties";
 
-interface SpecialtyCardProps {
+interface SpecialtyRowProps {
   specialty: Specialty;
+  index: number;
 }
 
-function SpecialtyCard({ specialty }: SpecialtyCardProps) {
+function SpecialtyRow({ specialty, index }: SpecialtyRowProps) {
+  const n = String(index + 1).padStart(2, "0");
+
   return (
-    <article className="flex h-full flex-col overflow-hidden rounded-md border border-border bg-bg-surface p-6">
-      <h3 className="font-sans text-lg font-medium text-text-primary">
+    <article className="specialty-row group grid grid-cols-[auto_1fr] gap-x-8 gap-y-3 border-t border-border py-10 last:border-b md:grid-cols-[5rem_minmax(0,22rem)_1fr] md:items-baseline md:gap-x-12 md:py-14">
+      <span className="font-sans text-sm tracking-label text-gold tabular-nums">
+        {n}
+      </span>
+      <h3 className="font-display text-2xl tracking-display text-text-primary transition-colors duration-[var(--duration-normal)] group-hover:text-gold md:text-3xl">
         {specialty.name}
       </h3>
-      <p className="mt-2 font-sans text-base text-text-primary">
+      <p className="col-span-2 max-w-xl font-sans text-base font-light leading-relaxed text-text-primary md:col-span-1 md:justify-self-end md:text-lg">
         {specialty.description}
       </p>
     </article>
@@ -24,24 +31,25 @@ export function SpecialtiesSection() {
   return (
     <section
       aria-labelledby="specialties-heading"
-      className="bg-bg-primary py-[--section-py]"
+      className="bg-bg-secondary py-[--section-py]"
     >
       <Container>
-        <header className="mb-12">
-          <SectionHeading id="specialties-heading" accent>
-            {copy.specialties.heading}
-          </SectionHeading>
-          <p className="mt-4 max-w-2xl font-sans text-base text-text-primary">
-            {copy.specialties.subheading}
-          </p>
-        </header>
-        <ul
-          role="list"
-          className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 xl:grid-cols-3"
-        >
-          {specialties.map((specialty) => (
+        <Reveal>
+          <header className="mb-16 max-w-2xl md:mb-24">
+            <SectionHeading id="specialties-heading" accent>
+              {copy.specialties.heading}
+            </SectionHeading>
+            <p className="mt-6 font-sans text-lg font-light leading-relaxed text-text-primary">
+              {copy.specialties.subheading}
+            </p>
+          </header>
+        </Reveal>
+        <ul role="list">
+          {specialties.map((specialty, index) => (
             <li key={specialty.id}>
-              <SpecialtyCard specialty={specialty} />
+              <Reveal delayMs={Math.min(index * 70, 280)}>
+                <SpecialtyRow specialty={specialty} index={index} />
+              </Reveal>
             </li>
           ))}
         </ul>

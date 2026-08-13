@@ -3,10 +3,10 @@
 /**
  * Tooth scroll cinematic — prototype (owner override of STOP-06).
  *
- * Uses the H.264 prototype encode of the watermarked Vidu source.
- * The frame is scaled and overflowed to the right so the watermark
- * sits off-canvas. CSS sticky pins; GSAP ScrollTrigger maps progress
- * to currentTime. Reduced-motion shows the poster only.
+ * ADR-003: CSS sticky pin + ScrollTrigger progress + `video.currentTime`.
+ * GSAP tweens a proxy; a ticker copies that time onto the paused video.
+ * Chrome will not paint seeks until the media has decoded once, so we
+ * unlock with muted play() → pause() after metadata.
  */
 
 import { useRef, type RefObject } from "react";
@@ -26,6 +26,37 @@ export interface ToothScrubberProps {
   triggerRef: RefObject<HTMLElement | null>;
 }
 
+function durationOf(video: HTMLVideoElement): number {
+  const raw = video.duration;
+  return Number.isFinite(raw) && raw > 0 ? raw : TOOTH_DURATION;
+}
+
+async function unlockSeeking(video: HTMLVideoElement): Promise<void> {
+  video.muted = true;
+  video.defaultMuted = true;
+  video.playsInline = true;
+  video.preload = "auto";
+
+  if (video.readyState < 1) {
+    await new Promise<void>((resolve) => {
+      const done = () => {
+        video.removeEventListener("loadedmetadata", done);
+        resolve();
+      };
+      video.addEventListener("loadedmetadata", done);
+      video.load();
+    });
+  }
+
+  try {
+    await video.play();
+  } catch {
+    video.currentTime = 0.001;
+  }
+
+  video.pause();
+}
+
 export function ToothScrubber({ triggerRef }: ToothScrubberProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const layerRef = useRef<HTMLDivElement>(null);
@@ -33,67 +64,87 @@ export function ToothScrubber({ triggerRef }: ToothScrubberProps) {
   useGSAP(
     () => {
       const video = videoRef.current;
-      const trigger = triggerRef.current;
+      const trigger =
+        triggerRef.current ?? layerRef.current?.closest(".hero-cinematic");
       if (!video || !trigger) {
         return;
       }
 
-      const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-      if (motionQuery.matches) {
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+      if (reduced.matches) {
         video.pause();
         return;
       }
 
-      video.pause();
-      video.preload = "auto";
+      const proxy = { time: 0 };
+      let tween: gsap.core.Tween | undefined;
+      let cancelled = false;
 
-      let targetTime = 0;
-      let ticking = false;
-
-      const applySeek = () => {
-        ticking = false;
-        const duration = Number.isFinite(video.duration)
-          ? video.duration
-          : TOOTH_DURATION;
-        if (Math.abs(video.currentTime - targetTime) < 1 / 48) {
+      const applyFrame = () => {
+        if (video.readyState < 2 || video.seeking) {
           return;
         }
-        video.currentTime = Math.min(Math.max(targetTime, 0), duration);
+        const next = gsap.utils.clamp(0, durationOf(video), proxy.time);
+        if (Math.abs(video.currentTime - next) < 1 / 48) {
+          return;
+        }
+        video.currentTime = next;
       };
 
-      const st = ScrollTrigger.create({
-        trigger,
-        start: "top top",
-        end: "bottom bottom",
-        onUpdate: (self) => {
-          const duration = Number.isFinite(video.duration)
-            ? video.duration
-            : TOOTH_DURATION;
-          const mapped = gsap.utils.clamp(
-            0,
-            1,
-            gsap.utils.mapRange(0.05, 0.95, 0, 1, self.progress),
-          );
-          targetTime = mapped * duration;
-          if (!ticking) {
-            ticking = true;
-            requestAnimationFrame(applySeek);
-          }
-        },
-      });
+      gsap.ticker.add(applyFrame);
 
-      const onLoaded = () => {
-        video.pause();
+      const mountScrub = () => {
+        if (cancelled) {
+          return;
+        }
+
+        const duration = durationOf(video);
+        tween?.scrollTrigger?.kill();
+        tween?.kill();
+
+        tween = gsap.fromTo(
+          proxy,
+          { time: 0 },
+          {
+            time: duration,
+            ease: "none",
+            immediateRender: false,
+            scrollTrigger: {
+              trigger,
+              start: "top top",
+              end: "bottom bottom",
+              scrub: 0.35,
+              invalidateOnRefresh: true,
+            },
+          },
+        );
+
+        video.dataset.scrubReady = "true";
         ScrollTrigger.refresh();
       };
-      video.addEventListener("loadeddata", onLoaded);
+
+      void unlockSeeking(video).then(() => {
+        if (cancelled) {
+          return;
+        }
+        video.pause();
+        if (video.readyState >= 1) {
+          mountScrub();
+          return;
+        }
+        video.addEventListener("loadedmetadata", mountScrub, { once: true });
+      });
 
       return () => {
-        video.removeEventListener("loadeddata", onLoaded);
-        st.kill();
+        cancelled = true;
+        delete video.dataset.scrubReady;
+        gsap.ticker.remove(applyFrame);
+        tween?.scrollTrigger?.kill();
+        tween?.kill();
+        video.pause();
       };
     },
-    { scope: layerRef, dependencies: [triggerRef] },
+    { dependencies: [] },
   );
 
   return (

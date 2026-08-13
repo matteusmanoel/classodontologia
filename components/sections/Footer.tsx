@@ -1,9 +1,7 @@
 /**
  * Site footer — ISSUE-015.
  *
- * Server Component (ADR-007). Motion Level 0. Brand mark, contact
- * placeholders, and approved social URLs from siteConfig/copy.
- * Copyright year is injected at render time.
+ * Server Component (ADR-007). Motion Level 0.
  */
 
 import Image from "next/image";
@@ -25,27 +23,35 @@ export function Footer() {
   );
 
   return (
-    <footer role="contentinfo" className="border-t border-border bg-bg-primary py-[--section-py]">
+    <footer
+      role="contentinfo"
+      className="border-t border-border bg-bg-primary py-[--section-py]"
+    >
       <Container>
-        <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
+        <div className="flex flex-col gap-16 lg:flex-row lg:items-start lg:justify-between">
           <Image
             src="/assets/brand/class-gray.png"
             alt={siteConfig.name}
             width={2172}
             height={724}
-            className="h-10 w-[calc(2.5rem*2172/724)] object-contain"
+            className="footer-logo h-10 w-[calc(2.5rem*2172/724)] object-contain"
           />
 
           <address className="not-italic">
-            <ul className="flex flex-col gap-3 font-sans text-base text-text-primary">
+            <ul className="flex flex-col gap-8 font-sans text-base font-light text-text-primary">
               <li>
-                <span className="block font-sans text-sm tracking-label uppercase text-gold">
-                  Telefone
+                <span className="mb-2 block font-sans text-sm font-medium tracking-label uppercase text-gold">
+                  WhatsApp
                 </span>
-                {siteConfig.phone}
+                <a
+                  href={siteConfig.whatsapp}
+                  className="transition-colors hover:text-gold"
+                >
+                  {siteConfig.phone}
+                </a>
               </li>
               <li>
-                <span className="block font-sans text-sm tracking-label uppercase text-gold">
+                <span className="mb-2 block font-sans text-sm font-medium tracking-label uppercase text-gold">
                   Endereço
                 </span>
                 {siteConfig.address.street}
@@ -55,7 +61,7 @@ export function Footer() {
                 {siteConfig.address.postalCode}
               </li>
               <li>
-                <span className="block font-sans text-sm tracking-label uppercase text-gold">
+                <span className="mb-2 block font-sans text-sm font-medium tracking-label uppercase text-gold">
                   Horário
                 </span>
                 {siteConfig.hours}
@@ -64,7 +70,7 @@ export function Footer() {
           </address>
 
           <nav aria-label="Redes sociais">
-            <ul className="flex flex-col gap-3">
+            <ul className="flex flex-col gap-4">
               <li>
                 <a
                   href={siteConfig.instagram}
@@ -89,7 +95,9 @@ export function Footer() {
           </nav>
         </div>
 
-        <p className="mt-12 font-sans text-sm text-text-primary">{copyright}</p>
+        <p className="mt-20 font-sans text-sm font-light text-text-secondary">
+          {copyright}
+        </p>
       </Container>
     </footer>
   );

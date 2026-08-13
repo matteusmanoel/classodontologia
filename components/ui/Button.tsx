@@ -38,10 +38,11 @@ const variantClasses: Record<ButtonVariant, string> = {
 
 const baseClasses = [
   "inline-flex items-center justify-center rounded-sm",
-  "px-6 py-3 font-sans text-sm font-medium tracking-label uppercase",
-  "transition-[color,background-color,border-color]",
-  "[transition-duration:var(--duration-fast)]",
-  "[transition-timing-function:var(--ease-in-out)]",
+  "px-8 py-4 font-sans text-sm font-medium tracking-label uppercase",
+  "transition-[color,background-color,border-color,transform]",
+  "[transition-duration:var(--duration-normal)]",
+  "[transition-timing-function:var(--ease-out-expo)]",
+  "hover:-translate-y-px active:translate-y-0 active:scale-[0.98]",
   "focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-focus",
 ].join(" ");
 

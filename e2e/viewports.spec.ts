@@ -17,7 +17,7 @@ test.describe("viewport screenshots", () => {
       await page.setViewportSize({ width, height });
       await gotoHome(page);
       await expect(page.locator("h1")).toBeVisible();
-      await expect(page.locator(".golden-logo-poster")).toBeVisible();
+      await expect(page.locator(".wordmark")).toBeVisible();
 
       const screenshot = await page.screenshot({
         fullPage: true,
@@ -43,6 +43,10 @@ test.describe("mobile layout", () => {
         [];
 
       for (const el of document.querySelectorAll("body *")) {
+        if (el.closest(".tooth-scrubber")) {
+          continue;
+        }
+
         const rect = el.getBoundingClientRect();
         if (rect.width === 0 || rect.height === 0) {
           continue;

@@ -84,7 +84,7 @@ export function GoldenLogo({ className }: GoldenLogoProps) {
   }, [videoFailed]);
 
   const rootClassName = [
-    "golden-logo relative w-full",
+    "golden-logo relative",
     emerged ? "is-emerged" : "",
     className,
   ]

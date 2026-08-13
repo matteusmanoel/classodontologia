@@ -15,7 +15,7 @@ export function SectionHeading({
   className,
 }: SectionHeadingProps) {
   const classes = [
-    "font-display text-2xl tracking-display text-text-primary",
+    "font-display text-3xl tracking-display text-text-primary",
     className,
   ]
     .filter(Boolean)
@@ -25,7 +25,7 @@ export function SectionHeading({
     <h2 id={id} className={classes}>
       {accent ? (
         <span
-          className="mb-4 block h-px w-12 bg-gold"
+          className="mb-6 block h-px w-16 bg-gold"
           aria-hidden="true"
         />
       ) : null}

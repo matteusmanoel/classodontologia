@@ -1,11 +1,11 @@
 export const copy = {
   hero: {
-    heading: "O sorriso, em sua forma mais alta.",
+    heading: "Class Odontologia",
     tagline:
-      "Há mais de três décadas em Foz do Iguaçu, cada tratamento começa no estudo da face — anatomia, proporção e o resultado que você realmente deseja.",
+      "Há mais de três décadas em Foz do Iguaçu. Cada tratamento começa no estudo da face — anatomia, proporção e o resultado que você realmente deseja.",
   },
   manifesto: {
-    headline: "Uma nova experiência em odontologia.",
+    headline: "O sorriso, em sua forma mais alta.",
     body: "Evolução constante. Estrutura contemporânea. Especialistas com mestrado e doutorado no mesmo endereço. A Class nasceu da Ortodontia em 1998 e cresceu para reunir estética, implantes, reabilitação e prevenção — com o mesmo rigor de quem trata um sorriso como identidade, não como procedimento.",
   },
   specialties: {
@@ -15,6 +15,8 @@ export const copy = {
   },
   specialists: {
     heading: "Corpo clínico",
+    subheading:
+      "Quatro especialistas. Um critério. O planejamento começa na face — e termina no sorriso que você reconhece como seu.",
   },
   cta: {
     heading: "Agende sua avaliação",

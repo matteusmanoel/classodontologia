@@ -13,6 +13,7 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  scroll-behavior: auto;
 }
 
 body {
@@ -20,12 +21,26 @@ body {
   background-color: var(--color-bg-primary);
   color: var(--color-text-primary);
   font-family: var(--font-sans);
+  font-weight: 300;
 }
 
-img,
-video {
+img {
   max-width: 100%;
   height: auto;
+}
+
+.site-header {
+  background: linear-gradient(
+    to bottom,
+    rgba(8, 8, 8, 0.72) 0%,
+    rgba(8, 8, 8, 0) 100%
+  );
+}
+
+.site-header-logo,
+.footer-logo {
+  filter: brightness(0) invert(0.9) sepia(0.5) saturate(7) hue-rotate(6deg)
+    brightness(1.05);
 }
 
 .hero-cinematic {
@@ -44,13 +59,20 @@ video {
 }
 
 .hero-cinematic-scrim {
-  background: linear-gradient(
-    to top,
-    rgba(8, 8, 8, 0.92) 0%,
-    rgba(8, 8, 8, 0.45) 42%,
-    rgba(8, 8, 8, 0.2) 70%,
-    rgba(8, 8, 8, 0.55) 100%
-  );
+  background:
+    linear-gradient(
+      to right,
+      rgba(8, 8, 8, 0.78) 0%,
+      rgba(8, 8, 8, 0.42) 34%,
+      rgba(8, 8, 8, 0.08) 58%,
+      transparent 72%
+    ),
+    linear-gradient(
+      to top,
+      rgba(8, 8, 8, 0.7) 0%,
+      rgba(8, 8, 8, 0.15) 38%,
+      rgba(8, 8, 8, 0.35) 100%
+    );
 }
 
 /* Tooth: scale past the viewport and hang off the right edge so the Vidu
@@ -58,14 +80,97 @@ video {
 .tooth-scrubber-video,
 .tooth-scrubber-poster {
   position: absolute;
-  top: 50%;
+  top: 0;
   left: 0;
   width: 142%;
-  height: 118%;
+  height: 100%;
   max-width: none;
+  max-height: none;
   object-fit: cover;
   object-position: left center;
-  transform: translateY(-50%);
+}
+
+.wordmark {
+  margin: 0;
+}
+
+.wordmark-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+@media (min-width: 768px) {
+  .wordmark-visual {
+    align-items: flex-start;
+  }
+}
+
+.wordmark-class {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: var(--text-wordmark);
+  line-height: var(--text-wordmark--line-height);
+  letter-spacing: 0.14em;
+  color: var(--color-gold);
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(1.25rem);
+}
+
+.wordmark-a {
+  display: inline-block;
+  -webkit-mask-image: linear-gradient(#000 0 0), linear-gradient(#000 0 0);
+  mask-image: linear-gradient(#000 0 0), linear-gradient(#000 0 0);
+  -webkit-mask-size: 100% 100%, 46% 0.1em;
+  mask-size: 100% 100%, 46% 0.1em;
+  -webkit-mask-position: 0 0, 50% 56%;
+  mask-position: 0 0, 50% 56%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.wordmark-sub {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: clamp(0.85rem, 2.4vw, 1.35rem);
+  line-height: 1;
+  letter-spacing: 0.48em;
+  text-transform: uppercase;
+  color: var(--color-gold-light);
+  opacity: 0;
+  transform: translateY(0.75rem);
+}
+
+.hero-tagline {
+  opacity: 0;
+  transform: translateY(0.75rem);
+}
+
+.hero-identity.is-ready .wordmark-class {
+  animation: rise-in 1.05s var(--ease-out-expo) 0.35s forwards;
+}
+
+.hero-identity.is-ready .wordmark-sub {
+  animation: rise-in 1.05s var(--ease-out-expo) 0.85s forwards;
+}
+
+.hero-identity.is-ready .hero-tagline {
+  animation: rise-in 0.95s var(--ease-out-expo) 1.25s forwards;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(1.15rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .golden-logo {
@@ -108,6 +213,31 @@ video {
   box-shadow: inset 0 0 80px 48px var(--color-bg-primary);
 }
 
+.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal:not(.is-in) {
+    opacity: 0;
+    transform: translateY(1.35rem);
+  }
+
+  .reveal.is-in {
+    animation: rise-in 0.85s var(--ease-out-expo) both;
+    animation-delay: var(--reveal-delay, 0ms);
+  }
+}
+
+.specialty-row {
+  transition: opacity var(--duration-normal) var(--ease-in-out);
+}
+
+.specialty-row:hover h3 {
+  color: var(--color-gold);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .golden-logo {
     opacity: 1;
@@ -115,11 +245,37 @@ video {
     filter: none;
     transition: none;
   }
+
+  .wordmark-class,
+  .wordmark-sub,
+  .hero-tagline {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
 }
 
 :focus-visible {
   outline: 2px solid var(--color-focus);
   outline-offset: 3px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .skip-link {

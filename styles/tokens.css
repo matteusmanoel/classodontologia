@@ -17,9 +17,9 @@
   --color-border: rgba(255, 255, 255, 0.08);
   --color-focus: #e8c97a;
 
-  /* next/font variables are applied in ISSUE-008; fallbacks keep tokens valid until then. */
+  /* next/font variables are applied in layout.tsx; fallbacks keep tokens valid until then. */
   --font-display: var(--font-cormorant), "Cormorant Garamond", ui-serif, Georgia, serif;
-  --font-sans: var(--font-inter), Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-montserrat), Montserrat, ui-sans-serif, system-ui, sans-serif;
 
   --text-sm: clamp(0.875rem, 1.5vw, 1rem);
   --text-sm--line-height: 1.5;
@@ -35,6 +35,8 @@
   --text-3xl--line-height: 1.1;
   --text-hero: clamp(3rem, 8vw, 7rem);
   --text-hero--line-height: 0.95;
+  --text-wordmark: clamp(3.75rem, 16vw, 11rem);
+  --text-wordmark--line-height: 0.82;
 
   --tracking-display: -0.03em;
   --tracking-label: 0.12em;
@@ -56,5 +58,5 @@
   --z-nav: 40;
 
   --section-px: clamp(1.5rem, 6vw, 5rem);
-  --section-py: clamp(4rem, 10vw, 10rem);
+  --section-py: clamp(5.5rem, 14vw, 12rem);
 }

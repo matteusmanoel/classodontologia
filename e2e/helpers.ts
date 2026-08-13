@@ -49,15 +49,15 @@ export async function blockCinematicVideos(page: Page): Promise<void> {
   });
 }
 
-export async function assertGoldenLogoNotBlack(page: Page): Promise<void> {
-  const logo = page.locator(".golden-logo");
-  await expect(logo).toBeVisible();
+export async function assertHeroNotBlack(page: Page): Promise<void> {
+  const hero = page.getByRole("region", { name: "Hero" });
+  await expect(hero).toBeVisible();
 
-  const box = await logo.boundingBox();
+  const box = await hero.boundingBox();
   expect(box?.width ?? 0).toBeGreaterThan(40);
   expect(box?.height ?? 0).toBeGreaterThan(40);
 
-  const screenshot = await logo.screenshot({ animations: "disabled" });
+  const screenshot = await hero.screenshot({ animations: "disabled" });
   expect(screenshot.byteLength).toBeGreaterThan(500);
 
   const dataUrl = `data:image/png;base64,${screenshot.toString("base64")}`;
@@ -65,7 +65,7 @@ export async function assertGoldenLogoNotBlack(page: Page): Promise<void> {
     const image = new Image();
     const loaded = new Promise<HTMLImageElement>((resolve, reject) => {
       image.onload = () => resolve(image);
-      image.onerror = () => reject(new Error("logo screenshot failed to decode"));
+      image.onerror = () => reject(new Error("hero screenshot failed to decode"));
     });
     image.src = src;
     const decoded = await loaded;

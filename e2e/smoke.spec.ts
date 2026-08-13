@@ -9,7 +9,8 @@ test.describe("smoke", () => {
     await expect(page.locator("#main-content")).toBeVisible();
     await expect(page.getByRole("banner")).toBeVisible();
     await expect(page.getByRole("contentinfo")).toBeVisible();
-    await expect(page.locator(".golden-logo")).toBeVisible();
+    await expect(page.locator("h1")).toBeVisible();
+    await expect(page.locator(".wordmark")).toBeVisible();
 
     expect(errors, errors.join("\n")).toEqual([]);
   });

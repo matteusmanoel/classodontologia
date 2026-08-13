@@ -4,9 +4,20 @@ export interface SpecialistCardProps {
   name: string;
   title: string;
   specialty: string;
-  photo: string;
+  photo?: string;
   bio: string;
   className?: string;
+}
+
+function initialsFromName(name: string): string {
+  return name
+    .replace(/^(Dr\.|Dra\.)\s+/i, "")
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0] ?? "")
+    .join("")
+    .toUpperCase();
 }
 
 export function SpecialistCard({
@@ -18,7 +29,7 @@ export function SpecialistCard({
   className,
 }: SpecialistCardProps) {
   const classes = [
-    "flex flex-col overflow-hidden rounded-md border border-border bg-bg-surface",
+    "specialist-card flex h-full flex-col border-t border-gold/30 pt-8",
     className,
   ]
     .filter(Boolean)
@@ -26,24 +37,39 @@ export function SpecialistCard({
 
   return (
     <article className={classes}>
-      <div className="relative aspect-square overflow-hidden bg-bg-secondary">
-        <Image
-          src={photo}
-          alt={`Foto de ${name}`}
-          fill
-          sizes="(max-width: 768px) 100vw, 320px"
-          className="object-cover"
-        />
-      </div>
-      <div className="flex flex-col gap-2 p-6">
-        <h3 className="font-sans text-lg font-medium text-text-primary">
-          {name}
-        </h3>
+      {photo ? (
+        <div className="relative mb-8 aspect-[3/4] overflow-hidden bg-bg-surface">
+          <Image
+            src={photo}
+            alt={`Foto de ${name}`}
+            fill
+            sizes="(max-width: 768px) 100vw, 320px"
+            className="object-cover"
+          />
+        </div>
+      ) : (
+        <div
+          className="specialist-monogram mb-8 flex aspect-[3/4] items-end bg-bg-surface px-6 py-8"
+          aria-hidden="true"
+        >
+          <span className="font-display text-3xl tracking-display text-gold">
+            {initialsFromName(name)}
+          </span>
+        </div>
+      )}
+      <div className="flex flex-col gap-3">
         <p className="font-sans text-sm tracking-label uppercase text-gold">
           {specialty}
         </p>
-        <p className="font-sans text-sm text-text-primary">{title}</p>
-        <p className="mt-2 font-sans text-base text-text-primary">{bio}</p>
+        <h3 className="font-display text-xl tracking-display text-text-primary md:text-2xl">
+          {name}
+        </h3>
+        <p className="font-sans text-sm font-light text-text-primary">
+          {title}
+        </p>
+        <p className="mt-2 font-sans text-base font-light leading-relaxed text-text-primary">
+          {bio}
+        </p>
       </div>
     </article>
   );
