@@ -33,7 +33,7 @@ export function Footer() {
             alt={siteConfig.name}
             width={752}
             height={264}
-            className="h-10 w-auto"
+            className="h-10 w-[calc(2.5rem*752/264)] object-contain"
           />
 
           <address className="not-italic">
