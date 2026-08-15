@@ -45,17 +45,18 @@ Prioritize:
 
 Essential sections (must ship):
 
-1. **Hero** — Golden identity visual + cinematic tooth scroll experience + brand wordmark
-2. **Manifesto / Positioning** — Brand narrative, typographic statement
+1. **Hero** — Tooth cinematic + Wordmark + decade beat + Hero copy lines
+2. **Manifesto** — Positioning on paper; Smile cinematic in a dark well
 3. **Specialties** — Clinical services overview
-4. **Specialists** — Doctor cards with placeholder photography
-5. **Appointment CTA** — Primary conversion path
-6. **Footer** — Contact, social, brand
+4. **Specialists** — Portrait-forward Specialist cards
+5. **Location** — Address + Map art (not an embed)
+6. **Appointment CTA** — Primary conversion path
+7. **Footer** — Compact contact strip (address remains secondary)
 
 Optional sections (ship when real assets/copy are approved):
 
 - Testimonials
-- Clinic / Technology / Facility
+- Clinic / Technology / Facility (interior, equipment — distinct from Location)
 - Results / Before & After
 
 Post-MVP (explicitly excluded from this implementation):

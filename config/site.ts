@@ -15,6 +15,10 @@ export const siteConfig = {
     country: "BR",
   },
   hours: "Segunda a sexta, com hora marcada",
+  mapsUrl:
+    "https://www.google.com/maps/search/?api=1&query=Rua%20Engenheiro%20Rebou%C3%A7as%2C%20441%2C%20Foz%20do%20Igua%C3%A7u%20-%20PR%2C%2085851-190",
   instagram: "https://www.instagram.com/classodontologiafoz/",
   facebook: "https://www.facebook.com/ClassOdontologiaFoz/",
+  /** Temporarily off so the Hero opens without competing chrome. Flip to true to restore. */
+  showSiteHeader: false,
 } as const

@@ -19,3 +19,8 @@ export const GOLDEN_VIDEO_PATH =
   "/assets/cinematic/logo/golden-identity-v1.mp4";
 export const GOLDEN_POSTER_PATH =
   "/assets/cinematic/logo/golden-identity-v1-poster.webp";
+
+export const SMILE_VIDEO_PATH =
+  "/assets/cinematic/smile/smile-cinematic-v1.mp4";
+export const SMILE_POSTER_PATH =
+  "/assets/cinematic/smile/smile-cinematic-v1-poster.webp";

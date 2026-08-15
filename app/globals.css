@@ -30,22 +30,24 @@ img {
 }
 
 .site-header {
-  background: linear-gradient(
-    to bottom,
-    rgba(8, 8, 8, 0.72) 0%,
-    rgba(8, 8, 8, 0) 100%
-  );
+  background: linear-gradient(to bottom, rgba(8, 8, 8, 0.85) 0%, rgba(8, 8, 8, 0.12) 65%, rgba(8, 8, 8, 0) 100%);
+}
+
+.site-header--scrolled {
+  background: rgba(8, 8, 8, 0.72);
+  backdrop-filter: blur(12px) saturate(1.4);
+  -webkit-backdrop-filter: blur(12px) saturate(1.4);
 }
 
 .site-header-logo,
 .footer-logo {
-  filter: brightness(0) invert(0.9) sepia(0.5) saturate(7) hue-rotate(6deg)
-    brightness(1.05);
+  filter: brightness(0) invert(0.9) sepia(0.5) saturate(7) hue-rotate(6deg) brightness(1.05);
 }
 
 .hero-cinematic {
   min-height: 100dvh;
-  height: 300vh;
+  /* Tall shell: tooth scrub + copy beats (wordmark → 3 → lines, last line exits). */
+  height: 520vh;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -54,40 +56,85 @@ img {
   }
 }
 
+/* Mobile / touch: tooth is static poster, but shell stays tall for copy scrub. */
+@media (hover: none), (max-width: 768px) {
+  .hero-cinematic {
+    height: 450vh;
+  }
+
+  .tooth-scrubber-video {
+    display: none;
+  }
+
+  .tooth-scrubber-poster {
+    display: block;
+  }
+}
+
 .hero-cinematic-pin {
   background-color: var(--color-bg-primary);
 }
 
 .hero-cinematic-scrim {
+  /* Soft veil only under the copy column — must not smother the tooth. */
   background:
     linear-gradient(
       to right,
-      rgba(8, 8, 8, 0.78) 0%,
-      rgba(8, 8, 8, 0.42) 34%,
-      rgba(8, 8, 8, 0.08) 58%,
-      transparent 72%
+      rgba(8, 8, 8, 0.88) 0%,
+      rgba(8, 8, 8, 0.45) 24%,
+      rgba(8, 8, 8, 0.12) 38%,
+      transparent 48%
     ),
-    linear-gradient(
-      to top,
-      rgba(8, 8, 8, 0.7) 0%,
-      rgba(8, 8, 8, 0.15) 38%,
-      rgba(8, 8, 8, 0.35) 100%
-    );
+    linear-gradient(to top, rgba(8, 8, 8, 0.35) 0%, transparent 32%);
 }
 
-/* Tooth: scale past the viewport and hang off the right edge so the Vidu
-   watermark (typically bottom-right) is clipped. Prototype only. */
+/*
+  Tooth on the right half only — no full-bleed stretch.
+  Shifted past the right edge so the Vidu watermark leaves the viewport.
+  Soft fade only on the LEFT edge (no hard box seam, no right fade).
+*/
+.tooth-scrubber {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
 .tooth-scrubber-video,
 .tooth-scrubber-poster {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 142%;
+  top: 0%;
+  bottom: 0;
+  right: -12%;
+  width: 90%;
   height: 100%;
   max-width: none;
   max-height: none;
   object-fit: cover;
-  object-position: left center;
+  object-position: 18% center;
+  filter: brightness(0.8) contrast(1.03) saturate(0.96);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.55) 8%, #000 18%, #000 100%);
+  mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.55) 8%, #000 18%, #000 100%);
+}
+
+@media (max-width: 768px) {
+  .tooth-scrubber-video,
+  .tooth-scrubber-poster {
+    right: -22%;
+    width: 78%;
+    object-position: 25% center;
+    opacity: 0.55;
+    filter: brightness(1.04) contrast(1.02);
+  }
+}
+
+/* Desktop scrub: video visible, poster hidden. */
+.tooth-scrubber-poster {
+  display: none;
+}
+
+.tooth-scrubber-video {
+  display: block;
 }
 
 .wordmark {
@@ -95,71 +142,326 @@ img {
 }
 
 .wordmark-visual {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.35rem;
+  display: grid;
+  grid-template-columns: max-content;
+  width: max-content;
+  justify-items: stretch;
+  row-gap: 0.35rem;
+  perspective: 1100px;
+  perspective-origin: 50% 0%;
 }
 
-@media (min-width: 768px) {
-  .wordmark-visual {
-    align-items: flex-start;
-  }
+.wordmark-mark {
+  display: block;
+  width: 1px;
+  min-width: 100%;
+  height: auto;
+  transform-origin: 50% 80%;
+  transform-style: preserve-3d;
+  opacity: 0;
+  transform: translateY(-58vh) rotateX(52deg) rotateY(-18deg) rotateZ(10deg) scale(0.84);
+  filter: drop-shadow(0 28px 36px rgba(0, 0, 0, 0.5));
 }
 
 .wordmark-class {
+  display: block;
+  width: max-content;
   font-family: var(--font-sans);
   font-weight: 300;
   font-size: var(--text-wordmark);
   line-height: var(--text-wordmark--line-height);
-  letter-spacing: 0.14em;
+  letter-spacing: 0.1em;
+  /* Cancel trailing letter-spacing so ODONTOLOGIA matches visual ends of CLASS */
+  margin-inline-end: -0.1em;
   color: var(--color-gold);
   text-transform: uppercase;
   opacity: 0;
   transform: translateY(1.25rem);
+  white-space: nowrap;
 }
 
-.wordmark-a {
+/*
+  Greek Λ sits lower and taller than Montserrat Latin caps.
+  Mild optical shrink + lift to match the CL / SS baseline and cap height.
+*/
+.wordmark-lambda {
   display: inline-block;
-  -webkit-mask-image: linear-gradient(#000 0 0), linear-gradient(#000 0 0);
-  mask-image: linear-gradient(#000 0 0), linear-gradient(#000 0 0);
-  -webkit-mask-size: 100% 100%, 46% 0.1em;
-  mask-size: 100% 100%, 46% 0.1em;
-  -webkit-mask-position: 0 0, 50% 56%;
-  mask-position: 0 0, 50% 56%;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
+  font-size: 0.9em;
+  font-weight: 50;
+  line-height: 0.25;
+  -webkit-text-stroke: 4px #0d0d0d;
+  letter-spacing: 0;
+  transform: translateY(-0.001em);
 }
 
 .wordmark-sub {
-  font-family: var(--font-sans);
-  font-weight: 300;
-  font-size: clamp(0.85rem, 2.4vw, 1.35rem);
+  display: block;
+  justify-self: stretch;
+  box-sizing: border-box;
+  font-family: ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas, monospace;
+  font-weight: 400;
+  font-size: clamp(0.52rem, 1.05vw, 0.78rem);
   line-height: 1;
-  letter-spacing: 0.48em;
+  letter-spacing: 0.38em;
+  margin-inline-end: -0.38em;
+  text-align: center;
   text-transform: uppercase;
   color: var(--color-gold-light);
   opacity: 0;
   transform: translateY(0.75rem);
 }
 
-.hero-tagline {
-  opacity: 0;
-  transform: translateY(0.75rem);
+.hero-identity-copy {
+  display: flex;
+  width: min(100%, 48rem);
+  max-width: 68vw;
+  overflow: visible;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+@media (max-width: 768px) {
+  .hero-identity-copy {
+    max-width: 100%;
+  }
+}
+
+.hero-beat {
+  will-change: transform, opacity;
+}
+
+.hero-beat-decade {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.85rem;
+  perspective: 1600px;
+  transform-style: preserve-3d;
+}
+
+.hero-decade-numeral {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(11.5rem, 42vw, 26rem);
+  line-height: 0.78;
+  letter-spacing: -0.06em;
+  transform-style: preserve-3d;
+  backface-visibility: visible;
+}
+
+.hero-decade-numeral-stack {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transform-style: preserve-3d;
+}
+
+.hero-decade-numeral-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #5a4618;
+  -webkit-text-stroke: 0.5px #3d3010;
+}
+
+.hero-decade-numeral-face {
+  position: relative;
+  display: block;
+  color: var(--color-gold-light);
+  -webkit-text-stroke: 1px rgba(138, 112, 40, 0.4);
+  text-shadow:
+    0 0 48px rgba(232, 201, 122, 0.45),
+    0 0 100px rgba(201, 168, 76, 0.22);
+}
+
+.hero-decade-label {
+  position: relative;
+  z-index: 2;
+  margin-top: 0;
+  max-width: 100%;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: clamp(1.35rem, 3.8vw, 2.45rem);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--color-gold-light);
+  text-shadow:
+    0 1px 0 rgba(8, 8, 8, 0.85),
+    0 0 24px rgba(232, 201, 122, 0.25);
+}
+
+.hero-scroll-line {
+  max-width: 34rem;
+}
+
+.manifesto-section {
+  background-color: var(--color-bg-paper);
+  color: var(--color-text-paper);
+}
+
+.smile-well {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-bg-primary);
+  isolation: isolate;
+}
+
+.smile-well-media {
+  object-fit: cover;
+  object-position: center 62%;
+}
+
+.visit-section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: min(78vh, 44rem);
+  background-color: var(--color-bg-primary);
+}
+
+.visit-map {
+  object-fit: cover;
+  object-position: 72% center;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .visit-map {
+    object-position: 88% center;
+  }
+}
+
+.visit-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(
+      to right,
+      rgba(8, 8, 8, 0.96) 0%,
+      rgba(8, 8, 8, 0.78) 28%,
+      rgba(8, 8, 8, 0.28) 52%,
+      rgba(8, 8, 8, 0.08) 68%,
+      transparent 82%
+    ),
+    linear-gradient(
+      to top,
+      rgba(8, 8, 8, 0.45) 0%,
+      transparent 38%
+    );
+  pointer-events: none;
+}
+
+.visit-actions {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1rem;
+  min-height: inherit;
+  padding: var(--section-py) var(--section-px);
+}
+
+.letter-reveal-char {
+  display: inline-block;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal:not(.is-in) .letter-reveal-char {
+    opacity: 0;
+    transform: translateY(0.45em);
+  }
+
+  .reveal.is-in .letter-reveal-char {
+    animation: letter-rise 0.62s var(--ease-out-expo) both;
+  }
+}
+
+@keyframes letter-rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.45em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.specialists-shell {
+  width: min(100%, 72rem);
+  margin-inline: auto;
+  padding-inline: var(--section-px);
+}
+
+.specialists-grid {
+  display: grid;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  grid-template-columns: 1fr;
+  gap: 3.5rem 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .specialists-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.specialists-grid > li {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+.specialist-card {
+  width: 100%;
+}
+
+.hero-identity.is-ready .wordmark-mark {
+  animation: emblem-fall 1.5s cubic-bezier(0.22, 0.72, 0.24, 1) 0.06s both;
 }
 
 .hero-identity.is-ready .wordmark-class {
-  animation: rise-in 1.05s var(--ease-out-expo) 0.35s forwards;
+  animation: rise-in 0.95s var(--ease-out-expo) 0.18s forwards;
 }
 
 .hero-identity.is-ready .wordmark-sub {
-  animation: rise-in 1.05s var(--ease-out-expo) 0.85s forwards;
+  animation: rise-in 0.95s var(--ease-out-expo) 0.48s forwards;
 }
 
-.hero-identity.is-ready .hero-tagline {
-  animation: rise-in 0.95s var(--ease-out-expo) 1.25s forwards;
+@keyframes emblem-fall {
+  0% {
+    opacity: 0;
+    transform: translateY(-58vh) rotateX(56deg) rotateY(-20deg) rotateZ(12deg)
+      scale(0.82);
+    filter: drop-shadow(0 32px 40px rgba(0, 0, 0, 0.55));
+  }
+
+  68% {
+    opacity: 1;
+    transform: translateY(0.45rem) rotateX(-5deg) rotateY(7deg) rotateZ(-2deg)
+      scale(1.025);
+    filter: drop-shadow(0 16px 20px rgba(212, 175, 55, 0.22));
+  }
+
+  86% {
+    transform: translateY(-0.12rem) rotateX(2deg) rotateY(-2deg) rotateZ(0.6deg)
+      scale(0.997);
+  }
+
+  100% {
+    opacity: 1;
+    transform: none;
+    filter: drop-shadow(0 0 28px rgba(212, 175, 55, 0.32));
+  }
 }
 
 @keyframes rise-in {
@@ -173,47 +475,30 @@ img {
   }
 }
 
-.golden-logo {
-  opacity: 0;
-  transform: translateY(1.25rem) scale(0.94);
-  filter: blur(10px);
-  transition:
-    opacity 1.1s var(--ease-out-expo),
-    transform 1.1s var(--ease-out-expo),
-    filter 1.1s var(--ease-out-expo);
+/* Specialist monogram — intentional fallback when portraits are absent. */
+.specialist-monogram {
+  display: flex;
+  height: 5rem;
+  width: 5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 1.5px solid var(--color-gold);
+  background: radial-gradient(circle at 40% 35%, #1a1610 0%, #0d0d0d 72%);
+  box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.08);
 }
 
-.golden-logo.is-emerged {
-  opacity: 1;
-  transform: none;
-  filter: none;
-}
-
-.golden-logo-video,
-.golden-logo-poster {
-  max-width: none;
-  mix-blend-mode: screen;
-  -webkit-mask-image: radial-gradient(
-    ellipse 68% 62% at 50% 48%,
-    #000 38%,
-    transparent 78%
-  );
-  mask-image: radial-gradient(
-    ellipse 68% 62% at 50% 48%,
-    #000 38%,
-    transparent 78%
-  );
-}
-
-.golden-logo::after {
-  content: "";
-  position: absolute;
-  inset: -8%;
-  pointer-events: none;
-  box-shadow: inset 0 0 80px 48px var(--color-bg-primary);
+.specialist-monogram-initials {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--color-gold);
+  line-height: 1;
 }
 
 .reveal {
+  width: 100%;
   opacity: 1;
   transform: none;
 }
@@ -239,19 +524,23 @@ img {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .golden-logo {
-    opacity: 1;
-    transform: none;
-    filter: none;
-    transition: none;
-  }
-
+  .wordmark-mark,
   .wordmark-class,
-  .wordmark-sub,
-  .hero-tagline {
+  .wordmark-sub {
     opacity: 1;
     transform: none;
     animation: none;
+    filter: none;
+  }
+
+  .wordmark-mark {
+    filter: drop-shadow(0 0 28px rgba(212, 175, 55, 0.32));
+  }
+
+  .hero-beat-decade,
+  .hero-scroll-line {
+    opacity: 1;
+    transform: none;
   }
 
   .reveal {

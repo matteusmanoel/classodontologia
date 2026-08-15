@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { collectPageErrors, gotoHome } from "./helpers";
+import { siteConfig } from "../config/site";
 
 test.describe("smoke", () => {
   test("home page renders without console errors", async ({ page }) => {
@@ -7,7 +8,11 @@ test.describe("smoke", () => {
     await gotoHome(page);
 
     await expect(page.locator("#main-content")).toBeVisible();
-    await expect(page.getByRole("banner")).toBeVisible();
+    if (siteConfig.showSiteHeader) {
+      await expect(page.getByRole("banner")).toBeVisible();
+    } else {
+      await expect(page.getByRole("banner")).toHaveCount(0);
+    }
     await expect(page.getByRole("contentinfo")).toBeVisible();
     await expect(page.locator("h1")).toBeVisible();
     await expect(page.locator(".wordmark")).toBeVisible();

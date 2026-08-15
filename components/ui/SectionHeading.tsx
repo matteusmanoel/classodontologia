@@ -25,7 +25,7 @@ export function SectionHeading({
     <h2 id={id} className={classes}>
       {accent ? (
         <span
-          className="mb-6 block h-px w-16 bg-gold"
+          className="mb-10 block h-[2px] w-12 bg-gold"
           aria-hidden="true"
         />
       ) : null}

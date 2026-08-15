@@ -7,6 +7,8 @@ Source of truth for all visual decisions. Owned exclusively by the Design System
 
 Dark, sophisticated, champagne-gold. Editorial serif for impact. Clean sans for body. No decorative excess. Premium is expressed through restraint.
 
+The Manifesto is the one **paper** exception: a warm off-white field after the dark Hero. Specialties and every section below return to the dark field. Gold on paper uses `--color-gold-on-paper` so contrast holds.
+
 ## Token Architecture
 
 One authoritative source: `styles/tokens.css`.
@@ -23,11 +25,16 @@ Do not duplicate tokens between CSS variables and a separate Tailwind config. `s
 | `--color-bg-primary` | `#080808` | Page background |
 | `--color-bg-secondary` | `#111111` | Alternate section background |
 | `--color-bg-surface` | `#181818` | Card backgrounds |
-| `--color-text-primary` | `#F5F5F5` | Body text, headings |
-| `--color-text-secondary` | `#9A9A9A` | Supporting text, captions |
-| `--color-gold` | `#C9A84C` | Primary accent, gold highlights |
+| `--color-bg-paper` | `#F3EFE6` | Manifesto paper field only |
+| `--color-text-primary` | `#F5F5F5` | Body text, headings (dark field) |
+| `--color-text-secondary` | `#9A9A9A` | Supporting text, captions (dark field) |
+| `--color-text-paper` | `#1A1814` | Body and headings on paper |
+| `--color-text-paper-muted` | `#5C574E` | Supporting text on paper |
+| `--color-gold` | `#C9A84C` | Primary accent on dark |
 | `--color-gold-light` | `#E8C97A` | Shimmer, hover, focus ring |
+| `--color-gold-on-paper` | `#7A5E14` | Gold accent on paper (AA) |
 | `--color-border` | `rgba(255,255,255,0.08)` | Subtle dividers, card borders |
+| `--color-border-paper` | `rgba(26,24,20,0.1)` | Hairline on paper |
 | `--color-focus` | `#E8C97A` | Focus ring — accessibility |
 
 > These are design directions. The Design System Agent may refine values during implementation based on visual testing. Palette changes beyond minor refinement require human approval.
@@ -39,6 +46,8 @@ Do not duplicate tokens between CSS variables and a separate Tailwind config. `s
 | `#F5F5F5` on `#080808` | ~20:1 | ✓ AAA |
 | `#9A9A9A` on `#080808` | ~5.4:1 | ✓ AA |
 | `#C9A84C` on `#080808` | ~7.2:1 | ✓ AA |
+| `#1A1814` on `#F3EFE6` | ~16:1 | ✓ AAA |
+| `#7A5E14` on `#F3EFE6` | ~5.5:1 | ✓ AA |
 | `--color-text-secondary` on `--color-bg-surface` | verify during build | Must pass AA |
 
 `--color-text-secondary` must not be used for meaningful body content — only for decorative labels, dividers, and non-critical secondary text.

@@ -1,5 +1,5 @@
-import { AppointmentCTA } from "@/components/sections/AppointmentCTA";
 import { HeroSection } from "@/components/sections/HeroSection";
+import { LocationSection } from "@/components/sections/LocationSection";
 import { ManifestoSection } from "@/components/sections/ManifestoSection";
 import { SpecialistsSection } from "@/components/sections/SpecialistsSection";
 import { SpecialtiesSection } from "@/components/sections/SpecialtiesSection";
@@ -18,7 +18,7 @@ export default function Home() {
       <ManifestoSection />
       <SpecialtiesSection />
       <SpecialistsSection />
-      <AppointmentCTA />
+      <LocationSection />
     </>
   );
 }

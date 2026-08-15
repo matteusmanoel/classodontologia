@@ -31,15 +31,15 @@ export function SpecialtiesSection() {
   return (
     <section
       aria-labelledby="specialties-heading"
-      className="bg-bg-secondary py-[--section-py]"
+      className="bg-bg-secondary py-(--section-py)"
     >
       <Container>
         <Reveal>
-          <header className="mb-16 max-w-2xl md:mb-24">
+          <header className="mb-20 max-w-2xl md:mb-28">
             <SectionHeading id="specialties-heading" accent>
               {copy.specialties.heading}
             </SectionHeading>
-            <p className="mt-6 font-sans text-lg font-light leading-relaxed text-text-primary">
+            <p className="mt-8 font-sans text-lg font-light leading-relaxed text-text-primary md:mt-10">
               {copy.specialties.subheading}
             </p>
           </header>

@@ -12,7 +12,13 @@ import { copy } from "@/content/copy";
 export function HeroSection() {
   return (
     <section aria-label="Hero" className="bg-bg-primary">
-      <HeroCinematic heading={copy.hero.heading} tagline={copy.hero.tagline}>
+      <HeroCinematic
+        heading={copy.hero.heading}
+        tagline={copy.hero.tagline}
+        decadeNumeral={copy.hero.decadeNumeral}
+        decadeLabel={copy.hero.decadeLabel}
+        scrollLines={copy.hero.scrollLines}
+      >
         <ClassWordmark />
       </HeroCinematic>
     </section>

@@ -1,7 +1,5 @@
 /**
- * Site footer — ISSUE-015.
- *
- * Server Component (ADR-007). Motion Level 0.
+ * Site footer — compact contact strip (ADR-007, Motion Level 0).
  */
 
 import Image from "next/image";
@@ -25,22 +23,22 @@ export function Footer() {
   return (
     <footer
       role="contentinfo"
-      className="border-t border-border bg-bg-primary py-[--section-py]"
+      className="border-t border-border bg-bg-primary py-10 md:py-14"
     >
       <Container>
-        <div className="flex flex-col gap-16 lg:flex-row lg:items-start lg:justify-between">
+        <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-12">
           <Image
             src="/assets/brand/class-gray.png"
             alt={siteConfig.name}
             width={2172}
             height={724}
-            className="footer-logo h-10 w-[calc(2.5rem*2172/724)] object-contain"
+            className="footer-logo h-8 w-[calc(2rem*2172/724)] object-contain md:h-9 md:w-[calc(2.25rem*2172/724)]"
           />
 
           <address className="not-italic">
-            <ul className="flex flex-col gap-8 font-sans text-base font-light text-text-primary">
+            <ul className="flex flex-col gap-5 font-sans text-sm font-light text-text-primary md:text-base md:gap-6">
               <li>
-                <span className="mb-2 block font-sans text-sm font-medium tracking-label uppercase text-gold">
+                <span className="mb-1.5 block font-sans text-xs font-medium tracking-label uppercase text-gold">
                   WhatsApp
                 </span>
                 <a
@@ -51,7 +49,7 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <span className="mb-2 block font-sans text-sm font-medium tracking-label uppercase text-gold">
+                <span className="mb-1.5 block font-sans text-xs font-medium tracking-label uppercase text-gold">
                   Endereço
                 </span>
                 {siteConfig.address.street}
@@ -61,7 +59,7 @@ export function Footer() {
                 {siteConfig.address.postalCode}
               </li>
               <li>
-                <span className="mb-2 block font-sans text-sm font-medium tracking-label uppercase text-gold">
+                <span className="mb-1.5 block font-sans text-xs font-medium tracking-label uppercase text-gold">
                   Horário
                 </span>
                 {siteConfig.hours}
@@ -70,7 +68,7 @@ export function Footer() {
           </address>
 
           <nav aria-label="Redes sociais">
-            <ul className="flex flex-col gap-4">
+            <ul className="flex flex-row gap-6 lg:flex-col lg:gap-3">
               <li>
                 <a
                   href={siteConfig.instagram}
@@ -95,7 +93,7 @@ export function Footer() {
           </nav>
         </div>
 
-        <p className="mt-20 font-sans text-sm font-light text-text-secondary">
+        <p className="mt-10 pt-2 text-right font-sans text-xs font-light text-text-secondary md:mt-12">
           {copyright}
         </p>
       </Container>

@@ -40,9 +40,8 @@ Every CC adds to the client JS bundle. Unnecessary CCs inflate INP and reduce th
 | Component | Reason for CC |
 |---|---|
 | `HeroCinematic.tsx` | GSAP, ScrollTrigger, `useRef`, video control |
-| `GoldenLogo.tsx` | Video control, `preload` upgrade on visibility |
 | `ToothScrubber.tsx` | GSAP ScrollTrigger, `video.currentTime`, `useRef` |
-| `ManifestoReveal.tsx` (optional) | GSAP timeline, `useGSAP` |
+| `SmileWell.tsx` | IntersectionObserver, optional `<video>` play-once |
 
 All `components/sections/` and `components/ui/` components are Server Components unless there is a documented reason for CC.
 

@@ -8,13 +8,18 @@
 
 @theme {
   --color-bg-primary: #080808;
-  --color-bg-secondary: #111111;
+  --color-bg-secondary: #100f0d;
   --color-bg-surface: #181818;
+  --color-bg-paper: #f3efe6;
   --color-text-primary: #f5f5f5;
   --color-text-secondary: #9a9a9a;
+  --color-text-paper: #1a1814;
+  --color-text-paper-muted: #5c574e;
   --color-gold: #c9a84c;
   --color-gold-light: #e8c97a;
+  --color-gold-on-paper: #7a5e14;
   --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-paper: rgba(26, 24, 20, 0.1);
   --color-focus: #e8c97a;
 
   /* next/font variables are applied in layout.tsx; fallbacks keep tokens valid until then. */

@@ -79,7 +79,7 @@ export default function RootLayout({
         <a href="#main-content" className="skip-link">
           Ir para o conteúdo principal
         </a>
-        <SiteHeader />
+        {siteConfig.showSiteHeader ? <SiteHeader /> : null}
         <main id="main-content">{children}</main>
         <Footer />
       </body>

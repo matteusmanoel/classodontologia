@@ -6,7 +6,7 @@ export interface ContainerProps {
 }
 
 export function Container({ children, className }: ContainerProps) {
-  const classes = ["max-w-[1280px] mx-auto px-[--section-px]", className]
+  const classes = ["max-w-[1280px] mx-auto px-(--section-px)", className]
     .filter(Boolean)
     .join(" ");
 
