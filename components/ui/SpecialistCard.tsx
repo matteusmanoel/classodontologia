@@ -2,7 +2,8 @@ import Image from "next/image";
 
 export interface SpecialistCardProps {
   name: string;
-  title: string;
+  /** Verified credential. Omit the line entirely when null/undefined (D7). */
+  title?: string | null;
   specialty: string;
   photo?: string;
   bio: string;
@@ -63,9 +64,11 @@ export function SpecialistCard({
         <h3 className="font-display text-xl tracking-display text-text-primary md:text-2xl">
           {name}
         </h3>
-        <p className="font-sans text-sm font-light text-text-secondary">
-          {title}
-        </p>
+        {title ? (
+          <p className="font-sans text-sm font-light text-text-secondary">
+            {title}
+          </p>
+        ) : null}
         <p className="mt-2 max-w-md font-sans text-base font-light leading-relaxed text-text-secondary">
           {bio}
         </p>

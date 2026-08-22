@@ -1,7 +1,8 @@
 export interface Specialist {
   id: string;
   name: string;
-  title: string;
+  /** Verified credential (e.g. "CRO 9278-PR"). Null/undefined = unverified; omit the line. */
+  title?: string | null;
   specialty: string;
   bio: string;
   photo: string;
@@ -27,7 +28,7 @@ export const specialists: Specialist[] = [
   {
     id: "matheus-schwertner",
     name: "Dr. Matheus Schwertner",
-    title: "Especialistas",
+    title: null,
     specialty: "Reabilitação e estética",
     bio: "Integra a nova geração da Class na reabilitação oral e na estética do sorriso, com o mesmo critério de planejamento facial que define a clínica.",
     photo: "/assets/people/dr-matheus.webp",
@@ -35,7 +36,7 @@ export const specialists: Specialist[] = [
   {
     id: "mohamed-ismail",
     name: "Dr. Mohamed Ismail",
-    title: "Especialistas",
+    title: null,
     specialty: "Implantodontia e prótese",
     bio: "Atua na reabilitação sobre implantes e próteses — a linha que devolve mastigação, estabilidade e a presença de um sorriso completo.",
     photo: "/assets/people/dr-mohamad.webp",

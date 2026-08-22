@@ -1,5 +1,9 @@
 # Milestones — Class Odontologia MVP
 
+> **SUPERSEDED — 2026-08-21.** This document describes the original MVP milestone structure (foundation, Hero, static sections). It is retained as historical record only. The active orchestration plan is `docs/class-experience-v1/IMPLEMENTATION_MASTER_PLAN.md` (22 WPs, 9-act reflow). Do not use this document to plan implementation; consult the Master Plan.
+
+---
+
 ## Milestone 0 — Foundation, Spikes, and Asset Preparation
 
 **Goal:** Running Next.js skeleton on Vercel + validated encoding profile + seek strategy confirmed.

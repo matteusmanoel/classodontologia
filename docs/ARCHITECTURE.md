@@ -2,6 +2,8 @@
 
 **Authority: HIGH** — superseded only by Accepted ADRs.
 
+> **Updated by `class-experience-v1` / ADR-013 (2026-08-21).** The homepage composition moves from 5 sections to **9 narrative acts** (Hero, Manifesto, Legacy, Specialties, Method, Specialists, Selected by CLASS, Place, Conversion) with a dark↔paper block choreography. The production **canonical domain is `https://classodontologia.com.br`** (see `config/site.ts` update, D4) — the "Domain is TBD / Vercel preview" note below is superseded. Framework, no-backend, Server-first (ADR-007), and no-runtime-3D (ADR-001) constraints are unchanged.
+
 ## Framework
 
 Next.js 16.x App Router · React 19 · TypeScript 5 · Vercel

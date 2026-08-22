@@ -22,9 +22,10 @@
   --color-border-paper: rgba(26, 24, 20, 0.1);
   --color-focus: #e8c97a;
 
-  /* next/font variables are applied in layout.tsx; fallbacks keep tokens valid until then. */
-  --font-display: var(--font-cormorant), "Cormorant Garamond", ui-serif, Georgia, serif;
-  --font-sans: var(--font-montserrat), Montserrat, ui-sans-serif, system-ui, sans-serif;
+  /* next/font variables applied in layout.tsx (ADR-010). Fallbacks valid until then. */
+  --font-display: var(--font-instrument-serif), "Instrument Serif", ui-serif, Georgia, serif;
+  --font-sans:    var(--font-geist-sans),        "Geist",            ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    var(--font-geist-mono),        "Geist Mono",       ui-monospace, "Cascadia Code", monospace;
 
   --text-sm: clamp(0.875rem, 1.5vw, 1rem);
   --text-sm--line-height: 1.5;
@@ -39,11 +40,11 @@
   --text-3xl: clamp(2.25rem, 5.5vw, 4rem);
   --text-3xl--line-height: 1.1;
   --text-hero: clamp(3rem, 8vw, 7rem);
-  --text-hero--line-height: 0.95;
+  --text-hero--line-height: 1.0;
   --text-wordmark: clamp(3.75rem, 16vw, 11rem);
-  --text-wordmark--line-height: 0.82;
+  --text-wordmark--line-height: 0.88;
 
-  --tracking-display: -0.03em;
+  --tracking-display: -0.02em;
   --tracking-label: 0.12em;
 
   /* Component spacing uses Tailwind's default --spacing scale. */

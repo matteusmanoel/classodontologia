@@ -54,7 +54,9 @@ Do not duplicate tokens between CSS variables and a separate Tailwind config. `s
 
 ## Typography Direction
 
-Recommended families: **Cormorant Garamond** (display serif) + **Inter** (body / UI sans-serif).
+> **Superseded by ADR-010 (2026-08-21) on acceptance.** The `class-experience-v1` direction is **Geist Sans** (primary/functional) + **Instrument Serif** (editorial), with **Geist Mono** as an optional utility/metadata voice. All three are available via `next/font/google` (no new dependency, no unlicensed files). Migration is a single token-level swap gated by the Typography Validation Spike (WP-03). Until ADR-010 is Accepted and the spike tokens approved, the current Montserrat + Cormorant implementation stands. The recommendation below is retained as historical baseline.
+
+Recommended families (historical baseline): **Cormorant Garamond** (display serif) + **Inter** (body / UI sans-serif). The shipped MVP used Montserrat + Cormorant.
 
 This is a design recommendation, not an immutable rule. The Design System Agent may propose an alternative pair if visual testing reveals a better fit. The constraint is:
 - Maximum 2 families
@@ -104,6 +106,8 @@ Component-level spacing uses Tailwind utilities directly. Only section-level rhy
 | 4 | GSAP ScrollTrigger + video seek | Hero cinematic only |
 
 CSS-first. GSAP only where it materially improves the experience over CSS. Level 4 is confined to `components/cinematic/`.
+
+> **Amended by ADR-011 (2026-08-21):** Level 4 (scroll-driven/scrub) motion, previously "Hero only", is now permitted for **two** scenes — the Hero cinematic **and** the Specialties sticky multi-state scene. Any further Level-4 scene requires a new ADR. See also ADR-012 (Specialists light/shadow reveal, Level 3–4 with mandatory fallback).
 
 ### Motion Tokens
 

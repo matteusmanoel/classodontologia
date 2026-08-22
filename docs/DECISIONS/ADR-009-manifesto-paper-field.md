@@ -11,3 +11,9 @@ The Smile cinematic cannot sit on that paper: a very white smile would disappear
 **Considered:** entire Manifesto dark; white wash then dark Manifesto; white interstitial; full-bleed video under paper type. Rejected: they either ignore the requested paper beat or kill contrast on the smile.
 
 **Consequence:** Manifesto needs on-paper text tokens (dark type, gold still allowed). Header over paper stays the existing dark strip. Axe contrast on Manifesto must be rechecked.
+
+---
+
+## Update note — 2026-08-21 (class-experience-v1, ADR-013)
+
+The paper-field decision for the Manifesto **stands**. What changes: per owner decision D11, the Manifesto becomes **typographic** and the **Smile cinematic well is removed** from it (the smile video was never produced; only a poster exists). The human/emotional counterpoint moves to the new **ACT 03 Legacy**. `components/cinematic/SmileWell.tsx` is archived (not deleted) in case Legacy composition later needs it. See `docs/class-experience-v1/scenes/MANIFESTO.md`. The "dark → paper" beat is preserved and now also marks the entry into the paper block (Manifesto → Legacy → Specialties) defined in ADR-013.

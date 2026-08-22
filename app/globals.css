@@ -29,6 +29,10 @@ img {
   height: auto;
 }
 
+/* ─────────────────────────────────────────────
+   Site header
+───────────────────────────────────────────── */
+
 .site-header {
   background: linear-gradient(to bottom, rgba(8, 8, 8, 0.85) 0%, rgba(8, 8, 8, 0.12) 65%, rgba(8, 8, 8, 0) 100%);
 }
@@ -44,10 +48,15 @@ img {
   filter: brightness(0) invert(0.9) sepia(0.5) saturate(7) hue-rotate(6deg) brightness(1.05);
 }
 
+/* ─────────────────────────────────────────────
+   Hero cinematic (ACT 01) — WP-18
+   Decade beat removed; scroll shell tuned.
+───────────────────────────────────────────── */
+
 .hero-cinematic {
   min-height: 100dvh;
-  /* Tall shell: tooth scrub + copy beats (wordmark → 3 → lines, last line exits). */
-  height: 520vh;
+  /* Tall shell: tooth scrub + copy beats (wordmark, 3 copy lines, last exits). */
+  height: 460vh;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -56,10 +65,10 @@ img {
   }
 }
 
-/* Mobile / touch: tooth is static poster, but shell stays tall for copy scrub. */
+/* Mobile / touch: tooth is static poster; shell shorter (no 3D beat slot). */
 @media (hover: none), (max-width: 768px) {
   .hero-cinematic {
-    height: 450vh;
+    height: 390vh;
   }
 
   .tooth-scrubber-video {
@@ -76,7 +85,6 @@ img {
 }
 
 .hero-cinematic-scrim {
-  /* Soft veil only under the copy column — must not smother the tooth. */
   background:
     linear-gradient(
       to right,
@@ -90,8 +98,8 @@ img {
 
 /*
   Tooth on the right half only — no full-bleed stretch.
-  Shifted past the right edge so the Vidu watermark leaves the viewport.
-  Soft fade only on the LEFT edge (no hard box seam, no right fade).
+  Shifted past the right edge so the watermark leaves the viewport.
+  Soft fade only on the LEFT edge.
 */
 .tooth-scrubber {
   position: absolute;
@@ -137,6 +145,10 @@ img {
   display: block;
 }
 
+/* ─────────────────────────────────────────────
+   Wordmark animations
+───────────────────────────────────────────── */
+
 .wordmark {
   margin: 0;
 }
@@ -171,7 +183,6 @@ img {
   font-size: var(--text-wordmark);
   line-height: var(--text-wordmark--line-height);
   letter-spacing: 0.1em;
-  /* Cancel trailing letter-spacing so ODONTOLOGIA matches visual ends of CLASS */
   margin-inline-end: -0.1em;
   color: var(--color-gold);
   text-transform: uppercase;
@@ -180,10 +191,6 @@ img {
   white-space: nowrap;
 }
 
-/*
-  Greek Λ sits lower and taller than Montserrat Latin caps.
-  Mild optical shrink + lift to match the CL / SS baseline and cap height.
-*/
 .wordmark-lambda {
   display: inline-block;
   font-size: 0.9em;
@@ -198,7 +205,7 @@ img {
   display: block;
   justify-self: stretch;
   box-sizing: border-box;
-  font-family: ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas, monospace;
+  font-family: var(--font-mono);
   font-weight: 400;
   font-size: clamp(0.52rem, 1.05vw, 0.78rem);
   line-height: 1;
@@ -230,77 +237,14 @@ img {
   will-change: transform, opacity;
 }
 
-.hero-beat-decade {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 1.85rem;
-  perspective: 1600px;
-  transform-style: preserve-3d;
-}
-
-.hero-decade-numeral {
-  position: relative;
-  z-index: 1;
-  display: inline-block;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(11.5rem, 42vw, 26rem);
-  line-height: 0.78;
-  letter-spacing: -0.06em;
-  transform-style: preserve-3d;
-  backface-visibility: visible;
-}
-
-.hero-decade-numeral-stack {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  transform-style: preserve-3d;
-}
-
-.hero-decade-numeral-layer {
-  position: absolute;
-  left: 0;
-  top: 0;
-  color: #5a4618;
-  -webkit-text-stroke: 0.5px #3d3010;
-}
-
-.hero-decade-numeral-face {
-  position: relative;
-  display: block;
-  color: var(--color-gold-light);
-  -webkit-text-stroke: 1px rgba(138, 112, 40, 0.4);
-  text-shadow:
-    0 0 48px rgba(232, 201, 122, 0.45),
-    0 0 100px rgba(201, 168, 76, 0.22);
-}
-
-.hero-decade-label {
-  position: relative;
-  z-index: 2;
-  margin-top: 0;
-  max-width: 100%;
-  font-family: var(--font-sans);
-  font-weight: 400;
-  font-size: clamp(1.35rem, 3.8vw, 2.45rem);
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: var(--color-gold-light);
-  text-shadow:
-    0 1px 0 rgba(8, 8, 8, 0.85),
-    0 0 24px rgba(232, 201, 122, 0.25);
-}
-
 .hero-scroll-line {
   max-width: 34rem;
 }
 
-.manifesto-section {
-  background-color: var(--color-bg-paper);
-  color: var(--color-text-paper);
-}
+/* ─────────────────────────────────────────────
+   Manifesto (ACT 02) — paper field
+   SmileWell removed (WP-08).
+───────────────────────────────────────────── */
 
 .smile-well {
   position: relative;
@@ -314,116 +258,56 @@ img {
   object-position: center 62%;
 }
 
-.visit-section {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  min-height: min(78vh, 44rem);
-  background-color: var(--color-bg-primary);
-}
+/* ─────────────────────────────────────────────
+   Specialists reveal (ACT 06) — ADR-012
+───────────────────────────────────────────── */
 
-.visit-map {
-  object-fit: cover;
-  object-position: 72% center;
-  pointer-events: none;
-}
-
-@media (min-width: 768px) {
-  .visit-map {
-    object-position: 88% center;
-  }
-}
-
-.visit-shade {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background:
-    linear-gradient(
-      to right,
-      rgba(8, 8, 8, 0.96) 0%,
-      rgba(8, 8, 8, 0.78) 28%,
-      rgba(8, 8, 8, 0.28) 52%,
-      rgba(8, 8, 8, 0.08) 68%,
-      transparent 82%
-    ),
-    linear-gradient(
-      to top,
-      rgba(8, 8, 8, 0.45) 0%,
-      transparent 38%
-    );
-  pointer-events: none;
-}
-
-.visit-actions {
-  position: relative;
-  z-index: 2;
+.specialist-monogram {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  height: 5rem;
+  width: 5rem;
+  align-items: center;
   justify-content: center;
-  gap: 1rem;
-  min-height: inherit;
-  padding: var(--section-py) var(--section-px);
+  border-radius: 9999px;
+  border: 1.5px solid var(--color-gold);
+  background: radial-gradient(circle at 40% 35%, #1a1610 0%, #0d0d0d 72%);
+  box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.08);
 }
 
-.letter-reveal-char {
-  display: inline-block;
+.specialist-monogram-initials {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--color-gold);
+  line-height: 1;
+}
+
+/* ─────────────────────────────────────────────
+   Reveal (Level 2 motion primitive)
+───────────────────────────────────────────── */
+
+.reveal {
+  width: 100%;
+  opacity: 1;
+  transform: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .reveal:not(.is-in) .letter-reveal-char {
+  .reveal:not(.is-in) {
     opacity: 0;
-    transform: translateY(0.45em);
+    transform: translateY(1.35rem);
   }
 
-  .reveal.is-in .letter-reveal-char {
-    animation: letter-rise 0.62s var(--ease-out-expo) both;
-  }
-}
-
-@keyframes letter-rise {
-  from {
-    opacity: 0;
-    transform: translateY(0.45em);
-  }
-  to {
-    opacity: 1;
-    transform: none;
+  .reveal.is-in {
+    animation: rise-in 0.85s var(--ease-out-expo) both;
+    animation-delay: var(--reveal-delay, 0ms);
   }
 }
 
-.specialists-shell {
-  width: min(100%, 72rem);
-  margin-inline: auto;
-  padding-inline: var(--section-px);
-}
-
-.specialists-grid {
-  display: grid;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  grid-template-columns: 1fr;
-  gap: 3.5rem 2.5rem;
-}
-
-@media (min-width: 768px) {
-  .specialists-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-.specialists-grid > li {
-  display: block;
-  width: 100%;
-  min-width: 0;
-}
-
-.specialist-card {
-  width: 100%;
-}
+/* ─────────────────────────────────────────────
+   Wordmark entry animations
+───────────────────────────────────────────── */
 
 .hero-identity.is-ready .wordmark-mark {
   animation: emblem-fall 1.5s cubic-bezier(0.22, 0.72, 0.24, 1) 0.06s both;
@@ -475,53 +359,39 @@ img {
   }
 }
 
-/* Specialist monogram — intentional fallback when portraits are absent. */
-.specialist-monogram {
-  display: flex;
-  height: 5rem;
-  width: 5rem;
-  align-items: center;
-  justify-content: center;
-  border-radius: 9999px;
-  border: 1.5px solid var(--color-gold);
-  background: radial-gradient(circle at 40% 35%, #1a1610 0%, #0d0d0d 72%);
-  box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.08);
-}
+/* ─────────────────────────────────────────────
+   Letter reveal (Specialists heading animation — legacy)
+───────────────────────────────────────────── */
 
-.specialist-monogram-initials {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  color: var(--color-gold);
-  line-height: 1;
-}
-
-.reveal {
-  width: 100%;
-  opacity: 1;
-  transform: none;
+.letter-reveal-char {
+  display: inline-block;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .reveal:not(.is-in) {
+  .reveal:not(.is-in) .letter-reveal-char {
     opacity: 0;
-    transform: translateY(1.35rem);
+    transform: translateY(0.45em);
   }
 
-  .reveal.is-in {
-    animation: rise-in 0.85s var(--ease-out-expo) both;
-    animation-delay: var(--reveal-delay, 0ms);
+  .reveal.is-in .letter-reveal-char {
+    animation: letter-rise 0.62s var(--ease-out-expo) both;
   }
 }
 
-.specialty-row {
-  transition: opacity var(--duration-normal) var(--ease-in-out);
+@keyframes letter-rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.45em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
-.specialty-row:hover h3 {
-  color: var(--color-gold);
-}
+/* ─────────────────────────────────────────────
+   Reduced-motion overrides
+───────────────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
   .wordmark-mark,
@@ -537,7 +407,7 @@ img {
     filter: drop-shadow(0 0 28px rgba(212, 175, 55, 0.32));
   }
 
-  .hero-beat-decade,
+  .hero-beat-lines,
   .hero-scroll-line {
     opacity: 1;
     transform: none;
@@ -548,7 +418,26 @@ img {
     transform: none;
     animation: none;
   }
+
+  .animate-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    animation: none;
+  }
+
+  .cinematic-video {
+    display: none;
+  }
+
+  .cinematic-poster {
+    display: block;
+  }
 }
+
+/* ─────────────────────────────────────────────
+   Global focus ring + skip link
+───────────────────────────────────────────── */
 
 :focus-visible {
   outline: 2px solid var(--color-focus);
@@ -582,21 +471,4 @@ img {
 
 .skip-link:focus {
   top: 0;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .animate-reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
-    animation: none;
-  }
-
-  .cinematic-video {
-    display: none;
-  }
-
-  .cinematic-poster {
-    display: block;
-  }
 }

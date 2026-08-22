@@ -1,59 +1,68 @@
-import { Container } from "@/components/ui/Container";
+/**
+ * Specialties — ACT 04 / Hero Moment 02 (ADR-011, Scene Contract SPECIALTIES.md).
+ *
+ * Paper field. Server Component shell; SpecialtiesScene is the client enhancement.
+ * Semantic specialty list always present in server HTML (progressive enhancement).
+ */
+
 import { Reveal } from "@/components/ui/Reveal";
-import { SectionHeading } from "@/components/ui/SectionHeading";
+import { SpecialtiesScene } from "@/components/cinematic/SpecialtiesScene";
 import { copy } from "@/content/copy";
-import { specialties, type Specialty } from "@/content/specialties";
+import { specialties } from "@/content/specialties";
 
-interface SpecialtyRowProps {
-  specialty: Specialty;
-  index: number;
-}
-
-function SpecialtyRow({ specialty, index }: SpecialtyRowProps) {
-  const n = String(index + 1).padStart(2, "0");
-
-  return (
-    <article className="specialty-row group grid grid-cols-[auto_1fr] gap-x-8 gap-y-3 border-t border-border py-10 last:border-b md:grid-cols-[5rem_minmax(0,22rem)_1fr] md:items-baseline md:gap-x-12 md:py-14">
-      <span className="font-sans text-sm tracking-label text-gold tabular-nums">
-        {n}
-      </span>
-      <h3 className="font-display text-2xl tracking-display text-text-primary transition-colors duration-[var(--duration-normal)] group-hover:text-gold md:text-3xl">
-        {specialty.name}
-      </h3>
-      <p className="col-span-2 max-w-xl font-sans text-base font-light leading-relaxed text-text-primary md:col-span-1 md:justify-self-end md:text-lg">
-        {specialty.description}
-      </p>
-    </article>
-  );
-}
+const SPECIALTIES_HEADING_ID = "specialties-heading";
 
 export function SpecialtiesSection() {
   return (
     <section
-      aria-labelledby="specialties-heading"
-      className="bg-bg-secondary py-(--section-py)"
+      id="specialties"
+      aria-labelledby={SPECIALTIES_HEADING_ID}
+      className="bg-bg-paper py-(--section-py)"
     >
-      <Container>
+      <div className="mx-auto max-w-[1280px] px-(--section-px)">
+        {/* Section header — always visible */}
         <Reveal>
-          <header className="mb-20 max-w-2xl md:mb-28">
-            <SectionHeading id="specialties-heading" accent>
+          <header className="mb-16 max-w-2xl md:mb-20">
+            <p className="mb-4 font-mono text-xs tracking-label text-gold-on-paper uppercase">
+              04 / 09
+            </p>
+            <h2
+              id={SPECIALTIES_HEADING_ID}
+              className="font-display text-3xl tracking-display text-text-paper md:text-[clamp(2.5rem,5vw,4rem)] md:leading-tight"
+            >
               {copy.specialties.heading}
-            </SectionHeading>
-            <p className="mt-8 font-sans text-lg font-light leading-relaxed text-text-primary md:mt-10">
+            </h2>
+            <p className="mt-6 font-sans text-lg font-light leading-relaxed text-text-paper-muted md:mt-8">
               {copy.specialties.subheading}
             </p>
           </header>
         </Reveal>
-        <ul role="list">
-          {specialties.map((specialty, index) => (
-            <li key={specialty.id}>
-              <Reveal delayMs={Math.min(index * 70, 280)}>
-                <SpecialtyRow specialty={specialty} index={index} />
-              </Reveal>
-            </li>
-          ))}
-        </ul>
-      </Container>
+
+        {/* Client enhancement: desktop sticky scene / mobile list */}
+        <SpecialtiesScene specialties={specialties} />
+
+        {/* Fallback semantic list visible only when JS is off or SpecialtiesScene is mobile/reduced */}
+        <noscript>
+          <ul role="list" className="flex flex-col divide-y divide-border-paper">
+            {specialties.map((specialty, index) => {
+              const n = String(index + 1).padStart(2, "0");
+              return (
+                <li key={specialty.id} className="py-8">
+                  <span className="font-mono text-xs text-gold-on-paper tracking-label mr-4">
+                    {n} / 08
+                  </span>
+                  <strong className="font-sans text-xl text-text-paper">
+                    {specialty.name}
+                  </strong>
+                  <p className="mt-2 font-sans text-base text-text-paper-muted">
+                    {specialty.sceneCopy}
+                  </p>
+                </li>
+              );
+            })}
+          </ul>
+        </noscript>
+      </div>
     </section>
   );
 }

@@ -1,7 +1,9 @@
 # Plan — MVP polish (Hero, Manifesto paper, Specialists, Location)
 
 **Date:** 2026-08-14  
-**Status:** EXECUTED — 2026-08-14  
+**Status:** EXECUTED — 2026-08-14 | **SUPERSEDED by class-experience-v1 initiative (2026-08-21)**
+
+> This plan was executed and is retained as a historical snapshot. Several decisions it references have been superseded: the decade numeral beat (removed, D3), SmileWell (removed, D11), AppointmentCTA (deprecated, D12), old Specialties structure (superseded by 8-act Scene Contract). Active plan: `docs/class-experience-v1/IMPLEMENTATION_MASTER_PLAN.md`.  
 **Language:** [CONTEXT.md](../CONTEXT.md) · [ADR-008](../DECISIONS/ADR-008-map-art-not-embed.md) · [ADR-009](../DECISIONS/ADR-009-manifesto-paper-field.md)
 
 Do not promote to production. STOP-06 still deferred. Specialties unchanged.

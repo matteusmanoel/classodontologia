@@ -1,32 +1,62 @@
 export const copy = {
   hero: {
     heading: "Class Odontologia",
-    /** Scroll beat after the wordmark exits — giant 3D “3”. */
-    decadeNumeral: "3",
-    decadeLabel: "décadas",
-    /** Lines that rise one-by-one after the decade beat. */
+    /** Historical support line — replaces the decade beat. */
+    anchorLine: "Desde 1998, um padrão próprio de fazer odontologia.",
+    /** Lines that rise one-by-one after the anchor line. */
     scrollLines: [
-      "em Foz do Iguaçu.",
+      "Desde 1998, um padrão próprio de fazer odontologia.",
       "Cada tratamento começa no estudo da face.",
       "Anatomia, proporção e o resultado que você realmente deseja.",
     ],
     /** Full sentence for screen readers / reduced motion. */
     tagline:
-      "Três décadas em Foz do Iguaçu. Cada tratamento começa no estudo da face — anatomia, proporção e o resultado que você realmente deseja.",
+      "Desde 1998, um padrão próprio de fazer odontologia em Foz do Iguaçu. Cada tratamento começa no estudo da face — anatomia, proporção e o resultado que você realmente deseja.",
   },
   manifesto: {
-    headline: "O sorriso, em sua forma mais alta.",
-    body: "Evolução constante. Estrutura contemporânea. Especialistas com mestrado e doutorado no mesmo endereço. A Class nasceu da Ortodontia em 1998 e cresceu para reunir estética, implantes, reabilitação e prevenção — com o mesmo rigor de quem trata um sorriso como identidade, não como procedimento.",
+    eyebrow: "A clínica",
+    headline: "O padrão não nasce pronto. É construído.",
+    body: "Experiência cria critério. Precisão transforma esse critério em resultado. Evolução mantém esse padrão em movimento.",
+  },
+  legacy: {
+    metadata: "EST. 1998",
+    headline: "O tempo aperfeiçoa o olhar.",
+    body: "Desde 1998, evoluímos sem abrir mão daquilo que sempre orientou nosso trabalho: atenção aos detalhes.",
   },
   specialties: {
-    heading: "Especialidades",
+    heading: "Um padrão. Diferentes especialidades.",
     subheading:
-      "Tratamentos conduzidos por especialistas, do diagnóstico à conclusão, em um único endereço no Centro de Foz do Iguaçu.",
+      "Cada tratamento exige uma abordagem. Todos compartilham o mesmo rigor.",
+  },
+  method: {
+    headline: "Tecnologia, com propósito.",
+    body: "Recursos que ampliam diagnóstico, planejamento e previsibilidade. Tecnologia só faz sentido quando melhora a decisão clínica.",
   },
   specialists: {
-    heading: "Especialistas",
+    heading: "O olhar por trás do padrão.",
     subheading:
-      "Quatro especialistas. Um critério. O planejamento começa na face — e termina no sorriso que você reconhece como seu.",
+      "Experiência, atualização e diferentes competências reunidas por uma mesma forma de cuidar.",
+  },
+  selected: {
+    eyebrow: "SELECTED BY CLASS",
+    heading: "Escolhido com critério.",
+    body: "Tecnologias e marcas presentes em nossa prática clínica, selecionadas de acordo com cada indicação.",
+    /** Placeholder names only — official marks owner-gated (D9, ASSET_PLAN §12). */
+    placeholderBrands: [
+      { id: "invisalign", label: "Invisalign", relationship: "unverified" as const },
+      { id: "odontolatina", label: "Odontolatina", relationship: "unverified" as const },
+      { id: "ortoplan", label: "Ortoplan", relationship: "unverified" as const },
+    ],
+  },
+  place: {
+    headline: "Onde o padrão Class ganha forma.",
+    body: "Um ambiente pensado para transformar cuidado, conforto e atenção aos detalhes em experiência.",
+  },
+  conversion: {
+    headline: "Comece por uma conversa.",
+    signature: "A arte de sorrir com Class.",
+    buttonLabel: "Agende sua avaliação",
+    mapsLabel: "Ver no Maps",
   },
   cta: {
     heading: "Agende sua avaliação",

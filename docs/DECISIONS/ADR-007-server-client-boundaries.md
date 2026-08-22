@@ -37,11 +37,13 @@ Every CC adds to the client JS bundle. Unnecessary CCs inflate INP and reduce th
 
 ## Client Component Inventory
 
-| Component | Reason for CC |
-|---|---|
-| `HeroCinematic.tsx` | GSAP, ScrollTrigger, `useRef`, video control |
-| `ToothScrubber.tsx` | GSAP ScrollTrigger, `video.currentTime`, `useRef` |
-| `SmileWell.tsx` | IntersectionObserver, optional `<video>` play-once |
+| Component | Reason for CC | Status |
+|---|---|---|
+| `HeroCinematic.tsx` | GSAP, ScrollTrigger, `useRef`, video control | Active |
+| `ToothScrubber.tsx` | GSAP ScrollTrigger, `video.currentTime`, `useRef` | Active |
+| `SmileWell.tsx` | IntersectionObserver, optional `<video>` play-once | **Archived** — removed from Manifesto (D11, ADR-009 update). Do not import; do not delete source file. |
+| `SpecialtiesScene.tsx` _(net-new, class-experience-v1)_ | GSAP ScrollTrigger scrub, sticky, `useRef` | Authorized by ADR-011 |
+| `SpecialistsReveal.tsx` _(net-new, class-experience-v1)_ | GSAP entry timeline, CSS mask animation, `useRef` | Authorized by ADR-012 |
 
 All `components/sections/` and `components/ui/` components are Server Components unless there is a documented reason for CC.
 

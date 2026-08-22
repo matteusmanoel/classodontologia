@@ -1,15 +1,15 @@
 "use client";
 
 /**
- * Hero cinematic island.
+ * Hero cinematic island — factual fix (Scene Contract HERO.md, WP-18).
  *
  * Tooth scrub (desktop) + scroll-choreographed copy:
  *   1) Wordmark enters, then rises out
- *   2) Giant extruded “3” spins in 3D + “décadas” below
- *   3) Copy lines occupy the slot one at a time (no overlap); last line leaves
- *   4) Pin washes dark → paper as the tooth dissolves into Manifesto
+ *   2) 1998-anchored support lines rise one-by-one (decade beat removed — D3)
+ *   3) Pin washes dark to paper as the tooth dissolves into Manifesto
  *
  * Pinning is CSS sticky at 100dvh inside a tall scroll shell.
+ * ToothScrubber scrub behavior is PRESERVED (forbidden from modification).
  */
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
@@ -20,14 +20,9 @@ import { ToothScrubber } from "@/components/cinematic/ToothScrubber";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-const DECADE_DEPTH_LAYERS = 18;
-const DECADE_LAYER_GAP_PX = 2.4;
-
 export interface HeroCinematicProps {
   heading: string;
   tagline: string;
-  decadeNumeral: string;
-  decadeLabel: string;
   scrollLines: readonly string[];
   /** Server-authored `<h1>` from HeroSection. Falls back to `heading`. */
   children?: ReactNode;
@@ -36,15 +31,11 @@ export interface HeroCinematicProps {
 export function HeroCinematic({
   heading,
   tagline,
-  decadeNumeral,
-  decadeLabel,
   scrollLines,
   children,
 }: HeroCinematicProps) {
   const shellRef = useRef<HTMLDivElement>(null);
   const wordmarkRef = useRef<HTMLDivElement>(null);
-  const decadeRef = useRef<HTMLDivElement>(null);
-  const numeralRef = useRef<HTMLSpanElement>(null);
   const linesRef = useRef<(HTMLParagraphElement | null)[]>([]);
   const [ready, setReady] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
@@ -65,9 +56,7 @@ export function HeroCinematic({
     () => {
       const shell = shellRef.current;
       const wordmark = wordmarkRef.current;
-      const decade = decadeRef.current;
-      const numeral = numeralRef.current;
-      if (!shell || !wordmark || !decade || !numeral || reducedMotion) {
+      if (!shell || !wordmark || reducedMotion) {
         return;
       }
 
@@ -78,12 +67,6 @@ export function HeroCinematic({
       const scrim = shell.querySelector(".hero-cinematic-scrim");
 
       gsap.set(wordmark, { autoAlpha: 1, y: 0 });
-      gsap.set(decade, { autoAlpha: 0, y: 80 });
-      gsap.set(numeral, {
-        rotateY: -110,
-        transformPerspective: 1100,
-        transformOrigin: "50% 50%",
-      });
       gsap.set(lines, { autoAlpha: 0, y: 56 });
       if (pin) {
         gsap.set(pin, { backgroundColor: "#080808" });
@@ -100,37 +83,20 @@ export function HeroCinematic({
         },
       });
 
+      // Wordmark: hold then rise out
       tl.addLabel("wordmarkHold", 0);
-      tl.to(wordmark, { y: 0, autoAlpha: 1, duration: 0.16 }, "wordmarkHold");
+      tl.to(wordmark, { y: 0, autoAlpha: 1, duration: 0.18 }, "wordmarkHold");
       tl.to(
         wordmark,
-        { y: "-42vh", autoAlpha: 0, duration: 0.24, ease: "power1.in" },
-        "wordmarkHold+=0.16",
+        { y: "-42vh", autoAlpha: 0, duration: 0.22, ease: "power1.in" },
+        "wordmarkHold+=0.18",
       );
 
-      tl.addLabel("decade", ">");
-      tl.fromTo(
-        decade,
-        { y: 90, autoAlpha: 0 },
-        { y: 0, autoAlpha: 1, duration: 0.22, ease: "power2.out" },
-        "decade",
-      );
-      tl.fromTo(
-        numeral,
-        { rotateY: -120, scale: 0.72 },
-        { rotateY: 360, scale: 1, duration: 0.42, ease: "power2.out" },
-        "decade",
-      );
-      tl.to(
-        decade,
-        { y: "-38vh", autoAlpha: 0, duration: 0.2, ease: "power1.in" },
-        "decade+=0.5",
-      );
-
-      const enterDur = 0.12;
-      const holdDur = 0.16;
-      const exitDur = 0.12;
-      const gapDur = 0.1;
+      // Lines: 1998-anchored copy beats (no decade beat)
+      const enterDur = 0.13;
+      const holdDur = 0.18;
+      const exitDur = 0.13;
+      const gapDur = 0.08;
 
       lines.forEach((line, index) => {
         const label = `line${index}`;
@@ -150,6 +116,7 @@ export function HeroCinematic({
 
       tl.to({}, { duration: 0.08 });
 
+      // Wash: dark to paper
       tl.addLabel("wash", ">");
       if (tooth) {
         tl.to(
@@ -219,32 +186,6 @@ export function HeroCinematic({
                       {heading}
                     </h1>
                   )}
-                </div>
-
-                <div
-                  ref={decadeRef}
-                  className="hero-beat hero-beat-decade absolute inset-x-0 top-0"
-                  aria-hidden="true"
-                >
-                  <span ref={numeralRef} className="hero-decade-numeral">
-                    <span className="hero-decade-numeral-stack">
-                      {Array.from({ length: DECADE_DEPTH_LAYERS }, (_, i) => (
-                        <span
-                          key={i}
-                          className="hero-decade-numeral-layer"
-                          style={{
-                            transform: `translateZ(${-(i + 1) * DECADE_LAYER_GAP_PX}px)`,
-                          }}
-                        >
-                          {decadeNumeral}
-                        </span>
-                      ))}
-                    </span>
-                    <span className="hero-decade-numeral-face">
-                      {decadeNumeral}
-                    </span>
-                  </span>
-                  <span className="hero-decade-label">{decadeLabel}</span>
                 </div>
 
                 <div className="hero-beat-lines absolute inset-x-0 top-0 flex flex-col justify-center">

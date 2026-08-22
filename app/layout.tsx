@@ -1,21 +1,28 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Montserrat } from "next/font/google";
+import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import { Footer } from "@/components/sections/Footer";
 import { SiteHeader } from "@/components/sections/SiteHeader";
 import { siteConfig } from "@/config/site";
 import "./globals.css";
 
-const cormorant = Cormorant_Garamond({
+const geistSans = Geist({
   subsets: ["latin", "latin-ext"],
-  weight: ["400", "600", "700"],
-  variable: "--font-cormorant",
+  weight: ["300", "400", "500"],
+  variable: "--font-geist-sans",
   display: "swap",
 });
 
-const montserrat = Montserrat({
+const instrumentSerif = Instrument_Serif({
   subsets: ["latin", "latin-ext"],
-  weight: ["300", "400", "500"],
-  variable: "--font-montserrat",
+  weight: ["400"],
+  variable: "--font-instrument-serif",
+  display: "swap",
+});
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-geist-mono",
   display: "swap",
 });
 
@@ -65,7 +72,7 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
-      className={`${cormorant.variable} ${montserrat.variable}`}
+      className={`${geistSans.variable} ${instrumentSerif.variable} ${geistMono.variable}`}
     >
       <head>
         <link

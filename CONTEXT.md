@@ -2,6 +2,8 @@
 
 Premium institutional landing page for Class Odontologia (Foz do Iguaçu). This glossary is the ubiquitous language for the page: identity, cinematic beats, and sections.
 
+> **Superseded in part by `docs/class-experience-v1/` (2026-08-21, ADR-013).** The homepage is being reflowed into 9 narrative acts. Notably: **Specialties is no longer "out of scope"** — it becomes Hero Moment 02 (sticky multi-state scene, on the paper field); **Location is split** into ACT 08 Place + ACT 09 Conversion; the **Manifesto becomes typographic** (SmileWell removed, ADR-009 note); and the **Hero "décadas" claim is corrected** to a 1998 anchor. Entries below remain valid except where the class-experience-v1 docs and ADR-013 override them.
+
 ## Identity
 
 **Mark**:
@@ -37,16 +39,16 @@ The Manifesto’s pre-rendered smile video. It plays once when the Manifesto ent
 _Avoid_: Tooth cinematic, Golden Logo, Hero video
 
 **Specialties**:
-The clinical-services list. Out of scope for this polish pass.
-_Avoid_: Specialists
+The clinical-services scene. **Updated (ADR-013 / `scenes/SPECIALTIES.md`):** no longer a simple list and no longer out of scope — it is **Hero Moment 02**, a sticky multi-state editorial composition across **eight** disciplines on the **paper** field, communicating "one standard, multiple disciplines".
+_Avoid_: Specialists, "service catalog", the old 5-item grouped list
 
 **Specialist card**:
 A portrait-forward specialist presentation: photo, specialty, and name are the emphasis; credentials and bio recede. Cards are larger, centered in a 2×2 grid. The section heading stays left-aligned.
 _Avoid_: Author card, team tile
 
 **Location**:
-The closing field’s place: Map art, address, and “Abrir no mapa”. Combined with conversion in one section after Specialists.
-_Avoid_: Clinic section, separate Avaliação block, footer address as the primary locator, Google Maps embed
+The closing field’s place: Map art, address, and “Abrir no mapa”. **Updated (ADR-013 / D12):** split into **Place (ACT 08, paper)** — physical proof via map art now and gated clinic photos — and **Conversion (ACT 09, dark)** — the earned close with the signature "A arte de sorrir com Class." and one primary WhatsApp CTA. The orphan `AppointmentCTA.tsx` is consolidated into the single Conversion component.
+_Avoid_: Clinic section, footer address as the primary locator, Google Maps embed, duplicate conversion components
 
 **Map art**:
 Owner-supplied site image of the clinic’s place (`public/assets/clinic/map.webp`): dark field, gold streets, Class pin. Treated as art direction. The image and the button open Google Maps. Not a third-party map widget.

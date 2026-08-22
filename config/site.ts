@@ -2,8 +2,8 @@ export const siteConfig = {
   name: "Class Odontologia",
   tagline: "Odontologia de especialidade em Foz do Iguaçu.",
   description:
-    "Class Odontologia em Foz do Iguaçu: estética, implantes, ortodontia e reabilitação oral com especialistas — há mais de três décadas.",
-  url: "https://classodontologia-git-develop-matteusmanoels-projects.vercel.app",
+    "Class Odontologia em Foz do Iguaçu: estética, implantes, ortodontia e reabilitação oral com especialistas desde 1998.",
+  url: "https://classodontologia.com.br",
   locale: "pt_BR",
   phone: "(45) 99844-3993",
   whatsapp: "https://wa.me/5545998443993",
