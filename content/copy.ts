@@ -1,17 +1,22 @@
 export const copy = {
   hero: {
     heading: "Class Odontologia",
-    /** Historical support line — replaces the decade beat. */
-    anchorLine: "Desde 1998, um padrão próprio de fazer odontologia.",
-    /** Lines that rise one-by-one after the anchor line. */
+    /** Idle slogan typed under the lockup. */
+    slogan: "A arte de sorrir com Class.",
+    scrollCue: "Role para começar",
+    /** Scroll beat after the wordmark exits — giant 3D “3”. */
+    decadeNumeral: "3",
+    decadeLabel: "décadas",
+    /** Factual subtitle under the decade numeral. */
+    decadeSubtitle: "Desde 1998, um padrão próprio de fazer odontologia.",
+    /** Lines that rise one-by-one after the decade beat. */
     scrollLines: [
-      "Desde 1998, um padrão próprio de fazer odontologia.",
       "Cada tratamento começa no estudo da face.",
       "Anatomia, proporção e o resultado que você realmente deseja.",
     ],
     /** Full sentence for screen readers / reduced motion. */
     tagline:
-      "Desde 1998, um padrão próprio de fazer odontologia em Foz do Iguaçu. Cada tratamento começa no estudo da face — anatomia, proporção e o resultado que você realmente deseja.",
+      "A arte de sorrir com Class. Desde 1998, um padrão próprio de fazer odontologia em Foz do Iguaçu. Cada tratamento começa no estudo da face — anatomia, proporção e o resultado que você realmente deseja.",
   },
   manifesto: {
     eyebrow: "A clínica",
@@ -33,20 +38,16 @@ export const copy = {
     body: "Recursos que ampliam diagnóstico, planejamento e previsibilidade. Tecnologia só faz sentido quando melhora a decisão clínica.",
   },
   specialists: {
-    heading: "O olhar por trás do padrão.",
+    heading: "Especialistas",
     subheading:
-      "Experiência, atualização e diferentes competências reunidas por uma mesma forma de cuidar.",
+      "Quatro especialistas. Um critério. O planejamento começa na face — e termina no sorriso que você reconhece como seu.",
   },
   selected: {
     eyebrow: "SELECTED BY CLASS",
     heading: "Escolhido com critério.",
     body: "Tecnologias e marcas presentes em nossa prática clínica, selecionadas de acordo com cada indicação.",
-    /** Placeholder names only — official marks owner-gated (D9, ASSET_PLAN §12). */
-    placeholderBrands: [
-      { id: "invisalign", label: "Invisalign", relationship: "unverified" as const },
-      { id: "odontolatina", label: "Odontolatina", relationship: "unverified" as const },
-      { id: "ortoplan", label: "Ortoplan", relationship: "unverified" as const },
-    ],
+    marqueeLabel:
+      "Marcas e tecnologias presentes na prática clínica: Invisalign, Odontolatina, Ortoplan, Rennova e Class Odontologia.",
   },
   place: {
     headline: "Onde o padrão Class ganha forma.",

@@ -65,4 +65,9 @@
 
   --section-px: clamp(1.5rem, 6vw, 5rem);
   --section-py: clamp(5.5rem, 14vw, 12rem);
+
+  /* Mix E thirds — same x as manifesto verts (480 / 960 of 1440). */
+  --story-col-a: 33.333%;
+  --story-col-b: 66.667%;
+  --story-horizon-y: 66.667%;
 }

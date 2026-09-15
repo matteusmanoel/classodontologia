@@ -50,6 +50,11 @@ export async function blockCinematicVideos(page: Page): Promise<void> {
 }
 
 export async function assertHeroNotBlack(page: Page): Promise<void> {
+  const intro = page.locator(".intro-loader");
+  if ((await intro.count()) > 0) {
+    await intro.waitFor({ state: "detached", timeout: 8_000 });
+  }
+
   const hero = page.getByRole("region", { name: "Hero" });
   await expect(hero).toBeVisible();
 

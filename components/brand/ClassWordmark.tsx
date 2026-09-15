@@ -1,12 +1,12 @@
 /**
- * Brand wordmark — Mark centered above CLASS; ODONTOLOGIA as a mono signature.
+ * Brand wordmark — official gold lockup for the Hero.
  */
 
 export interface ClassWordmarkProps {
   className?: string;
 }
 
-const MARK_SRC = "/assets/cinematic/logo/logo_class_simples.svg";
+const MARK_SRC = "/assets/brand/logo-class-hero.webp";
 
 export function ClassWordmark({ className }: ClassWordmarkProps) {
   const classes = ["wordmark", className].filter(Boolean).join(" ");
@@ -19,16 +19,10 @@ export function ClassWordmark({ className }: ClassWordmarkProps) {
         <img
           src={MARK_SRC}
           alt=""
-          width={1261}
-          height={745}
+          width={1672}
+          height={941}
           className="wordmark-mark"
         />
-        <span className="wordmark-class">
-          CL
-          <span className="wordmark-lambda">Λ</span>
-          SS
-        </span>
-        <span className="wordmark-sub">ODONTOLOGIA</span>
       </span>
     </h1>
   );

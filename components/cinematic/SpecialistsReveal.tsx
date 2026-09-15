@@ -7,8 +7,11 @@
  * Fallback (mask not supported): opacity/brightness reveal.
  * Reduced motion: all portraits visible statically, no animation.
  *
+ * Depth stage (creative-investigation/nabil-01): cards enter at depth-offset Y positions,
+ * staggered by column index. Oversized "06" numeral drifts via parallax on scroll.
+ *
  * Feature detection via CSS.supports() — never browser-name detection.
- * Level 3 motion (GSAP timeline, no scrub). Clean teardown.
+ * Level 3 motion (GSAP timeline + scrub). Clean teardown.
  */
 
 import { useRef, useEffect, useState } from "react";
@@ -20,10 +23,17 @@ import type { Specialist } from "@/content/specialists";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
+// Depth-offset Y amounts per column (0-indexed). Creates a "receding" feeling.
+const DEPTH_OFFSETS = [50, 80, 110, 140] as const;
+
+// Portrait aspect ratios per depth index — founder is tallest (most commanding)
+const PORTRAIT_ASPECTS = ["2/3", "3/4", "3/4", "4/5"] as const;
+
 interface SpecialistRevealCardProps {
   specialist: Specialist;
   supportsMask: boolean;
   reducedMotion: boolean;
+  depthIndex: number;
 }
 
 function initialsFromName(name: string): string {
@@ -41,10 +51,14 @@ function SpecialistRevealCard({
   specialist,
   supportsMask,
   reducedMotion,
+  depthIndex,
 }: SpecialistRevealCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const portraitRef = useRef<HTMLDivElement>(null);
+
+  const depthOffset = DEPTH_OFFSETS[depthIndex] ?? 50;
+  const aspectRatio = PORTRAIT_ASPECTS[depthIndex] ?? "3/4";
 
   useGSAP(
     () => {
@@ -53,38 +67,49 @@ function SpecialistRevealCard({
       const portrait = portraitRef.current;
       if (!card || reducedMotion) return;
 
-      if (supportsMask && overlay) {
-        // Primary path: radial-gradient mask reveal (ADR-012)
-        gsap.set(overlay, { "--r": "0%" } as gsap.TweenVars);
+      // Depth-offset entry: card starts below its natural position
+      // Depth index determines how far below it starts (creates stagger)
+      gsap.set(card, { y: depthOffset, opacity: 0 });
 
-        ScrollTrigger.create({
-          trigger: card,
-          start: "top 75%",
-          once: true,
-          onEnter: () => {
+      const delay = depthIndex * 0.12;
+
+      ScrollTrigger.create({
+        trigger: card,
+        start: "top 82%",
+        once: true,
+        onEnter: () => {
+          gsap.to(card, {
+            y: 0,
+            opacity: 1,
+            duration: 0.9,
+            delay,
+            ease: "power2.out",
+          });
+
+          if (supportsMask && overlay) {
+            // Primary path: radial-gradient mask reveal (ADR-012) — runs after card enters
+            gsap.set(overlay, { "--r": "0%" } as gsap.TweenVars);
             gsap.to(overlay, {
               "--r": "55%",
               "--cy": "50%",
               duration: 1.2,
+              delay: delay + 0.15,
               ease: "power2.out",
             } as gsap.TweenVars);
-          },
-        });
-      } else if (portrait) {
-        // Fallback: opacity reveal (ADR-012)
-        gsap.set(portrait, { opacity: 0.1 });
-
-        ScrollTrigger.create({
-          trigger: card,
-          start: "top 75%",
-          once: true,
-          onEnter: () => {
-            gsap.to(portrait, { opacity: 1, duration: 1.0, ease: "power2.out" });
-          },
-        });
-      }
+          } else if (portrait) {
+            // Fallback: opacity reveal (ADR-012)
+            gsap.set(portrait, { opacity: 0.1 });
+            gsap.to(portrait, {
+              opacity: 1,
+              duration: 1.0,
+              delay: delay + 0.15,
+              ease: "power2.out",
+            });
+          }
+        },
+      });
     },
-    { scope: cardRef, dependencies: [supportsMask, reducedMotion] },
+    { scope: cardRef, dependencies: [supportsMask, reducedMotion, depthIndex, depthOffset] },
   );
 
   const hasMaskStyle = supportsMask && !reducedMotion;
@@ -94,11 +119,11 @@ function SpecialistRevealCard({
       ref={cardRef}
       className="flex flex-col gap-5"
     >
-      {/* Portrait container */}
+      {/* Portrait container — aspect ratio varies by depth index for visual hierarchy */}
       <div
         ref={portraitRef}
         className="relative overflow-hidden bg-bg-surface"
-        style={{ aspectRatio: "3/4" }}
+        style={{ aspectRatio }}
       >
         {specialist.photo ? (
           <Image
@@ -169,6 +194,7 @@ interface SpecialistsRevealProps {
 export function SpecialistsReveal({ specialists }: SpecialistsRevealProps) {
   const [supportsMask, setSupportsMask] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const gridRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
     const mask =
@@ -184,17 +210,39 @@ export function SpecialistsReveal({ specialists }: SpecialistsRevealProps) {
     return () => mq.removeEventListener("change", sync);
   }, []);
 
+  // Parallax: "06" numeral drifts upward as section scrolls through
+  useGSAP(
+    () => {
+      if (reducedMotion) return;
+      const numeral = document.querySelector(".specialists-act-numeral");
+      if (!numeral) return;
+      gsap.to(numeral, {
+        y: -80,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#specialists",
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1.5,
+        },
+      });
+    },
+    { scope: gridRef, dependencies: [reducedMotion] },
+  );
+
   return (
     <ul
+      ref={gridRef}
       role="list"
-      className="grid grid-cols-1 gap-16 sm:grid-cols-2 lg:grid-cols-4 md:gap-10"
+      className="grid grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-4 md:gap-x-10"
     >
-      {specialists.map((specialist) => (
+      {specialists.map((specialist, i) => (
         <li key={specialist.id}>
           <SpecialistRevealCard
             specialist={specialist}
             supportsMask={supportsMask}
             reducedMotion={reducedMotion}
+            depthIndex={i}
           />
         </li>
       ))}

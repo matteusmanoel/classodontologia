@@ -1,15 +1,16 @@
 "use client";
 
 /**
- * Hero cinematic island — factual fix (Scene Contract HERO.md, WP-18).
+ * Hero cinematic island.
  *
- * Tooth scrub (desktop) + scroll-choreographed copy:
- *   1) Wordmark enters, then rises out
- *   2) 1998-anchored support lines rise one-by-one (decade beat removed — D3)
- *   3) Pin washes dark to paper as the tooth dissolves into Manifesto
+ * Tooth scrub (desktop) + idle identity + scroll-choreographed copy:
+ *   1) Lockup + typed slogan hold, then rise out
+ *   2) Giant extruded “3” spins in 3D + “décadas” + 1998 subtitle
+ *   3) Copy lines occupy the slot one at a time; last line leaves
+ *   4) Pin washes dark → paper as the tooth dissolves into Manifesto
  *
  * Pinning is CSS sticky at 100dvh inside a tall scroll shell.
- * ToothScrubber scrub behavior is PRESERVED (forbidden from modification).
+ * ToothScrubber scrub behavior is PRESERVED.
  */
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
@@ -17,12 +18,22 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ToothScrubber } from "@/components/cinematic/ToothScrubber";
+import { StorySpine } from "@/components/brand/StorySpine";
+import { INTRO_COMPLETE_EVENT } from "@/components/cinematic/IntroLoader";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
+
+const DECADE_DEPTH_LAYERS = 18;
+const DECADE_LAYER_GAP_PX = 2.4;
 
 export interface HeroCinematicProps {
   heading: string;
   tagline: string;
+  slogan: string;
+  scrollCue: string;
+  decadeNumeral: string;
+  decadeLabel: string;
+  decadeSubtitle: string;
   scrollLines: readonly string[];
   /** Server-authored `<h1>` from HeroSection. Falls back to `heading`. */
   children?: ReactNode;
@@ -31,14 +42,22 @@ export interface HeroCinematicProps {
 export function HeroCinematic({
   heading,
   tagline,
+  slogan,
+  scrollCue,
+  decadeNumeral,
+  decadeLabel,
+  decadeSubtitle,
   scrollLines,
   children,
 }: HeroCinematicProps) {
   const shellRef = useRef<HTMLDivElement>(null);
   const wordmarkRef = useRef<HTMLDivElement>(null);
+  const decadeRef = useRef<HTMLDivElement>(null);
+  const numeralRef = useRef<HTMLSpanElement>(null);
   const linesRef = useRef<(HTMLParagraphElement | null)[]>([]);
   const [ready, setReady] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [introDone, setIntroDone] = useState(false);
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -46,9 +65,22 @@ export function HeroCinematic({
     sync();
     media.addEventListener("change", sync);
     const frame = requestAnimationFrame(() => setReady(true));
+
+    const onIntroDone = () => setIntroDone(true);
+    window.addEventListener(INTRO_COMPLETE_EVENT, onIntroDone);
+    const immediate = window.setTimeout(() => {
+      if (!document.documentElement.classList.contains("intro-pending")) {
+        onIntroDone();
+      }
+    }, 0);
+    const fallback = window.setTimeout(onIntroDone, 4500);
+
     return () => {
       media.removeEventListener("change", sync);
       cancelAnimationFrame(frame);
+      window.removeEventListener(INTRO_COMPLETE_EVENT, onIntroDone);
+      window.clearTimeout(immediate);
+      window.clearTimeout(fallback);
     };
   }, []);
 
@@ -56,18 +88,29 @@ export function HeroCinematic({
     () => {
       const shell = shellRef.current;
       const wordmark = wordmarkRef.current;
-      if (!shell || !wordmark || reducedMotion) {
+      const decade = decadeRef.current;
+      const numeral = numeralRef.current;
+      if (!shell || !wordmark || !decade || !numeral || reducedMotion) {
         return;
       }
 
       const lines = linesRef.current.filter(Boolean) as HTMLParagraphElement[];
-
       const pin = shell.querySelector(".hero-cinematic-pin");
       const tooth = shell.querySelector(".tooth-scrubber");
       const scrim = shell.querySelector(".hero-cinematic-scrim");
+      const cue = shell.querySelector(".hero-scroll-cue");
 
       gsap.set(wordmark, { autoAlpha: 1, y: 0 });
+      gsap.set(decade, { autoAlpha: 0, y: 80 });
+      gsap.set(numeral, {
+        rotateY: -110,
+        transformPerspective: 1100,
+        transformOrigin: "50% 50%",
+      });
       gsap.set(lines, { autoAlpha: 0, y: 56 });
+      if (cue) {
+        gsap.set(cue, { autoAlpha: 1 });
+      }
       if (pin) {
         gsap.set(pin, { backgroundColor: "#080808" });
       }
@@ -83,20 +126,40 @@ export function HeroCinematic({
         },
       });
 
-      // Wordmark: hold then rise out
       tl.addLabel("wordmarkHold", 0);
       tl.to(wordmark, { y: 0, autoAlpha: 1, duration: 0.18 }, "wordmarkHold");
+      if (cue) {
+        tl.to(cue, { autoAlpha: 0, duration: 0.12 }, "wordmarkHold+=0.08");
+      }
       tl.to(
         wordmark,
-        { y: "-42vh", autoAlpha: 0, duration: 0.22, ease: "power1.in" },
+        { y: "-42vh", autoAlpha: 0, duration: 0.24, ease: "power1.in" },
         "wordmarkHold+=0.18",
       );
 
-      // Lines: 1998-anchored copy beats (no decade beat)
-      const enterDur = 0.13;
+      tl.addLabel("decade", ">");
+      tl.fromTo(
+        decade,
+        { y: 90, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, duration: 0.22, ease: "power2.out" },
+        "decade",
+      );
+      tl.fromTo(
+        numeral,
+        { rotateY: -120, scale: 0.72 },
+        { rotateY: 360, scale: 1, duration: 0.42, ease: "power2.out" },
+        "decade",
+      );
+      tl.to(
+        decade,
+        { y: "-38vh", autoAlpha: 0, duration: 0.2, ease: "power1.in" },
+        "decade+=0.58",
+      );
+
+      const enterDur = 0.12;
       const holdDur = 0.18;
-      const exitDur = 0.13;
-      const gapDur = 0.08;
+      const exitDur = 0.12;
+      const gapDur = 0.1;
 
       lines.forEach((line, index) => {
         const label = `line${index}`;
@@ -116,7 +179,6 @@ export function HeroCinematic({
 
       tl.to({}, { duration: 0.08 });
 
-      // Wash: dark to paper
       tl.addLabel("wash", ">");
       if (tooth) {
         tl.to(
@@ -145,7 +207,7 @@ export function HeroCinematic({
         tl.kill();
       };
     },
-    { dependencies: [scrollLines, reducedMotion] },
+    { dependencies: [scrollLines, reducedMotion, introDone] },
   );
 
   return (
@@ -166,13 +228,14 @@ export function HeroCinematic({
             <p className="sr-only">{tagline}</p>
 
             {reducedMotion ? (
-              <div className="flex flex-col gap-8">
-                <div>
+              <div className="flex flex-col items-start gap-8">
+                <div className="hero-beat-wordmark">
                   {children ?? (
                     <h1 className="font-sans text-hero font-light tracking-label text-gold uppercase">
                       {heading}
                     </h1>
                   )}
+                  <p className="hero-slogan">{slogan}</p>
                 </div>
                 <p className="max-w-lg font-sans text-lg font-light leading-relaxed text-text-primary">
                   {tagline}
@@ -186,6 +249,36 @@ export function HeroCinematic({
                       {heading}
                     </h1>
                   )}
+                  <p className="hero-slogan" aria-hidden="true">
+                    {slogan}
+                  </p>
+                </div>
+
+                <div
+                  ref={decadeRef}
+                  className="hero-beat hero-beat-decade absolute inset-x-0 top-0"
+                  aria-hidden="true"
+                >
+                  <span ref={numeralRef} className="hero-decade-numeral">
+                    <span className="hero-decade-numeral-stack">
+                      {Array.from({ length: DECADE_DEPTH_LAYERS }, (_, i) => (
+                        <span
+                          key={i}
+                          className="hero-decade-numeral-layer"
+                          style={{
+                            transform: `translateZ(${-(i + 1) * DECADE_LAYER_GAP_PX}px)`,
+                          }}
+                        >
+                          {decadeNumeral}
+                        </span>
+                      ))}
+                    </span>
+                    <span className="hero-decade-numeral-face">
+                      {decadeNumeral}
+                    </span>
+                  </span>
+                  <span className="hero-decade-label">{decadeLabel}</span>
+                  <span className="hero-decade-subtitle">{decadeSubtitle}</span>
                 </div>
 
                 <div className="hero-beat-lines absolute inset-x-0 top-0 flex flex-col justify-center">
@@ -206,6 +299,36 @@ export function HeroCinematic({
             )}
           </div>
         </div>
+
+        <StorySpine tone="dark" columns={2} join="bottom" className="hero-story-spine" />
+
+        {!reducedMotion && introDone ? (
+          <div className="hero-scroll-cue" aria-hidden="true">
+            <span className="hero-scroll-cue-label">{scrollCue}</span>
+            <span className="hero-scroll-chevrons">
+              <svg viewBox="0 0 24 24" className="hero-scroll-chevron" aria-hidden="true">
+                <path
+                  d="M6 9l6 6 6-6"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              <svg viewBox="0 0 24 24" className="hero-scroll-chevron" aria-hidden="true">
+                <path
+                  d="M6 9l6 6 6-6"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
+          </div>
+        ) : null}
       </div>
     </div>
   );

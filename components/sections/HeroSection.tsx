@@ -3,7 +3,6 @@
  *
  * Semantic `<section aria-label="Hero">` and the page `<h1>` live here
  * so they appear in the HeroSection server HTML.
- * Factual fix: decade beat removed (Scene Contract HERO.md, WP-18).
  */
 
 import { ClassWordmark } from "@/components/brand/ClassWordmark";
@@ -16,6 +15,11 @@ export function HeroSection() {
       <HeroCinematic
         heading={copy.hero.heading}
         tagline={copy.hero.tagline}
+        slogan={copy.hero.slogan}
+        scrollCue={copy.hero.scrollCue}
+        decadeNumeral={copy.hero.decadeNumeral}
+        decadeLabel={copy.hero.decadeLabel}
+        decadeSubtitle={copy.hero.decadeSubtitle}
         scrollLines={copy.hero.scrollLines}
       >
         <ClassWordmark />

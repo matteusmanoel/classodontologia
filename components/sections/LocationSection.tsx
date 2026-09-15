@@ -4,6 +4,8 @@
  */
 
 import Image from "next/image";
+import { StoryLine } from "@/components/brand/StoryLine";
+import { StorySpine } from "@/components/brand/StorySpine";
 import { Button } from "@/components/ui/Button";
 import { siteConfig } from "@/config/site";
 import { copy } from "@/content/copy";
@@ -16,6 +18,7 @@ export function LocationSection() {
 
   return (
     <section
+      id="place"
       aria-labelledby={CTA_HEADING_ID}
       className="visit-section"
     >
@@ -31,7 +34,10 @@ export function LocationSection() {
         priority={false}
       />
       <div className="visit-shade" aria-hidden="true" />
+      <StorySpine tone="dark" columns={2} />
       <div className="visit-actions">
+        <StoryLine kind="crop-tl" tone="dark" className="visit-crop visit-crop--tl" />
+        <StoryLine kind="crop-br" tone="dark" className="visit-crop visit-crop--br" />
         <Button href={siteConfig.whatsapp} variant="primary" className="px-10 py-5">
           {copy.cta.buttonLabel}
         </Button>

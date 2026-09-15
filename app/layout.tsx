@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import { IntroLoader } from "@/components/cinematic/IntroLoader";
 import { Footer } from "@/components/sections/Footer";
 import { SiteHeader } from "@/components/sections/SiteHeader";
+import { WhatsAppFab } from "@/components/ui/WhatsAppFab";
 import { siteConfig } from "@/config/site";
 import "./globals.css";
 
@@ -78,6 +80,12 @@ export default function RootLayout({
         <link
           rel="preload"
           as="image"
+          href="/assets/brand/logo-class-hero.webp"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          as="image"
           href="/assets/cinematic/tooth/tooth-cinematic-prototype-poster.webp"
           fetchPriority="high"
         />
@@ -89,6 +97,8 @@ export default function RootLayout({
         {siteConfig.showSiteHeader ? <SiteHeader /> : null}
         <main id="main-content">{children}</main>
         <Footer />
+        <WhatsAppFab />
+        <IntroLoader />
       </body>
     </html>
   );

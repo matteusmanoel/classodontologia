@@ -43,7 +43,7 @@ test.describe("mobile layout", () => {
         [];
 
       for (const el of document.querySelectorAll("body *")) {
-        if (el.closest(".tooth-scrubber")) {
+        if (el.closest(".tooth-scrubber") || el.closest(".brand-marquee")) {
           continue;
         }
 
