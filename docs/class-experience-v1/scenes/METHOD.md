@@ -35,15 +35,15 @@ Show that the standard is **operational**, not merely aesthetic: technology exis
 > Recursos que ampliam diagnóstico, planejamento e previsibilidade. Tecnologia só faz sentido quando melhora a decisão clínica.
 
 ### Copy policy
-Working V1. **No equipment spec sheets, no technology brand names, no unsubstantiated claims.** Prefer 2–3 method principles or one strong visual + short explanation.
+Working V1. **No equipment spec sheets, no technology brand names, no unsubstantiated claims.** Timeline copy describes field/method evolution (molde → escaneamento, radiografia plana → volume), not a dated clinic inventory.
 
 ---
 
 ## 3. Visual structure
 
 - Dark field (`--color-bg-primary`/`secondary`) — opens the dark block.
-- Editorial, selective: **not** an equipment grid. Options: one strong placeholder visual + short copy, or 2–3 method principles.
-- Media via placeholder well (WP-07); `ASSET_PLAN` assets `method-planning-01` (abstract, TBD) / `method-clinical-tech-01` (`SOURCE_REAL`) are gated. **Do not invent equipment or fake planning UI.**
+- Editorial timeline of 5 beats (`content/method.ts`), not an equipment grid.
+- Crop-marked plates: real `imageSrc` when present; otherwise SVG construction + `assetId` + “Imagem a definir”. **Do not invent equipment or fake planning UI.**
 
 No new palette. Token-driven type.
 
@@ -51,25 +51,27 @@ No new palette. Token-driven type.
 
 ## 4. Motion
 
-- Level 2 `Reveal` on entry. No scrub, no GSAP.
-- Forbidden: fake "scanning UI" animation, autonomous motion, parallax.
+- Level 2 `Reveal` on the section heading.
+- Desktop + motion: sticky stage, opacity crossfade on GSAP ScrollTrigger (`invalidateOnRefresh: false`, `fastScrollEnd`). Same island pattern as Specialties.
+- Forbidden: fake "scanning UI" animation, autonomous motion, parallax, brand names.
 
 ---
 
 ## 5. Desktop / mobile / reduced-motion
 
-- **Desktop:** asymmetric visual + copy, or a short principle triplet.
-- **Mobile:** stacked; media well reserves space.
-- **Reduced motion:** fully readable static.
+- **Desktop:** sticky two-column stage; gold rail with era nodes; one beat visible at a time.
+- **Mobile:** stacked list on a vertical gold rail; all beats readable.
+- **Reduced motion:** same stacked list; no scrub.
 
 ---
 
 ## 6. Scope
 
 ### Allowed
-- New `components/sections/MethodSection.tsx`.
-- `content/copy.ts` — `method` fields.
-- Placeholder well (WP-07); scoped styles via Foundation request.
+- `components/sections/MethodSection.tsx` (server wrapper).
+- `components/cinematic/MethodTimeline.tsx` (client island).
+- `content/copy.ts` — `method` fields; `content/method.ts` — beats.
+- Styled placeholder plates until `imageSrc` is filled.
 
 ### Forbidden
 - Invented equipment/brands/claims; real logos; fake diagnostic UI; other acts; new deps.
@@ -80,7 +82,7 @@ No new palette. Token-driven type.
 
 - [ ] Approved copy present; no equipment/brand names, no unsubstantiated claim.
 - [ ] Dark field; contrast (axe) passes.
-- [ ] Media is a neutral placeholder well (no fabricated tech shown as real).
+- [ ] Timeline plates are placeholders or gated real photos (no fabricated tech shown as real).
 - [ ] Specialties→Method reads as "what we do → how we control it" (paper→dark).
 - [ ] Reduced motion readable; no overflow; build/e2e green.
 

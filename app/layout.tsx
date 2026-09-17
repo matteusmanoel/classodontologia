@@ -94,7 +94,7 @@ export default function RootLayout({
         <a href="#main-content" className="skip-link">
           Ir para o conteúdo principal
         </a>
-        {siteConfig.showSiteHeader ? <SiteHeader /> : null}
+        <SiteHeader />
         <main id="main-content">{children}</main>
         <Footer />
         <WhatsAppFab />

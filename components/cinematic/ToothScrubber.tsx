@@ -10,6 +10,9 @@
  *
  * Mobile / touch (Spike C → C2): no video scrub — CSS shows poster.
  * Scroll shell stays tall so copy choreography still scrubbs.
+ *
+ * The clip starts at TOOTH_IN_POINT (composed, about to split) so the
+ * enamel explode lands on the same Hero progress as the lockup scatter.
  */
 
 import { useRef, type RefObject } from "react";
@@ -18,9 +21,13 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   TOOTH_DURATION,
+  TOOTH_IN_POINT,
   TOOTH_POSTER_PATH,
   TOOTH_VIDEO_PATH,
+  toothTimeForProgress,
 } from "@/lib/video";
+import { heroDecomposeWindow } from "@/lib/heroMotion";
+import { copy } from "@/content/copy";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -54,10 +61,11 @@ async function unlockSeeking(video: HTMLVideoElement): Promise<void> {
   try {
     await video.play();
   } catch {
-    video.currentTime = 0.001;
+    /* seek below still parks on the composed in-point */
   }
 
   video.pause();
+  video.currentTime = TOOTH_IN_POINT;
 }
 
 function shouldDegradeScrub(): boolean {
@@ -95,7 +103,8 @@ export function ToothScrubber({ triggerRef }: ToothScrubberProps) {
           return;
         }
 
-        const proxy = { time: 0 };
+        const decompose = heroDecomposeWindow(copy.hero.scrollLines.length);
+        const proxy = { time: TOOTH_IN_POINT };
         let tween: gsap.core.Tween | undefined;
         let cancelled = false;
 
@@ -103,7 +112,12 @@ export function ToothScrubber({ triggerRef }: ToothScrubberProps) {
           if (video.readyState < 2 || video.seeking) {
             return;
           }
-          const next = gsap.utils.clamp(0, durationOf(video), proxy.time);
+          const duration = durationOf(video);
+          const next = gsap.utils.clamp(
+            Math.min(TOOTH_IN_POINT, duration),
+            duration,
+            proxy.time,
+          );
           if (Math.abs(video.currentTime - next) < 1 / 48) {
             return;
           }
@@ -118,22 +132,49 @@ export function ToothScrubber({ triggerRef }: ToothScrubberProps) {
           }
 
           const duration = durationOf(video);
+          const inPoint = Math.min(TOOTH_IN_POINT, duration * 0.45);
           tween?.scrollTrigger?.kill();
           tween?.kill();
+          proxy.time = inPoint;
+          video.currentTime = inPoint;
 
           tween = gsap.fromTo(
             proxy,
-            { time: 0 },
+            { time: inPoint },
             {
               time: duration,
-              ease: "none",
-              immediateRender: false,
+              ease: (progress: number) => {
+                const target = toothTimeForProgress(
+                  progress,
+                  duration,
+                  decompose.start,
+                  decompose.end,
+                );
+                const span = duration - inPoint;
+                return span <= 0 ? 1 : (target - inPoint) / span;
+              },
+              immediateRender: true,
               scrollTrigger: {
                 trigger,
                 start: "top top",
                 end: "bottom bottom",
                 scrub: 0.35,
                 invalidateOnRefresh: true,
+                onEnterBack: () => {
+                  proxy.time = inPoint;
+                  if (video.readyState >= 1) {
+                    video.currentTime = inPoint;
+                  }
+                },
+                onUpdate: (self) => {
+                  if (self.progress > 0 && window.scrollY > 2) {
+                    return;
+                  }
+                  proxy.time = inPoint;
+                  if (video.readyState >= 1 && !video.seeking) {
+                    video.currentTime = inPoint;
+                  }
+                },
               },
             },
           );

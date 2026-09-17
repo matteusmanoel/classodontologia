@@ -1,12 +1,13 @@
 /**
- * Brand wordmark — official gold lockup for the Hero.
+ * Brand wordmark — official gold lockup for the Hero,
+ * composed from the decomposed logo glyphs.
  */
+
+import { DecomposedLockup } from "@/components/cinematic/DecomposedLockup";
 
 export interface ClassWordmarkProps {
   className?: string;
 }
-
-const MARK_SRC = "/assets/brand/logo-class-hero.webp";
 
 export function ClassWordmark({ className }: ClassWordmarkProps) {
   const classes = ["wordmark", className].filter(Boolean).join(" ");
@@ -15,14 +16,7 @@ export function ClassWordmark({ className }: ClassWordmarkProps) {
     <h1 className={classes}>
       <span className="sr-only">Class Odontologia</span>
       <span className="wordmark-visual" aria-hidden="true">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={MARK_SRC}
-          alt=""
-          width={1672}
-          height={941}
-          className="wordmark-mark"
-        />
+        <DecomposedLockup />
       </span>
     </h1>
   );

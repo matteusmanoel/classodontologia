@@ -1,7 +1,7 @@
 /**
  * Legacy — ACT 03 / Since 1998 (Scene Contract LEGACY.md).
  *
- * Paper field, editorial. Anchored on 1998; no fabricated history.
+ * Paper field, editorial. The year is the scene; the headline is a three-line label.
  * Server Component (ADR-007). Level 2 motion via Reveal.
  */
 
@@ -22,33 +22,22 @@ export function LegacySection() {
       <StorySpine tone="paper" columns={2} />
       <div className="relative z-[2] mx-auto max-w-[1280px] px-(--section-px)">
         <Reveal>
-          <div className="grid md:grid-cols-[1fr_max-content] md:items-end md:gap-16">
-            <div className="max-w-2xl">
-              <p className="mb-6 font-mono text-sm tracking-widest text-gold-on-paper uppercase">
-                {copy.legacy.metadata}
-              </p>
-              <h2
-                id={LEGACY_HEADING_ID}
-                className="font-display text-3xl tracking-display text-text-paper md:text-[clamp(2.5rem,5vw,4.5rem)] md:leading-tight"
-              >
-                {copy.legacy.headline}
-              </h2>
-              <StoryLine kind="baseline" tone="paper" className="mt-8 w-44 md:mt-10 md:w-64" />
-              <p className="mt-8 font-sans text-lg font-light leading-relaxed text-text-paper-muted max-w-xl md:mt-10">
-                {copy.legacy.body}
-              </p>
-            </div>
-
-            {/* Accent: large typographic year mark */}
-            <div
-              className="legacy-year relative mt-14 select-none md:mt-0"
-              aria-hidden="true"
-            >
+          <div className="legacy-stage">
+            <div className="legacy-year relative select-none">
               <StoryLine kind="crop-tr" tone="paper" className="legacy-year-crop" />
-              <span className="font-display text-[clamp(5rem,18vw,13rem)] leading-none tracking-tight text-border-paper block">
-                1998
+              <span className="legacy-numeral" aria-hidden="true">
+                {copy.legacy.year}
               </span>
+              <h2 id={LEGACY_HEADING_ID} className="legacy-label">
+                <span className="sr-only">{copy.legacy.headline}</span>
+                <span aria-hidden="true" className="legacy-label-lines">
+                  {copy.legacy.headlineLines.map((line) => (
+                    <span key={line}>{line}</span>
+                  ))}
+                </span>
+              </h2>
             </div>
+            <p className="legacy-body">{copy.legacy.body}</p>
           </div>
         </Reveal>
       </div>

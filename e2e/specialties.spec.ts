@@ -24,7 +24,7 @@ test.describe("specialties scene", () => {
     await expect(section).toBeVisible();
 
     const heading = page.locator("#specialties-heading");
-    await expect(heading).toContainText("padrão");
+    await expect(heading).toContainText("critério");
   });
 
   test("all eight specialty names are present in the DOM", async ({ page }) => {

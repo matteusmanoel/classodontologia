@@ -11,7 +11,7 @@ test.describe("keyboard and CTA", () => {
   }) => {
     await gotoHome(page);
 
-    const cta = page.getByRole("link", { name: copy.cta.buttonLabel });
+    const cta = page.locator("#place").getByRole("link", { name: copy.cta.buttonLabel });
     await expect(cta).toBeVisible();
 
     let reached = false;
@@ -47,7 +47,7 @@ test.describe("keyboard and CTA", () => {
   }) => {
     await gotoHome(page);
 
-    const cta = page.getByRole("link", { name: copy.cta.buttonLabel });
+    const cta = page.locator("#place").getByRole("link", { name: copy.cta.buttonLabel });
     await expect(cta).toHaveAttribute("href", siteConfig.whatsapp);
     expect(siteConfig.whatsapp).toMatch(/^https:\/\/wa\.me\/55\d+/);
   });

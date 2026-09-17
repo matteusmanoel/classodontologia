@@ -1,6 +1,7 @@
 import { PaletteWash } from "@/components/cinematic/PaletteWash";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { ManifestoSection } from "@/components/sections/ManifestoSection";
+import { ClinicFolioSection } from "@/components/sections/ClinicFolioSection";
 import { LegacySection } from "@/components/sections/LegacySection";
 import { SpecialtiesSection } from "@/components/sections/SpecialtiesSection";
 import { MethodSection } from "@/components/sections/MethodSection";
@@ -13,6 +14,7 @@ import { LocationSection } from "@/components/sections/LocationSection";
  *
  *   ACT 01 Hero          dark
  *   ACT 02 Manifesto     paper
+ *   ACT 02b Clinic folio photos (no copy)
  *   ACT 03 Specialties   dark
  *   ACT 04 Legacy        paper  (wash in from specialties)
  *   ACT 05 Method        dark   (wash in from legacy)
@@ -27,7 +29,7 @@ export default function Home() {
     <>
       <HeroSection />
       <ManifestoSection />
-      <PaletteWash from="#f3efe6" to="#080808" hold={0.9} ease="sine.inOut" />
+      <ClinicFolioSection />
       <SpecialtiesSection />
       <PaletteWash from="#080808" to="#f3efe6" hold={1.85} ease="power1.inOut">
         <span className="palette-wash-year palette-wash-year--enter">1998</span>

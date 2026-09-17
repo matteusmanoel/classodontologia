@@ -5,9 +5,7 @@
  * Semantic specialty list always present in server HTML (progressive enhancement).
  */
 
-import { StoryLine } from "@/components/brand/StoryLine";
 import { StorySpine } from "@/components/brand/StorySpine";
-import { Reveal } from "@/components/ui/Reveal";
 import { SpecialtiesScene } from "@/components/cinematic/SpecialtiesScene";
 import { copy } from "@/content/copy";
 import { specialties } from "@/content/specialties";
@@ -22,27 +20,11 @@ export function SpecialtiesSection() {
       className="relative bg-bg-primary"
     >
       <StorySpine tone="dark" columns={2} />
-      <div className="relative z-[2] mx-auto max-w-[1280px] px-(--section-px) pt-(--section-py) pb-10 md:pb-14">
-        <Reveal>
-          <header className="max-w-2xl">
-            <p className="mb-4 font-mono text-xs tracking-label text-gold uppercase">
-              04 / 09
-            </p>
-            <h2
-              id={SPECIALTIES_HEADING_ID}
-              className="font-display text-3xl tracking-display text-text-primary md:text-[clamp(2.5rem,5vw,4rem)] md:leading-tight"
-            >
-              {copy.specialties.heading}
-            </h2>
-            <StoryLine kind="baseline" tone="dark" className="mt-6 w-40 md:mt-8 md:w-56" />
-            <p className="mt-6 font-sans text-lg font-light leading-relaxed text-text-secondary md:mt-8">
-              {copy.specialties.subheading}
-            </p>
-          </header>
-        </Reveal>
-      </div>
+      <h2 id={SPECIALTIES_HEADING_ID} className="sr-only">
+        {copy.specialties.heading}
+      </h2>
 
-      <SpecialtiesScene specialties={specialties} />
+      <SpecialtiesScene specialties={specialties} pair={copy.specialties.pair} stitch={copy.specialties.stitch} />
 
       <noscript>
         <ul

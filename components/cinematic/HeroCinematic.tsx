@@ -20,6 +20,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ToothScrubber } from "@/components/cinematic/ToothScrubber";
 import { StorySpine } from "@/components/brand/StorySpine";
 import { INTRO_COMPLETE_EVENT } from "@/components/cinematic/IntroLoader";
+import { HERO_BEATS } from "@/lib/heroMotion";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -111,9 +112,59 @@ export function HeroCinematic({
       if (cue) {
         gsap.set(cue, { autoAlpha: 1 });
       }
+      if (tooth) {
+        gsap.set(tooth, { autoAlpha: 1 });
+      }
+      if (scrim) {
+        gsap.set(scrim, { autoAlpha: 1 });
+      }
       if (pin) {
         gsap.set(pin, { backgroundColor: "#080808" });
       }
+
+      const letters = wordmark.querySelectorAll<HTMLElement>(
+        ".lockup-class-letter, .lockup-odonto-letter",
+      );
+      const seals = wordmark.querySelectorAll<HTMLElement>(".lockup-seal");
+      const marks = wordmark.querySelectorAll<HTMLElement>(
+        ".lockup-swirl, .lockup-registered, .lockup-line",
+      );
+
+      const resetPiecesToRest = () => {
+        gsap.set([...marks, ...seals, ...letters], { x: 0, y: 0, rotate: 0, scale: 1 });
+        gsap.set(marks, { autoAlpha: 1 });
+        gsap.set(seals, { autoAlpha: 1 });
+        gsap.set(letters, { autoAlpha: 0 });
+      };
+
+      const resetHeroOrigin = () => {
+        gsap.set(wordmark, { autoAlpha: 1, y: 0 });
+        if (cue) {
+          gsap.set(cue, { autoAlpha: 1 });
+        }
+        gsap.set(decade, { autoAlpha: 0, y: 80 });
+        gsap.set(shell.querySelectorAll(".hero-scroll-line"), { autoAlpha: 0, y: 56 });
+        if (tooth) {
+          gsap.set(tooth, { autoAlpha: 1 });
+        }
+        if (scrim) {
+          gsap.set(scrim, { autoAlpha: 1 });
+        }
+        if (pin) {
+          gsap.set(pin, { backgroundColor: "#080808" });
+        }
+      };
+
+      const snapHeroHome = (self: ScrollTrigger) => {
+        if (self.progress !== 0) {
+          self.animation?.progress(0);
+        }
+        const lockup = wordmark.querySelector<HTMLElement>("[data-lockup]");
+        if (lockup?.dataset.lockup === "settled") {
+          resetPiecesToRest();
+        }
+        resetHeroOrigin();
+      };
 
       const tl = gsap.timeline({
         defaults: { ease: "none" },
@@ -122,44 +173,99 @@ export function HeroCinematic({
           start: "top top",
           end: "bottom bottom",
           scrub: 0.45,
-          invalidateOnRefresh: true,
+          // Later pins refresh while this timeline is parked at the paper wash.
+          // Re-recording `to()` starting values from those inline styles would
+          // hide the tooth even after scrolling back to the top.
+          invalidateOnRefresh: false,
+          fastScrollEnd: true,
+          onRefresh: (self) => {
+            if (window.scrollY <= 2) {
+              snapHeroHome(self);
+            }
+          },
+          onEnterBack: (self) => {
+            if (window.scrollY <= 2 || self.progress === 0) {
+              snapHeroHome(self);
+            }
+          },
+          onUpdate: (self) => {
+            if (window.scrollY <= 2) {
+              snapHeroHome(self);
+            }
+          },
         },
       });
 
       tl.addLabel("wordmarkHold", 0);
-      tl.to(wordmark, { y: 0, autoAlpha: 1, duration: 0.18 }, "wordmarkHold");
+      tl.to(
+        wordmark,
+        { y: 0, autoAlpha: 1, duration: HERO_BEATS.wordmarkHold },
+        "wordmarkHold",
+      );
       if (cue) {
         tl.to(cue, { autoAlpha: 0, duration: 0.12 }, "wordmarkHold+=0.08");
       }
+      if (seals.length && letters.length) {
+        tl.to(seals, { autoAlpha: 0, duration: 0.08 }, "wordmarkHold+=0.16");
+        tl.to(letters, { autoAlpha: 1, duration: 0.08 }, "wordmarkHold+=0.16");
+        tl.to(
+          letters,
+          {
+            x: (_i, target) => Number((target as HTMLElement).dataset.exitX),
+            y: (_i, target) => Number((target as HTMLElement).dataset.exitY) - 24,
+            rotate: (_i, target) => Number((target as HTMLElement).dataset.exitR),
+            autoAlpha: 0,
+            duration: 0.22,
+            stagger: 0.01,
+            ease: "power1.in",
+          },
+          `wordmarkHold+=${HERO_BEATS.wordmarkHold}`,
+        );
+      }
+      if (marks.length) {
+        tl.to(
+          marks,
+          {
+            x: (_i, target) => Number((target as HTMLElement).dataset.exitX),
+            y: (_i, target) => Number((target as HTMLElement).dataset.exitY),
+            rotate: (_i, target) => Number((target as HTMLElement).dataset.exitR),
+            scale: (_i, target) => Number((target as HTMLElement).dataset.exitS || 1),
+            autoAlpha: 0,
+            duration: 0.22,
+            ease: "power1.in",
+          },
+          `wordmarkHold+=${HERO_BEATS.wordmarkHold}`,
+        );
+      }
       tl.to(
         wordmark,
-        { y: "-42vh", autoAlpha: 0, duration: 0.24, ease: "power1.in" },
-        "wordmarkHold+=0.18",
+        { y: "-28vh", autoAlpha: 0, duration: HERO_BEATS.wordmarkExit, ease: "power1.in" },
+        `wordmarkHold+=${HERO_BEATS.wordmarkHold}`,
       );
 
       tl.addLabel("decade", ">");
       tl.fromTo(
         decade,
         { y: 90, autoAlpha: 0 },
-        { y: 0, autoAlpha: 1, duration: 0.22, ease: "power2.out" },
+        { y: 0, autoAlpha: 1, duration: HERO_BEATS.decadeEnter, ease: "power2.out" },
         "decade",
       );
       tl.fromTo(
         numeral,
         { rotateY: -120, scale: 0.72 },
-        { rotateY: 360, scale: 1, duration: 0.42, ease: "power2.out" },
+        { rotateY: 360, scale: 1, duration: HERO_BEATS.decadeSpin, ease: "power2.out" },
         "decade",
       );
       tl.to(
         decade,
-        { y: "-38vh", autoAlpha: 0, duration: 0.2, ease: "power1.in" },
-        "decade+=0.58",
+        { y: "-38vh", autoAlpha: 0, duration: HERO_BEATS.decadeExit, ease: "power1.in" },
+        `decade+=${HERO_BEATS.decadeExitAt}`,
       );
 
-      const enterDur = 0.12;
-      const holdDur = 0.18;
-      const exitDur = 0.12;
-      const gapDur = 0.1;
+      const enterDur = HERO_BEATS.lineEnter;
+      const holdDur = HERO_BEATS.lineHold;
+      const exitDur = HERO_BEATS.lineExit;
+      const gapDur = HERO_BEATS.lineGap;
 
       lines.forEach((line, index) => {
         const label = `line${index}`;
@@ -177,26 +283,34 @@ export function HeroCinematic({
         );
       });
 
-      tl.to({}, { duration: 0.08 });
+      tl.to({}, { duration: HERO_BEATS.afterLines });
 
       tl.addLabel("wash", ">");
       if (tooth) {
-        tl.to(
+        tl.fromTo(
           tooth,
-          { autoAlpha: 0, duration: 0.38, ease: "power1.in" },
+          { autoAlpha: 1 },
+          { autoAlpha: 0, duration: 0.38, ease: "power1.in", immediateRender: false },
           "wash",
         );
       }
       if (scrim) {
-        tl.to(scrim, { autoAlpha: 0, duration: 0.28, ease: "none" }, "wash");
+        tl.fromTo(
+          scrim,
+          { autoAlpha: 1 },
+          { autoAlpha: 0, duration: 0.28, ease: "none", immediateRender: false },
+          "wash",
+        );
       }
       if (pin) {
-        tl.to(
+        tl.fromTo(
           pin,
+          { backgroundColor: "#080808" },
           {
             backgroundColor: "#f3efe6",
-            duration: 0.42,
+            duration: HERO_BEATS.wash,
             ease: "power1.inOut",
+            immediateRender: false,
           },
           "wash",
         );

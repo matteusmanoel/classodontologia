@@ -1,11 +1,11 @@
 /**
  * Site footer — compact contact strip (ADR-007, Motion Level 0).
+ * Three thirds match the Mix E construction spine.
  */
 
 import Image from "next/image";
 import { StoryLine } from "@/components/brand/StoryLine";
 import { StorySpine } from "@/components/brand/StorySpine";
-import { Container } from "@/components/ui/Container";
 import { siteConfig } from "@/config/site";
 import { copy } from "@/content/copy";
 
@@ -44,14 +44,12 @@ export function Footer() {
   );
 
   return (
-    <footer
-      role="contentinfo"
-      className="relative border-t border-border bg-bg-primary py-10 md:py-14"
-    >
+    <footer role="contentinfo" className="site-footer">
       <StorySpine tone="dark" columns={2} />
-      <StoryLine kind="rail" tone="dark" className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-px opacity-70" />
-      <Container className="relative z-[2]">
-        <div className="grid gap-10 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.2fr)_auto] md:items-start md:gap-12">
+      <StoryLine kind="rail" tone="dark" className="site-footer-rail" />
+
+      <div className="site-footer-grid">
+        <div className="footer-brand">
           <Image
             src="/assets/brand/logo-class-hero.webp"
             alt={siteConfig.name}
@@ -59,82 +57,71 @@ export function Footer() {
             height={941}
             className="footer-logo"
           />
-
-          <address className="not-italic">
-            <ul className="flex flex-col gap-5 font-sans text-sm font-light text-text-primary md:text-base md:gap-6">
-              <li>
-                <span className="mb-1.5 block font-sans text-xs font-medium tracking-label uppercase text-gold">
-                  WhatsApp
-                </span>
-                <a
-                  href={siteConfig.whatsapp}
-                  className="transition-colors hover:text-gold"
-                >
-                  {siteConfig.phone}
-                </a>
-              </li>
-              <li>
-                <span className="mb-1.5 block font-sans text-xs font-medium tracking-label uppercase text-gold">
-                  Endereço
-                </span>
-                {siteConfig.address.street}
-                <br />
-                {siteConfig.address.city}, {siteConfig.address.state}
-                <br />
-                {siteConfig.address.postalCode}
-              </li>
-              <li>
-                <span className="mb-1.5 block font-sans text-xs font-medium tracking-label uppercase text-gold">
-                  Horário
-                </span>
-                {siteConfig.hours}
-              </li>
-            </ul>
-          </address>
-
-          <nav aria-label="Redes sociais">
-            <ul className="flex flex-row gap-3">
-              <li>
-                <a
-                  href={siteConfig.instagram}
-                  className={SOCIAL_LINK_CLASSES}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Instagram"
-                >
-                  <InstagramIcon />
-                </a>
-              </li>
-              <li>
-                <a
-                  href={siteConfig.facebook}
-                  className={SOCIAL_LINK_CLASSES}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Facebook"
-                >
-                  <FacebookIcon />
-                </a>
-              </li>
-              <li>
-                <a
-                  href={siteConfig.whatsapp}
-                  className={SOCIAL_LINK_CLASSES}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="WhatsApp"
-                >
-                  <WhatsAppIcon />
-                </a>
-              </li>
-            </ul>
-          </nav>
         </div>
 
-        <p className="mt-10 border-t border-border pt-6 text-right font-sans text-xs font-light text-text-secondary md:mt-12">
-          {copyright}
-        </p>
-      </Container>
+        <address className="footer-contact not-italic">
+          <ul className="footer-contact-list">
+            <li>
+              <span className="footer-label">WhatsApp</span>
+              <a href={siteConfig.whatsapp} className="footer-contact-link">
+                {siteConfig.phone}
+              </a>
+            </li>
+            <li>
+              <span className="footer-label">Endereço</span>
+              {siteConfig.address.street}
+              <br />
+              {siteConfig.address.city}, {siteConfig.address.state}
+              <br />
+              {siteConfig.address.postalCode}
+            </li>
+            <li>
+              <span className="footer-label">Horário</span>
+              {siteConfig.hours}
+            </li>
+          </ul>
+        </address>
+
+        <nav className="footer-social" aria-label="Redes sociais">
+          <ul className="footer-social-list">
+            <li>
+              <a
+                href={siteConfig.instagram}
+                className={SOCIAL_LINK_CLASSES}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+              >
+                <InstagramIcon />
+              </a>
+            </li>
+            <li>
+              <a
+                href={siteConfig.facebook}
+                className={SOCIAL_LINK_CLASSES}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+              >
+                <FacebookIcon />
+              </a>
+            </li>
+            <li>
+              <a
+                href={siteConfig.whatsapp}
+                className={SOCIAL_LINK_CLASSES}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="WhatsApp"
+              >
+                <WhatsAppIcon />
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <p className="footer-copy">{copyright}</p>
     </footer>
   );
 }

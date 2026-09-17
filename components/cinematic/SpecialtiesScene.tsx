@@ -4,7 +4,8 @@
  * SpecialtiesScene — sticky full-bleed stage on the dark field.
  *
  * Desktop + motion: images fill the viewport (subject on the right);
- * copy sits on a left scrim. Mobile / reduced-motion: stacked editorial list.
+ * the pair is the thesis; specialty names sit as labels. Mobile /
+ * reduced-motion: stacked editorial list.
  */
 
 import { useEffect, useRef, useState } from "react";
@@ -18,66 +19,89 @@ import type { Specialty } from "@/content/specialties";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
+type SpecialtyPair = {
+  lead: string;
+  leadMark: string;
+  trail: string;
+  trailMark: string;
+};
+
 interface SpecialtiesSceneProps {
   specialties: Specialty[];
+  pair: SpecialtyPair;
+  stitch: string;
 }
 
 function SpecialtiesMobileList({
   specialties,
+  pair,
+  stitch,
 }: {
   specialties: Specialty[];
+  pair: SpecialtyPair;
+  stitch: string;
 }) {
   return (
-    <ul role="list" className="flex flex-col gap-16 pb-(--section-py) md:gap-24">
-      {specialties.map((specialty, index) => {
-        const n = String(index + 1).padStart(2, "0");
-        return (
-          <li key={specialty.id}>
-            <article className="flex flex-col gap-6">
-              <div className="px-(--section-px)">
-                <span className="font-mono text-xs tracking-label text-gold uppercase">
-                  {n}&nbsp;/&nbsp;08
-                </span>
-                <h3 className="mt-3 font-display text-2xl tracking-display text-text-primary md:text-3xl">
-                  {specialty.name}
-                </h3>
-                <p className="mt-4 max-w-md font-sans text-base font-light leading-relaxed text-text-secondary">
-                  {specialty.sceneCopy}
-                </p>
-              </div>
-              {specialty.imageSrc ? (
-                <div className="relative w-full overflow-hidden" style={{ aspectRatio: "16/9" }}>
-                  <Image
-                    src={specialty.imageSrc}
-                    alt={specialty.imageAlt ?? specialty.name}
-                    fill
-                    sizes="100vw"
-                    className="object-cover object-[70%_center]"
-                    loading="lazy"
-                  />
+    <div>
+      <div className="px-(--section-px) pt-(--section-py) pb-4">
+        <ThesisLockup pair={pair} stitch={stitch} />
+      </div>
+      <ul role="list" className="flex flex-col gap-16 pb-(--section-py) md:gap-24">
+        {specialties.map((specialty, index) => {
+          const n = String(index + 1).padStart(2, "0");
+          return (
+            <li key={specialty.id}>
+              <article className="flex flex-col gap-6">
+                <div className="px-(--section-px)">
+                  <span className="font-mono text-xs tracking-label text-gold uppercase">
+                    {n}&nbsp;/&nbsp;08
+                  </span>
+                  <h3 className="mt-3 font-display text-2xl tracking-display text-text-primary md:text-3xl">
+                    {specialty.name}
+                  </h3>
+                  <p className="mt-4 max-w-md font-sans text-base font-light leading-relaxed text-text-secondary">
+                    {specialty.sceneCopy}
+                  </p>
                 </div>
-              ) : (
-                <MediaWell
-                  assetId={specialty.assetId}
-                  aspectRatio="16/9"
-                  surface="dark"
-                  className="w-full"
-                />
-              )}
-            </article>
-          </li>
-        );
-      })}
-    </ul>
+                {specialty.imageSrc ? (
+                  <div className="relative w-full overflow-hidden" style={{ aspectRatio: "16/9" }}>
+                    <Image
+                      src={specialty.imageSrc}
+                      alt={specialty.imageAlt ?? specialty.name}
+                      fill
+                      sizes="100vw"
+                      className="object-cover object-[70%_center]"
+                      loading="lazy"
+                    />
+                  </div>
+                ) : (
+                  <MediaWell
+                    assetId={specialty.assetId}
+                    aspectRatio="16/9"
+                    surface="dark"
+                    className="w-full"
+                  />
+                )}
+              </article>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 }
 
 function SpecialtiesDesktopScene({
   specialties,
+  pair,
+  stitch,
 }: {
   specialties: Specialty[];
+  pair: SpecialtyPair;
+  stitch: string;
 }) {
   const shellRef = useRef<HTMLDivElement>(null);
+  const thesisRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const imageRefs = useRef<(HTMLDivElement | null)[]>([]);
   const textRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -88,6 +112,7 @@ function SpecialtiesDesktopScene({
       const shell = shellRef.current;
       if (!shell) return;
 
+      const thesis = thesisRef.current;
       const stateStart = 0.08;
       const stateEnd = 0.88;
       const stateRange = stateEnd - stateStart;
@@ -102,12 +127,14 @@ function SpecialtiesDesktopScene({
         invalidateOnRefresh: true,
         onUpdate: (self) => {
           const p = self.progress;
+          if (thesis) {
+            const fade =
+              p < 0.1 ? 1 : p > 0.22 ? 0.22 : 1 - ((p - 0.1) / 0.12) * 0.78;
+            gsap.set(thesis, { autoAlpha: fade });
+          }
           let idx = 0;
           if (p >= stateStart) {
-            idx = Math.min(
-              STATES - 1,
-              Math.floor((p - stateStart) / stateWidth),
-            );
+            idx = Math.min(STATES - 1, Math.floor((p - stateStart) / stateWidth));
           }
           if (idx === lastIndex) return;
           lastIndex = idx;
@@ -119,22 +146,34 @@ function SpecialtiesDesktopScene({
 
           images.forEach((el, i) => {
             if (i === idx) {
-              gsap.to(el, { opacity: 1, scale: 1.02, duration: 0.8, ease: "power2.out", overwrite: true });
+              gsap.to(el, {
+                opacity: 1,
+                scale: 1.02,
+                duration: 0.8,
+                ease: "power2.out",
+                overwrite: true,
+              });
             } else {
-              gsap.to(el, { opacity: 0, scale: 1, duration: 0.45, ease: "power1.in", overwrite: true });
+              gsap.to(el, {
+                opacity: 0,
+                scale: 1,
+                duration: 0.45,
+                ease: "power1.in",
+                overwrite: true,
+              });
             }
           });
 
           texts.forEach((el, i) => {
-            if (i === idx) {
-              gsap.fromTo(
-                el,
-                { opacity: 0, y: 18 },
-                { opacity: 1, y: 0, duration: 0.55, delay: 0.12, ease: "power2.out", overwrite: true },
-              );
-            } else {
-              gsap.set(el, { opacity: 0, y: -10 });
-            }
+            const on = i === idx;
+            gsap.to(el, {
+              opacity: on ? 1 : 0,
+              y: on ? 0 : -8,
+              duration: on ? 0.4 : 0.22,
+              delay: 0,
+              ease: "power2.out",
+              overwrite: true,
+            });
           });
 
           setActiveIndex(idx);
@@ -147,8 +186,6 @@ function SpecialtiesDesktopScene({
     },
     { scope: shellRef, dependencies: [] },
   );
-
-  const n = String(activeIndex + 1).padStart(2, "0");
 
   return (
     <div ref={shellRef} className="specialties-stage-shell">
@@ -184,39 +221,37 @@ function SpecialtiesDesktopScene({
 
         <div className="specialties-stage-scrim" aria-hidden="true" />
         <StorySpine tone="dark" columns={2} />
+        <div ref={thesisRef}>
+          <ThesisLockup pair={pair} stitch={stitch} />
+        </div>
 
         <div className="specialties-stage-copy">
-          <div className="flex items-baseline gap-3">
-            <span className="font-mono text-sm tracking-[0.22em] text-gold tabular-nums">
-              {n}
-            </span>
-            <span className="font-mono text-xs tracking-[0.22em] text-text-secondary">
-              / 08
-            </span>
-          </div>
-
-          <div className="relative mt-8 min-h-[11rem]">
-            {specialties.map((specialty, index) => (
-              <div
-                key={specialty.id}
-                ref={(el) => {
-                  textRefs.current[index] = el;
-                }}
-                className="absolute inset-x-0 top-0"
-                style={{
-                  opacity: index === 0 ? 1 : 0,
-                  transform: index === 0 ? "none" : "translateY(-14px)",
-                }}
-                aria-hidden={index !== activeIndex}
-              >
-                <h3 className="font-display text-[clamp(2.75rem,5.5vw,4.75rem)] leading-[1.05] tracking-display text-text-primary">
-                  {specialty.name}
-                </h3>
-                <p className="mt-6 max-w-md font-sans text-lg font-light leading-relaxed text-text-secondary md:text-xl">
-                  {specialty.sceneCopy}
-                </p>
-              </div>
-            ))}
+          <div className="relative min-h-[7.5rem]">
+            {specialties.map((specialty, index) => {
+              const n = String(index + 1).padStart(2, "0");
+              return (
+                <div
+                  key={specialty.id}
+                  ref={(el) => {
+                    textRefs.current[index] = el;
+                  }}
+                  className="absolute inset-x-0 bottom-0"
+                  style={{
+                    opacity: index === 0 ? 1 : 0,
+                    transform: index === 0 ? "none" : "translateY(-14px)",
+                  }}
+                  aria-hidden={index !== activeIndex}
+                >
+                  <p className="display-stitch">
+                    <span className="tabular-nums text-gold">{n}</span>
+                    <span> / 08</span>
+                    <span aria-hidden="true"> · </span>
+                    {specialty.name}
+                  </p>
+                  <p className="specialties-label-body">{specialty.sceneCopy}</p>
+                </div>
+              );
+            })}
           </div>
         </div>
 
@@ -232,7 +267,11 @@ function SpecialtiesDesktopScene({
   );
 }
 
-export function SpecialtiesScene({ specialties }: SpecialtiesSceneProps) {
+export function SpecialtiesScene({
+  specialties,
+  pair,
+  stitch,
+}: SpecialtiesSceneProps) {
   const [isDesktopMotion, setIsDesktopMotion] = useState(false);
 
   useEffect(() => {
@@ -253,8 +292,40 @@ export function SpecialtiesScene({ specialties }: SpecialtiesSceneProps) {
   }, [isDesktopMotion]);
 
   return isDesktopMotion ? (
-    <SpecialtiesDesktopScene specialties={specialties} />
+    <SpecialtiesDesktopScene
+      specialties={specialties}
+      pair={pair}
+      stitch={stitch}
+    />
   ) : (
-    <SpecialtiesMobileList specialties={specialties} />
+    <SpecialtiesMobileList specialties={specialties} pair={pair} stitch={stitch} />
+  );
+}
+
+function ThesisLockup({
+  pair,
+  stitch,
+}: {
+  pair: SpecialtyPair;
+  stitch: string;
+}) {
+  return (
+    <p className="specialties-thesis" aria-hidden="true">
+      <span className="display-pair">
+        <span className="display-pair-block">
+          <span className="display-pair-kicker">{pair.lead}</span>
+          <span className="display-pair-word display-pair-word--gold">
+            {pair.leadMark}
+          </span>
+        </span>
+        <span className="display-pair-block">
+          <span className="display-pair-kicker">{pair.trail}</span>
+          <span className="display-pair-word display-pair-word--outline">
+            {pair.trailMark}
+          </span>
+        </span>
+      </span>
+      <span className="display-stitch specialties-thesis-stitch">{stitch}</span>
+    </p>
   );
 }

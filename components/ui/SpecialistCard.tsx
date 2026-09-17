@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export interface SpecialistCardProps {
   name: string;
-  /** Verified credential. Omit the line entirely when null/undefined (D7). */
+  /** Credential line. Empty string keeps the CRO row for grid alignment. */
   title?: string | null;
   specialty: string;
   photo?: string;
@@ -29,27 +29,23 @@ export function SpecialistCard({
   bio,
   className,
 }: SpecialistCardProps) {
-  const classes = [
-    "specialist-card flex h-full w-full flex-col items-center border-t border-gold/30 pt-8 text-center",
-    className,
-  ]
-    .filter(Boolean)
-    .join(" ");
+  const classes = ["specialist-card", className].filter(Boolean).join(" ");
+  const cro = title?.trim() ?? "";
 
   return (
     <article className={classes}>
       {photo ? (
-        <div className="relative mb-8 aspect-[3/4] w-full overflow-hidden bg-bg-surface">
+        <div className="specialist-photo">
           <Image
             src={photo}
             alt={`Foto de ${name}`}
             fill
-            sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-cover"
+            sizes="(max-width: 767px) 100vw, 33vw"
+            className="object-cover object-top"
           />
         </div>
       ) : (
-        <div className="mb-8" aria-hidden="true">
+        <div className="specialist-photo specialist-photo--fallback" aria-hidden="true">
           <div className="specialist-monogram">
             <span className="specialist-monogram-initials">
               {initialsFromName(name)}
@@ -57,22 +53,10 @@ export function SpecialistCard({
           </div>
         </div>
       )}
-      <div className="flex flex-col items-center gap-3">
-        <p className="font-sans text-sm tracking-label uppercase text-gold">
-          {specialty}
-        </p>
-        <h3 className="font-display text-xl tracking-display text-text-primary md:text-2xl">
-          {name}
-        </h3>
-        {title ? (
-          <p className="font-sans text-sm font-light text-text-secondary">
-            {title}
-          </p>
-        ) : null}
-        <p className="mt-2 max-w-md font-sans text-base font-light leading-relaxed text-text-secondary">
-          {bio}
-        </p>
-      </div>
+      <p className="specialist-specialty">{specialty}</p>
+      <h3 className="specialist-name">{name}</h3>
+      <p className="specialist-cro">{cro || "\u00a0"}</p>
+      <p className="specialist-bio">{bio}</p>
     </article>
   );
 }

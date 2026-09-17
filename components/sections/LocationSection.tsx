@@ -1,17 +1,43 @@
 /**
  * Closing field — Map art as right-anchored background.
- * Shaded overlay carries the only two actions.
+ * Shaded overlay carries CLASS and the only two actions.
  */
 
 import Image from "next/image";
 import { StoryLine } from "@/components/brand/StoryLine";
 import { StorySpine } from "@/components/brand/StorySpine";
-import { Button } from "@/components/ui/Button";
+import { StorySignature } from "@/components/cinematic/StorySignature";
 import { siteConfig } from "@/config/site";
 import { copy } from "@/content/copy";
 
 const CTA_HEADING_ID = "cta-heading";
 const MAP_ART_SRC = "/assets/clinic/map.webp";
+
+function WhatsAppMark() {
+  return (
+    <svg
+      className="site-header-cta-icon"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      fill="currentColor"
+    >
+      <path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.3-1.39a9.87 9.87 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7zM12.05 20.15h-.01a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.14.82.84-3.06-.2-.32a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.42 5.83c0 4.55-3.7 8.24-8.24 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.12-.17.25-.64.8-.79.97-.15.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.42h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.1-.23-.17-.48-.29z" />
+    </svg>
+  );
+}
+
+function PinMark() {
+  return (
+    <svg
+      className="site-header-cta-icon"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      fill="currentColor"
+    >
+      <path d="M12 2C8.14 2 5 5.14 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.86-3.14-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" />
+    </svg>
+  );
+}
 
 export function LocationSection() {
   const { street, city } = siteConfig.address;
@@ -36,19 +62,32 @@ export function LocationSection() {
       <div className="visit-shade" aria-hidden="true" />
       <StorySpine tone="dark" columns={2} />
       <div className="visit-actions">
-        <StoryLine kind="crop-tl" tone="dark" className="visit-crop visit-crop--tl" />
-        <StoryLine kind="crop-br" tone="dark" className="visit-crop visit-crop--br" />
-        <Button href={siteConfig.whatsapp} variant="primary" className="px-10 py-5">
-          {copy.cta.buttonLabel}
-        </Button>
-        <Button
-          href={siteConfig.mapsUrl}
-          variant="outline"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {copy.location.buttonLabel}
-        </Button>
+        <div className="visit-cluster">
+          <StoryLine kind="crop-tl" tone="dark" className="visit-crop visit-crop--tl" />
+          <StoryLine kind="crop-br" tone="dark" className="visit-crop visit-crop--br" />
+          <p className="display-stitch visit-stitch">{copy.place.stitch}</p>
+          <StorySignature />
+          <a
+            href={siteConfig.whatsapp}
+            className="site-header-cta visit-cta"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span className="site-header-cta-shimmer" aria-hidden="true" />
+            <WhatsAppMark />
+            <span>{copy.cta.buttonLabel}</span>
+          </a>
+          <a
+            href={siteConfig.mapsUrl}
+            className="visit-maps"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span className="site-header-cta-shimmer" aria-hidden="true" />
+            <PinMark />
+            <span>{copy.location.buttonLabel}</span>
+          </a>
+        </div>
       </div>
     </section>
   );

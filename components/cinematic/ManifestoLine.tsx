@@ -5,8 +5,8 @@
  * (plotter marks + proportion grid + arc→horizon).
  *
  * Paper field. Load draws the construction plate; scroll completes the arc,
- * morphs it to a horizon, and lets the cage recede. The following PaletteWash
- * carries paper→dark. Reduced motion: static complete lines, no pin.
+ * morphs it to a horizon, and lets the cage recede. Reduced motion: static
+ * complete lines, no pin.
  */
 
 import { useEffect, useId, useRef, useState } from "react";
@@ -23,7 +23,7 @@ const PAPER = "#f3efe6";
 const GOLD = "#7a5e14";
 const GOLD_LIGHT = "#c9a84c";
 const LOAD_PROGRESS = 0.42;
-const PIN_HOLD = 2;
+const PIN_HOLD = 0.68;
 const HEADING_ID = "manifesto-heading";
 
 type StrokeProps = {
@@ -243,20 +243,15 @@ export function ManifestoLine() {
             : "relative z-[2] flex h-full items-center px-(--section-px)"
         }
       >
-        <div className="mx-auto w-full max-w-[1280px]">
-          <div className="max-w-3xl">
-            <p className="mb-8 font-mono text-xs tracking-label text-gold-on-paper uppercase md:mb-10">
-              {copy.manifesto.eyebrow}
-            </p>
-            <h2
-              id={HEADING_ID}
-              className="font-display text-3xl tracking-display text-text-paper md:text-[clamp(2.5rem,5.5vw,5rem)] md:leading-[1.06]"
-            >
+        <div className="manifesto-copy mx-auto w-full max-w-[1280px]">
+          <p className="display-stitch display-stitch--paper">
+            {copy.manifesto.eyebrow}
+          </p>
+          <div className="manifesto-lockup">
+            <h2 id={HEADING_ID} className="manifesto-thesis">
               {copy.manifesto.headline}
             </h2>
-            <p className="mt-10 max-w-xl font-sans text-lg font-light leading-relaxed text-text-paper-muted md:mt-14 md:text-xl">
-              {copy.manifesto.body}
-            </p>
+            <p className="manifesto-body">{copy.manifesto.body}</p>
           </div>
         </div>
       </div>
