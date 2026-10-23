@@ -121,7 +121,7 @@ function heroHasReleased(): boolean {
 }
 
 function readActiveId(): string {
-  let current = NAV[0].id;
+  let current: string = NAV[0].id;
   for (const item of NAV) {
     const node = document.getElementById(item.id);
     if (node && node.getBoundingClientRect().top <= window.innerHeight * 0.32) {
@@ -208,7 +208,6 @@ export function SiteHeader() {
     });
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
-    ScrollTrigger.addEventListener("update", onScroll);
     ScrollTrigger.addEventListener("refresh", onScroll);
 
     const fieldObserver = new IntersectionObserver(onScroll, {
@@ -223,7 +222,6 @@ export function SiteHeader() {
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
-      ScrollTrigger.removeEventListener("update", onScroll);
       ScrollTrigger.removeEventListener("refresh", onScroll);
       fieldObserver.disconnect();
       window.clearTimeout(idle);
