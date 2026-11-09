@@ -68,3 +68,29 @@ If composition review shows a transition boundary reads as arbitrary, or if a pa
 ## Acceptance record — 2026-08-21 (Preflight)
 
 **Frozen.** Nine-act narrative and dark↔paper choreography are the definitive homepage architecture for this initiative. Act order, palette blocks, and component mapping are fully specified in `docs/class-experience-v1/IMPLEMENTATION_MASTER_PLAN.md §7` and individual Scene Contracts. No reopening without owner-initiated decision.
+
+---
+
+## Addendum — 2026-11-09 (Owner-initiated): condensed spine, soft CTAs, video slots
+
+**Trigger.** Owner review found the storytelling too long and generic (about 35 scroll screens, first in-flow CTA only at the close). This addendum is an owner-initiated amendment to the frozen act order above.
+
+**Spine change.**
+- **Legacy (ACT 03, paper) is retired** from `app/page.tsx` (component kept, unused). The "1998" anchor lives in the Hero subtitle and the Manifesto eyebrow.
+- **Method becomes a paper act.** Palette blocks are now: Hero dark → Manifesto paper → Clinic folio paper→dark → Specialties dark → *wash* → Method paper → *wash* → Specialists dark → Selected dark → Place/Conversion dark. Four dark↔paper turns are preserved.
+- Method timeline is 3 beats (olhar, registro, prova); the "estudo da face" claim lives there, with evidence, and not in the Hero.
+- Scroll budget (estimated from CSS/GSAP values, not measured in a browser): Hero 440vh (was 560), Specialties 540vh (was 720), Method timeline 255vh (was 500), Folio hold ~1.4 (was ~1.9), washes ~1.0 and ~0.9 (were 1.85 and 1.25), Legacy removed.
+- Specialists: featured first row, the rest in a native `<details>` ("Conheça toda a equipe"); all nine remain in the DOM.
+- Hero numeral is computed from the founding date (25/03/1998) instead of the old hard-coded "3 décadas".
+
+**Conversion policy change (amends `CONVERSION.md` "no repeated CTAs").**
+- Four *soft CTAs* (`SoftCTA`) sit **between** acts, never over a pinned/scrubbed scene: after Folio, after Specialties, after Method, after Specialists. Text link with gold hairline and arrow; no filled button, no modal, no pop-up.
+- Copy ladder: invitation early, action late. Labels live in `copy.cta.soft`.
+- Every WhatsApp CTA uses `whatsappHref()` (the same pre-filled visit message, with no section name).
+- Floating CTA: hidden through the Hero and over Place, two gentle pulses on arrival (no infinite loop), short label on desktop.
+- Place close adds three first-visit steps and "Avaliação sem custo" (owner confirmed the evaluation is free; wording to be validated with the clinic's technical responsible against dental advertising rules — not verified here).
+
+**Video policy.**
+- No forced autoplay window. Muted ambient loops (`LoopVideo`) play only while visible and never for reduced motion or data-saving connections; the still underneath is always the fallback.
+- One click-to-play story video (`VideoLightbox`, native `<dialog>`) with sound, opened from the Folio soft CTA.
+- Slots are declared in `content/media.ts` and are **inert until `src` is set**; no video asset exists yet, so no player renders today.

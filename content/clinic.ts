@@ -1,4 +1,14 @@
-export const clinicPlates = [
+import { mediaSlots } from "@/content/media";
+
+export interface ClinicPlate {
+  id: string;
+  src: string;
+  alt: string;
+  /** Optional muted ambient loop layered over the still (see content/media.ts). */
+  videoSrc?: string;
+}
+
+export const clinicPlates: readonly ClinicPlate[] = [
   {
     id: "fachada",
     src: "/assets/clinic/fachada.webp",
@@ -18,5 +28,6 @@ export const clinicPlates = [
     id: "office2",
     src: "/assets/clinic/office2.webp",
     alt: "Consultório da Class Odontologia",
+    ...(mediaSlots.clinicLoop.src ? { videoSrc: mediaSlots.clinicLoop.src } : {}),
   },
-] as const;
+];

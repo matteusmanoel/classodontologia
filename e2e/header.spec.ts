@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { siteConfig } from "../config/site";
+import { whatsappHref } from "../config/site";
 import { copy } from "../content/copy";
 import { gotoHome } from "./helpers";
 
@@ -43,7 +43,7 @@ test.describe("site header", () => {
     ).toBeVisible();
     await expect(
       banner.getByRole("link", { name: copy.cta.buttonLabel }),
-    ).toHaveAttribute("href", siteConfig.whatsapp);
+    ).toHaveAttribute("href", whatsappHref());
     await expect(
       banner.getByRole("navigation", { name: copy.nav.primary }),
     ).toBeVisible();

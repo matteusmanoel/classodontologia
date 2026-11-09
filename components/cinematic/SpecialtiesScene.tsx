@@ -113,8 +113,8 @@ function SpecialtiesDesktopScene({
       if (!shell) return;
 
       const thesis = thesisRef.current;
-      const stateStart = 0.08;
-      const stateEnd = 0.88;
+      const stateStart = 0.1;
+      const stateEnd = 0.94;
       const stateRange = stateEnd - stateStart;
       const stateWidth = stateRange / STATES;
       let lastIndex = -1;

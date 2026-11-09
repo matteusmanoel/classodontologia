@@ -7,7 +7,7 @@ import Image from "next/image";
 import { StoryLine } from "@/components/brand/StoryLine";
 import { StorySpine } from "@/components/brand/StorySpine";
 import { StorySignature } from "@/components/cinematic/StorySignature";
-import { siteConfig } from "@/config/site";
+import { siteConfig, whatsappHref } from "@/config/site";
 import { copy } from "@/content/copy";
 
 const CTA_HEADING_ID = "cta-heading";
@@ -67,8 +67,22 @@ export function LocationSection() {
           <StoryLine kind="crop-br" tone="dark" className="visit-crop visit-crop--br" />
           <p className="display-stitch visit-stitch">{copy.place.stitch}</p>
           <StorySignature />
+          <div className="visit-steps">
+            <p className="visit-steps-label">{copy.conversion.stepsLabel}</p>
+            <ol className="visit-steps-list">
+              {copy.conversion.steps.map((step, index) => (
+                <li key={step.title} className="visit-step">
+                  <span className="visit-step-index" aria-hidden="true">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <strong className="visit-step-title">{step.title}</strong>
+                  <span className="visit-step-body">{step.body}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
           <a
-            href={siteConfig.whatsapp}
+            href={whatsappHref()}
             className="site-header-cta visit-cta"
             target="_blank"
             rel="noopener noreferrer"
@@ -77,6 +91,7 @@ export function LocationSection() {
             <WhatsAppMark />
             <span>{copy.cta.buttonLabel}</span>
           </a>
+          <p className="visit-free-note">{copy.conversion.freeNote}</p>
           <a
             href={siteConfig.mapsUrl}
             className="visit-maps"

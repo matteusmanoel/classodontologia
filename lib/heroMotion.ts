@@ -13,9 +13,9 @@ export const HERO_BEATS = {
   decadeExitAt: 0.58,
   decadeExit: 0.2,
   lineEnter: 0.12,
-  lineHold: 0.18,
+  lineHold: 0.14,
   lineExit: 0.12,
-  lineGap: 0.1,
+  lineGap: 0.06,
   afterLines: 0.08,
   wash: 0.42,
 } as const;

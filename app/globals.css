@@ -409,8 +409,8 @@ img {
 
 .hero-cinematic {
   min-height: 100dvh;
-  /* Tall shell: idle lockup + 3 décadas + copy lines + wash. */
-  height: 560vh;
+  /* Tall shell: idle lockup + years numeral + copy lines + wash. */
+  height: 440vh;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -422,7 +422,7 @@ img {
 /* Mobile / touch: tooth is static poster; shell shorter (no 3D beat slot). */
 @media (hover: none), (max-width: 768px) {
   .hero-cinematic {
-    height: 480vh;
+    height: 380vh;
   }
 
   .tooth-scrubber-video {
@@ -717,7 +717,8 @@ img {
   display: inline-block;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(11.5rem, 42vw, 26rem);
+  /* Two-digit years-since-founding numeral. */
+  font-size: clamp(8rem, 30vw, 20rem);
   line-height: 0.78;
   letter-spacing: -0.06em;
   transform-style: preserve-3d;
@@ -1256,7 +1257,8 @@ html.intro-pending .whatsapp-fab {
 ───────────────────────────────────────────── */
 
 .specialties-stage-shell {
-  height: 720vh;
+  /* ~46vh of scroll per specialty (was 720vh / ~62vh). */
+  height: 540vh;
 }
 
 .specialties-stage {
@@ -1702,10 +1704,11 @@ html.intro-pending .whatsapp-fab {
   bottom: 1.25rem;
   z-index: var(--z-nav);
   display: inline-flex;
-  width: 3.65rem;
+  min-width: 3.65rem;
   height: 3.65rem;
   align-items: center;
   justify-content: center;
+  gap: 0.6rem;
   border-radius: 9999px;
   background: var(--color-gold);
   color: var(--color-bg-primary);
@@ -1713,16 +1716,70 @@ html.intro-pending .whatsapp-fab {
     0 0 0 0 rgba(201, 168, 76, 0.55),
     0 12px 28px rgba(0, 0, 0, 0.35);
   overflow: hidden;
+  /* Hidden through the Hero and over the Place close (primary CTAs live there). */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(0.75rem);
+  transition:
+    opacity 420ms var(--ease-out-expo),
+    transform 420ms var(--ease-out-expo),
+    visibility 0s linear 420ms;
+}
+
+.whatsapp-fab[data-visible="true"] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: none;
+  transition-delay: 0s;
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  /* Two gentle pulses on arrival, then rest — no endless attention loop. */
+  .whatsapp-fab[data-visible="true"] {
+    animation: fab-glow 2.8s ease-in-out 2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
   .whatsapp-fab {
-    animation: fab-glow 2.8s ease-in-out infinite;
+    transition: none;
+    transform: none;
   }
 }
 
 .whatsapp-fab:hover {
   background: var(--color-gold-light);
+}
+
+.whatsapp-fab-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (min-width: 1024px) {
+  .whatsapp-fab {
+    padding: 0 1.4rem 0 1.15rem;
+  }
+
+  .whatsapp-fab-label {
+    position: relative;
+    z-index: 1;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
 }
 
 .whatsapp-fab-icon {
@@ -1746,7 +1803,7 @@ html.intro-pending .whatsapp-fab {
 
 @media (prefers-reduced-motion: no-preference) {
   .whatsapp-fab-shimmer {
-    animation: fab-shimmer 2.6s ease-in-out infinite;
+    animation: fab-shimmer 2.6s ease-in-out 2;
   }
 }
 
@@ -2682,4 +2739,430 @@ html.intro-pending .whatsapp-fab {
 .visit-crop--br {
   right: -0.35rem;
   bottom: -0.55rem;
+}
+
+/* ─────────────────────────────────────────────
+   Method — paper field (washes in from Specialties)
+───────────────────────────────────────────── */
+
+.method-section--paper {
+  --nav-gold: 122, 94, 20;
+  --nav-field: 243, 239, 230;
+}
+
+.method-section--paper .method-lockup .display-stitch {
+  color: var(--color-gold-on-paper);
+}
+
+.method-section--paper .method-dissolve-lead {
+  color: var(--color-text-paper);
+}
+
+.method-section--paper .method-dissolve-mark {
+  color: var(--color-gold-on-paper);
+}
+
+.method-section--paper .method-lockup-body,
+.method-section--paper .method-tl-body,
+.method-section--paper .method-tl-era,
+.method-section--paper .method-tl-shift-label,
+.method-section--paper .method-tl-node-label,
+.method-section--paper .method-plate-pending {
+  color: var(--color-text-paper-muted);
+}
+
+.method-section--paper .method-tl-stage {
+  background: var(--color-bg-paper);
+}
+
+.method-section--paper .method-tl-index,
+.method-section--paper .method-tl-to,
+.method-section--paper .method-tl-node.is-active .method-tl-node-label {
+  color: var(--color-gold-on-paper);
+}
+
+.method-section--paper .method-tl-title,
+.method-section--paper .method-tl-from {
+  color: var(--color-text-paper);
+}
+
+.method-section--paper .method-tl-arrow {
+  background: rgba(122, 94, 20, 0.6);
+}
+
+.method-section--paper .method-tl-plate-layer {
+  background: var(--color-bg-paper);
+}
+
+.method-section--paper .method-plate-frame {
+  background: #e9e3d4;
+}
+
+.method-section--paper .method-plate-placeholder {
+  color: var(--color-gold-on-paper);
+  background:
+    radial-gradient(ellipse at 50% 42%, rgba(122, 94, 20, 0.1), transparent 58%),
+    linear-gradient(180deg, #ece6d6 0%, #e2dac6 100%);
+}
+
+.method-section--paper .method-plate-id {
+  color: rgba(122, 94, 20, 0.85);
+}
+
+.method-section--paper .method-plate-grid path {
+  stroke: rgba(122, 94, 20, 0.24);
+}
+
+.method-section--paper .method-tl-rail-track::before {
+  background: rgba(122, 94, 20, 0.22);
+}
+
+.method-section--paper .method-tl-rail-progress {
+  background: var(--color-gold-on-paper);
+}
+
+.method-section--paper .method-tl-node-dot {
+  border-color: rgba(122, 94, 20, 0.55);
+  background: var(--color-bg-paper);
+}
+
+.method-section--paper .method-tl-node.is-active .method-tl-node-dot {
+  background: var(--color-gold-on-paper);
+}
+
+.method-section--paper .method-tl-list::before {
+  background: rgba(122, 94, 20, 0.28);
+}
+
+.method-section--paper .method-tl-list-dot {
+  background: var(--color-gold-on-paper);
+}
+
+/* ─────────────────────────────────────────────
+   Soft CTA — whisper between acts
+───────────────────────────────────────────── */
+
+.soft-cta {
+  position: relative;
+  z-index: 2;
+  padding: clamp(2.5rem, 6vw, 4rem) var(--section-px);
+}
+
+.soft-cta--dark {
+  background: var(--color-bg-primary);
+  --soft-ink: var(--color-text-secondary);
+  --soft-link: var(--color-gold-light);
+  --soft-rule: rgba(201, 168, 76, 0.45);
+}
+
+.soft-cta--paper {
+  background: var(--color-bg-paper);
+  --soft-ink: var(--color-text-paper-muted);
+  --soft-link: var(--color-gold-on-paper);
+  --soft-rule: rgba(122, 94, 20, 0.45);
+}
+
+.soft-cta-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  max-width: 72rem;
+  margin-inline: auto;
+}
+
+.soft-cta-lead {
+  margin: 0;
+  max-width: 30rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+  line-height: 1.35;
+  letter-spacing: var(--tracking-display);
+  color: var(--soft-ink);
+}
+
+.soft-cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.35rem 0 0.55rem;
+  border-bottom: 1px solid var(--soft-rule);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--soft-link);
+  transition:
+    border-color 320ms var(--ease-in-out),
+    gap 320ms var(--ease-out-expo);
+}
+
+.soft-cta-link:hover {
+  gap: 1.25rem;
+  border-color: var(--soft-link);
+}
+
+.soft-cta-link:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 4px;
+}
+
+.soft-cta--paper .soft-cta-link:focus-visible {
+  outline-color: var(--color-gold-on-paper);
+}
+
+.soft-cta-arrow {
+  width: 1.5rem;
+  height: 0.75rem;
+  flex-shrink: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .soft-cta-link {
+    transition: none;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   Specialists — featured row + "toda a equipe"
+───────────────────────────────────────────── */
+
+.specialists-more {
+  margin-top: 3.5rem;
+}
+
+.specialists-more-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.35rem 0 0.55rem;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.45);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-gold-light);
+  cursor: pointer;
+  list-style: none;
+}
+
+.specialists-more-summary::-webkit-details-marker {
+  display: none;
+}
+
+.specialists-more-summary:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 4px;
+}
+
+.specialists-more-close {
+  display: none;
+}
+
+.specialists-more[open] .specialists-more-open {
+  display: none;
+}
+
+.specialists-more[open] .specialists-more-close {
+  display: inline;
+}
+
+.specialists-more-icon {
+  position: relative;
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.specialists-more-icon::before,
+.specialists-more-icon::after {
+  content: "";
+  position: absolute;
+  inset: 50% 0 auto 0;
+  height: 1px;
+  background: currentColor;
+}
+
+.specialists-more-icon::after {
+  transform: rotate(90deg);
+  transition: transform 280ms var(--ease-out-expo);
+}
+
+.specialists-more[open] .specialists-more-icon::after {
+  transform: rotate(0deg);
+}
+
+.specialists-more .specialists-grid {
+  margin-top: 3.5rem;
+}
+
+/* ─────────────────────────────────────────────
+   Place / Conversion — first-visit steps
+───────────────────────────────────────────── */
+
+.visit-steps {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  margin-block: 0.85rem 0.35rem;
+}
+
+.visit-steps-label {
+  margin: 0 0 1rem;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.visit-steps-list {
+  display: grid;
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 768px) {
+  .visit-steps-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.75rem;
+  }
+}
+
+.visit-step {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(201, 168, 76, 0.4);
+  text-align: left;
+}
+
+.visit-step-index {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  color: var(--color-gold);
+}
+
+.visit-step-title {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 400;
+  color: var(--color-text-primary);
+}
+
+.visit-step-body {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 300;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+}
+
+.visit-free-note {
+  position: relative;
+  z-index: 1;
+  margin: -0.35rem 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(201, 168, 76, 0.85);
+}
+
+/* ─────────────────────────────────────────────
+   Video slots — loop layer + story lightbox
+───────────────────────────────────────────── */
+
+.loop-video-wrap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.loop-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 700ms var(--ease-in-out);
+}
+
+.loop-video.is-ready {
+  opacity: 1;
+}
+
+.soft-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 2.25rem;
+}
+
+.soft-cta-link--play {
+  background: none;
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+  cursor: pointer;
+}
+
+.soft-cta-play {
+  width: 0.65rem;
+  height: 0.75rem;
+  flex-shrink: 0;
+}
+
+.video-lightbox {
+  width: min(100% - 2rem, 70rem);
+  max-height: calc(100dvh - 2rem);
+  padding: 0;
+  border: 1px solid rgba(201, 168, 76, 0.4);
+  background: #080808;
+  color: var(--color-text-primary);
+}
+
+.video-lightbox::backdrop {
+  background: rgba(8, 8, 8, 0.86);
+}
+
+.video-lightbox-frame {
+  position: relative;
+}
+
+.video-lightbox-video {
+  display: block;
+  width: 100%;
+  max-height: calc(100dvh - 2rem);
+  background: #000;
+}
+
+.video-lightbox-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 2;
+  display: inline-flex;
+  width: 2.5rem;
+  height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(201, 168, 76, 0.55);
+  background: rgba(8, 8, 8, 0.7);
+  color: var(--color-gold-light);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.video-lightbox-close:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
 }

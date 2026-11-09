@@ -1,3 +1,13 @@
+/** Clinic founded 25/03/1998 (BRAND_EXPERIENCE.md). Evaluated at build/render time. */
+const FOUNDED = { year: 1998, month: 3, day: 25 } as const;
+
+function yearsSinceFounding(now: Date = new Date()): number {
+  const beforeAnniversary =
+    now.getMonth() + 1 < FOUNDED.month ||
+    (now.getMonth() + 1 === FOUNDED.month && now.getDate() < FOUNDED.day);
+  return now.getFullYear() - FOUNDED.year - (beforeAnniversary ? 1 : 0);
+}
+
 export const copy = {
   hero: {
     heading: "Class Odontologia",
@@ -5,18 +15,18 @@ export const copy = {
     slogan: "A arte de sorrir com Class.",
     scrollCue: "Role para começar",
     /** Scroll beat after the wordmark exits — giant 3D “3”. */
-    decadeNumeral: "3",
-    decadeLabel: "décadas",
+    decadeNumeral: String(yearsSinceFounding()),
+    decadeLabel: "anos",
     /** Factual subtitle under the decade numeral. */
     decadeSubtitle: "Desde 1998, um padrão próprio de fazer odontologia.",
     /** Lines that rise one-by-one after the decade beat. */
     scrollLines: [
-      "Cada tratamento começa no estudo da face.",
-      "Anatomia, proporção e o resultado que você realmente deseja.",
+      "Você merece sorrir com Class.",
+      "Precisão, cuidado e atenção a cada detalhe, do primeiro olhar ao resultado que você espera.",
     ],
     /** Full sentence for screen readers / reduced motion. */
     tagline:
-      "A arte de sorrir com Class. Desde 1998, um padrão próprio de fazer odontologia em Foz do Iguaçu. Cada tratamento começa no estudo da face — anatomia, proporção e o resultado que você realmente deseja.",
+      "A arte de sorrir com Class. Desde 1998, um padrão próprio de fazer odontologia em Foz do Iguaçu. Você merece sorrir com Class. Precisão, cuidado e atenção a cada detalhe, do primeiro olhar ao resultado que você espera.",
   },
   manifesto: {
     eyebrow: "A clínica · Desde 1998",
@@ -31,12 +41,12 @@ export const copy = {
     body: "Desde 1998, evoluímos sem abrir mão daquilo que sempre orientou nosso trabalho: atenção aos detalhes.",
   },
   specialties: {
-    heading: "Um critério. Oito caminhos.",
+    heading: "Oito caminhos. Um padrão.",
     pair: {
-      lead: "Um",
-      leadMark: "critério.",
-      trail: "Oito",
-      trailMark: "caminhos.",
+      lead: "Oito",
+      leadMark: "caminhos.",
+      trail: "Um",
+      trailMark: "padrão.",
     },
     stitch: "Oito disciplinas. O mesmo olhar.",
     subheading:
@@ -47,7 +57,7 @@ export const copy = {
     dissolveLead: "A ferramenta não decide.",
     dissolveMark: "O critério decide.",
     stitch: "Tecnologia, com propósito.",
-    body: "Recursos que ampliam diagnóstico, planejamento e previsibilidade. Tecnologia só faz sentido quando melhora a decisão clínica.",
+    body: "Recursos que ampliam diagnóstico, planejamento e previsibilidade — para que você veja o caminho e o resultado antes de decidir.",
     timelineEyebrow: "Linha do tempo",
     fromLabel: "De",
     toLabel: "Para",
@@ -63,6 +73,8 @@ export const copy = {
     },
     subheading:
       "O planejamento começa na face — e termina no sorriso que você reconhece como seu.",
+    moreLabel: "Conheça toda a equipe",
+    lessLabel: "Mostrar menos",
   },
   selected: {
     eyebrow: "SELECTED BY CLASS",
@@ -79,11 +91,40 @@ export const copy = {
     signature: "A arte de sorrir com Class.",
     buttonLabel: "Agende sua avaliação",
     mapsLabel: "Ver no Maps",
+    /** What happens on the first visit — lowers friction without promising outcomes. */
+    stepsLabel: "Como é a primeira visita",
+    steps: [
+      { title: "Conversa", body: "Você conta o que deseja e a equipe escuta." },
+      { title: "Estudo", body: "Avaliação do seu caso, a começar pela face." },
+      { title: "Plano claro", body: "Caminho, etapas e tempo explicados com transparência." },
+    ],
+    freeNote: "Avaliação sem custo",
   },
   cta: {
     heading: "Agende sua avaliação",
     body: "Converse com a equipe. Entendemos o que o seu sorriso pede — e desenhamos o caminho com clareza, tempo e precisão.",
     buttonLabel: "Agende sua avaliação",
+    /** Whisper CTAs between acts: invitation first, action last (see ADR-013 addendum). */
+    soft: {
+      folio: {
+        lead: "O espaço conta parte da história. O prazer de sorrir, a gente provoca de perto.",
+        label: "Conheça a Class pessoalmente",
+      },
+      specialties: {
+        lead: "O caminho começa no sorriso que você deseja sentir.",
+        label: "Converse com a equipe",
+      },
+      method: {
+        lead: "O plano só existe para você ver, antes, o sorriso que quer viver.",
+        label: "Antecipe o seu sorriso",
+      },
+      specialists: {
+        lead: "Conhecer quem cuida do seu sorriso faz diferença.",
+        label: "Agende uma visita",
+      },
+    },
+    fabLabel: "Agendar visita",
+    fabAria: "Agendar visita pelo WhatsApp",
   },
   nav: {
     clinic: "A clínica",

@@ -1,7 +1,7 @@
 /**
- * Method — ACT 05 / Precision, Planned.
+ * Method — ACT 04 / Precision, Planned.
  *
- * Dark field. Dissolve declaration is the thesis; the timeline carries the argument.
+ * Paper field (washes in from Specialties). Dissolve declaration is the thesis; the timeline carries the argument.
  * MethodThesis + MethodTimeline are the client islands.
  */
 
@@ -15,9 +15,9 @@ export function MethodSection() {
     <section
       id="method"
       aria-labelledby="method-heading"
-      className="method-section relative bg-bg-primary"
+      className="method-section method-section--paper relative bg-bg-paper"
     >
-      <StorySpine tone="dark" columns={2} />
+      <StorySpine tone="paper" columns={2} />
       <div className="relative z-[2] mx-auto max-w-[1280px] px-(--section-px) pt-(--section-py) pb-8 md:pb-10">
         <MethodThesis />
       </div>
@@ -28,13 +28,13 @@ export function MethodSection() {
         <ol className="mx-auto flex max-w-[1280px] flex-col gap-10 px-(--section-px) pb-(--section-py)">
           {methodBeats.map((beat) => (
             <li key={beat.id}>
-              <p className="font-mono text-xs tracking-label text-gold uppercase">
+              <p className="font-mono text-xs tracking-label text-gold-on-paper uppercase">
                 {beat.era}
               </p>
-              <strong className="mt-2 block font-sans text-xl text-text-primary">
+              <strong className="mt-2 block font-sans text-xl text-text-paper">
                 {beat.from} → {beat.to}
               </strong>
-              <p className="mt-2 font-sans text-base text-text-secondary">
+              <p className="mt-2 font-sans text-base text-text-paper-muted">
                 {beat.body}
               </p>
             </li>

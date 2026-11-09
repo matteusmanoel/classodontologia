@@ -11,15 +11,16 @@ import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { LoopVideo } from "@/components/ui/LoopVideo";
 import { clinicPlates } from "@/content/clinic";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 const PAPER = "#f3efe6";
 const DARK = "#080808";
-const IN = 0.36;
-const TURN = 0.4;
-const OUT = 0.36;
+const IN = 0.3;
+const TURN = 0.28;
+const OUT = 0.28;
 const INCOMING_SCALE = 1.085;
 const HEADING_ID = "clinic-folio-heading";
 
@@ -182,6 +183,7 @@ export function ClinicFolio() {
                 className="clinic-folio-image"
                 priority={index === 0}
               />
+              {plate.videoSrc ? <LoopVideo src={plate.videoSrc} /> : null}
             </div>
           </div>
         ))}

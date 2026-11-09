@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { siteConfig } from "../config/site";
+import { siteConfig, whatsappHref } from "../config/site";
 import { copy } from "../content/copy";
 import { gotoHome } from "./helpers";
 
@@ -42,13 +42,13 @@ test.describe("keyboard and CTA", () => {
     expect(Number.parseFloat(outline.outlineOffset)).toBeGreaterThanOrEqual(3);
   });
 
-  test("CTA href matches the siteConfig.whatsapp placeholder", async ({
+  test("CTA href is the siteConfig.whatsapp link", async ({
     page,
   }) => {
     await gotoHome(page);
 
     const cta = page.locator("#place").getByRole("link", { name: copy.cta.buttonLabel });
-    await expect(cta).toHaveAttribute("href", siteConfig.whatsapp);
+    await expect(cta).toHaveAttribute("href", whatsappHref());
     expect(siteConfig.whatsapp).toMatch(/^https:\/\/wa\.me\/55\d+/);
   });
 });

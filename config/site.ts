@@ -20,3 +20,10 @@ export const siteConfig = {
   instagram: "https://www.instagram.com/classodontologiafoz/",
   facebook: "https://www.facebook.com/ClassOdontologiaFoz/",
 } as const
+
+/** Pre-filled WhatsApp message shared by every visit CTA. */
+export function whatsappHref(): string {
+  const text =
+    "Olá! Vim pelo site da Class Odontologia e gostaria de agendar uma visita."
+  return `${siteConfig.whatsapp}?text=${encodeURIComponent(text)}`
+}
