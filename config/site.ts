@@ -21,6 +21,35 @@ export const siteConfig = {
   facebook: "https://www.facebook.com/ClassOdontologiaFoz/",
 } as const
 
+/** E.164 number taken from the WhatsApp link, the number the site already publishes. */
+function telephoneE164(): string {
+  const digits = siteConfig.whatsapp.replace(/\D/g, "")
+  return `+${digits}`
+}
+
+/** Dentist structured data. Hours stay out: the site only says visits are by appointment. */
+export function dentistStructuredData() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Dentist",
+    name: siteConfig.name,
+    description: siteConfig.description,
+    url: siteConfig.url,
+    telephone: telephoneE164(),
+    image: `${siteConfig.url}/og-image.jpg`,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: siteConfig.address.street,
+      addressLocality: siteConfig.address.city,
+      addressRegion: siteConfig.address.state,
+      postalCode: siteConfig.address.postalCode,
+      addressCountry: siteConfig.address.country,
+    },
+    hasMap: siteConfig.mapsUrl,
+    sameAs: [siteConfig.instagram, siteConfig.facebook],
+  }
+}
+
 /** Pre-filled WhatsApp message shared by every visit CTA. */
 export function whatsappHref(): string {
   const text =

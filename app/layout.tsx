@@ -4,7 +4,7 @@ import { IntroLoader } from "@/components/cinematic/IntroLoader";
 import { Footer } from "@/components/sections/Footer";
 import { SiteHeader } from "@/components/sections/SiteHeader";
 import { WhatsAppFab } from "@/components/ui/WhatsAppFab";
-import { siteConfig } from "@/config/site";
+import { dentistStructuredData, siteConfig } from "@/config/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -91,6 +91,12 @@ export default function RootLayout({
         />
       </head>
       <body className="font-sans font-light antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(dentistStructuredData()).replace(/</g, "\\u003c"),
+          }}
+        />
         <a href="#main-content" className="skip-link">
           Ir para o conteúdo principal
         </a>
