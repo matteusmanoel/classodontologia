@@ -93,7 +93,7 @@ test.describe("condensed narrative", () => {
     const place = page.locator("#place");
 
     await expect(place.locator(".visit-step")).toHaveCount(copy.conversion.steps.length);
-    await expect(place.getByText(copy.conversion.freeNote)).toBeAttached();
+    await expect(place.getByText(/sem custo|gratuit/i)).toHaveCount(0);
     await expect(
       place.getByRole("link", { name: copy.cta.buttonLabel }),
     ).toHaveCount(1);

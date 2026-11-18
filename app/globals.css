@@ -3064,17 +3064,6 @@ html.intro-pending .whatsapp-fab {
   color: var(--color-text-secondary);
 }
 
-.visit-free-note {
-  position: relative;
-  z-index: 1;
-  margin: -0.35rem 0 0;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(201, 168, 76, 0.85);
-}
-
 /* ─────────────────────────────────────────────
    Video slots — loop layer + story lightbox
 ───────────────────────────────────────────── */

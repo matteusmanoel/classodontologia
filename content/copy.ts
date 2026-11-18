@@ -98,7 +98,6 @@ export const copy = {
       { title: "Estudo", body: "Avaliação do seu caso, a começar pela face." },
       { title: "Plano claro", body: "Caminho, etapas e tempo explicados com transparência." },
     ],
-    freeNote: "Avaliação sem custo",
   },
   cta: {
     heading: "Agende sua avaliação",

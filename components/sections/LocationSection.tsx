@@ -91,7 +91,6 @@ export function LocationSection() {
             <WhatsAppMark />
             <span>{copy.cta.buttonLabel}</span>
           </a>
-          <p className="visit-free-note">{copy.conversion.freeNote}</p>
           <a
             href={siteConfig.mapsUrl}
             className="visit-maps"

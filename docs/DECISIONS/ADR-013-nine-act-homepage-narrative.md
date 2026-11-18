@@ -88,7 +88,7 @@ If composition review shows a transition boundary reads as arbitrary, or if a pa
 - Copy ladder: invitation early, action late. Labels live in `copy.cta.soft`.
 - Every WhatsApp CTA uses `whatsappHref()` (the same pre-filled visit message, with no section name).
 - Floating CTA: hidden through the Hero and over Place, two gentle pulses on arrival (no infinite loop), short label on desktop.
-- Place close adds three first-visit steps and "Avaliação sem custo" (owner confirmed the evaluation is free; wording to be validated with the clinic's technical responsible against dental advertising rules — not verified here).
+- Place close adds three first-visit steps. It does not promise a free evaluation.
 
 **Video policy.**
 - No forced autoplay window. Muted ambient loops (`LoopVideo`) play only while visible and never for reduced motion or data-saving connections; the still underneath is always the fallback.
