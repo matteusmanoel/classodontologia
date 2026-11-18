@@ -65,7 +65,7 @@ export function MethodThesis() {
 
   return (
     <div ref={rootRef} className="method-lockup">
-      <StoryLine kind="crop-tl" tone="dark" className="method-lockup-crop" />
+      <StoryLine kind="crop-tl" tone="paper" className="method-lockup-crop" />
       <p className="display-stitch">{copy.method.stitch}</p>
       <h2 id={METHOD_HEADING_ID} className="method-lockup-heading">
         <span className="sr-only">{copy.method.headline}</span>

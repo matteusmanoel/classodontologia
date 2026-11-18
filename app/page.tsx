@@ -2,25 +2,29 @@ import { PaletteWash } from "@/components/cinematic/PaletteWash";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { ManifestoSection } from "@/components/sections/ManifestoSection";
 import { ClinicFolioSection } from "@/components/sections/ClinicFolioSection";
-import { LegacySection } from "@/components/sections/LegacySection";
+// Legacy (paper, "1998") retired from the spine: the year now lives in the Hero
+// subtitle and the Manifesto eyebrow. Component kept for reference.
+// import { LegacySection } from "@/components/sections/LegacySection";
 import { SpecialtiesSection } from "@/components/sections/SpecialtiesSection";
 import { MethodSection } from "@/components/sections/MethodSection";
 import { SpecialistsSection } from "@/components/sections/SpecialistsSection";
 import { SelectedByClassSection } from "@/components/sections/SelectedByClassSection";
 import { LocationSection } from "@/components/sections/LocationSection";
+import { SoftCTA } from "@/components/ui/SoftCTA";
 
 /**
- * Home page — demo release spine.
+ * Home page — condensed spine (narrative-tightening release).
  *
  *   ACT 01 Hero          dark
  *   ACT 02 Manifesto     paper
- *   ACT 02b Clinic folio photos (no copy)
- *   ACT 03 Specialties   dark
- *   ACT 04 Legacy        paper  (wash in from specialties)
- *   ACT 05 Method        dark   (wash in from legacy)
- *   ACT 06 Specialists   dark
- *   ACT 07 Selected      dark (brand marquee)
- *   ACT 08 Place         map close + CTAs
+ *   ACT 02b Clinic folio paper → dark (+ soft CTA 1)
+ *   ACT 03 Specialties   dark       (+ soft CTA 2)
+ *   ----   wash          dark → paper
+ *   ACT 04 Method        paper      (+ soft CTA 3)
+ *   ----   wash          paper → dark
+ *   ACT 05 Specialists   dark       (+ soft CTA 4)
+ *   ACT 06 Selected      dark (brand marquee)
+ *   ACT 07 Place         map close + primary CTAs
  *
  * Server Component (ADR-007). Layout provides <main id="main-content">.
  */
@@ -30,16 +34,15 @@ export default function Home() {
       <HeroSection />
       <ManifestoSection />
       <ClinicFolioSection />
+      <SoftCTA id="folio" tone="dark" />
       <SpecialtiesSection />
-      <PaletteWash from="#080808" to="#f3efe6" hold={1.85} ease="power1.inOut">
-        <span className="palette-wash-year palette-wash-year--enter">1998</span>
-      </PaletteWash>
-      <LegacySection />
-      <PaletteWash from="#f3efe6" to="#080808" hold={1.25} ease="power2.inOut">
-        <span className="palette-wash-year palette-wash-year--exit">1998</span>
-      </PaletteWash>
+      <SoftCTA id="specialties" tone="dark" />
+      <PaletteWash from="#080808" to="#f3efe6" hold={1.0} ease="power1.inOut" />
       <MethodSection />
+      <SoftCTA id="method" tone="paper" />
+      <PaletteWash from="#f3efe6" to="#080808" hold={0.9} ease="power2.inOut" />
       <SpecialistsSection />
+      <SoftCTA id="specialists" tone="dark" />
       <SelectedByClassSection />
       <LocationSection />
     </>

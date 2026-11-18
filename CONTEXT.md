@@ -2,7 +2,7 @@
 
 Premium institutional landing page for Class Odontologia (Foz do Iguaçu). This glossary is the ubiquitous language for the page: identity, cinematic beats, and sections.
 
-> **Superseded in part by `docs/class-experience-v1/` (2026-08-21, ADR-013).** The homepage is being reflowed into 9 narrative acts. Notably: **Specialties is no longer "out of scope"** — it becomes Hero Moment 02 (sticky multi-state scene, on the paper field); **Location is split** into ACT 08 Place + ACT 09 Conversion; the **Manifesto becomes typographic** (SmileWell removed, ADR-009 note); and the **Hero "décadas" claim is corrected** to a 1998 anchor. Entries below remain valid except where the class-experience-v1 docs and ADR-013 override them.
+> **Superseded in part by `docs/class-experience-v1/` (2026-08-21, ADR-013).** The homepage is being reflowed into 9 narrative acts. Notably: **Specialties is no longer "out of scope"** — it becomes Hero Moment 02 (sticky multi-state scene, on the paper field); **Location is split** into ACT 08 Place + ACT 09 Conversion; the **Manifesto becomes typographic** (SmileWell removed, ADR-009 note); and the **Hero "décadas" claim is corrected** to a 1998 anchor (now a years-since-founding numeral). Entries below remain valid except where the class-experience-v1 docs and ADR-013 override them.
 
 ## Identity
 
@@ -17,11 +17,11 @@ _Avoid_: Logo, heading, brand block
 ## Hero beats
 
 **Decade numeral**:
-The giant “3” in the decade beat. It is a CSS-extruded glyph with Z thickness so the form stays visible through a Y rotation. Runtime WebGL is a fallback only if extrusion fails visually.
+The giant years-since-founding numeral (computed from 25/03/1998) in the decade beat. It is a CSS-extruded glyph with Z thickness so the form stays visible through a Y rotation. Runtime WebGL is a fallback only if extrusion fails visually.
 _Avoid_: 3D model, Three.js element (unless that fallback is accepted), logo
 
 **Decade label**:
-The word “décadas”, placed below the Decade numeral with a clear gap. It does not overlay the numeral.
+The word “anos”, placed below the Decade numeral with a clear gap. It does not overlay the numeral.
 _Avoid_: Caption on the 3, overlay
 
 **Hero copy line**:
@@ -61,3 +61,17 @@ _Avoid_: Evaluation form, contact strip (that is the Footer)
 **Footer**:
 The compact contact strip: WhatsApp, a short address, hours, social, and copyright at the bottom-right. It is not the primary locator — Location is.
 _Avoid_: Location, Appointment CTA
+
+## Narrative additions (2026-11-09, ADR-013 addendum)
+
+**Legacy**:
+Retired from the homepage spine; the component is kept but unused. "1998" now lives in the Hero subtitle and Manifesto eyebrow.
+_Avoid_: Reintroducing a standalone 1998 act without an owner decision
+
+**Soft CTA**:
+A quiet invitation between acts: one sentence and a text link with a gold hairline and arrow, linking to WhatsApp with the same pre-filled visit message. Four exist (after Folio, Specialties, Method, Specialists). Never a filled button, modal or pop-up, and never inside a pinned or scrubbed scene.
+_Avoid_: Banner, popup, sticky CTA bar, aggressive sales copy
+
+**Video slot**:
+A declared place for a real video (`content/media.ts`) that renders nothing until `src` is set. Two kinds: muted ambient **loop** layered over a still, and a click-to-play **story** video in a lightbox. The still is always the fallback.
+_Avoid_: Autoplay with sound, forced video modal, video without a poster

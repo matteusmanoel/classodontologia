@@ -5,7 +5,7 @@
  *
  * Tooth scrub (desktop) + idle identity + scroll-choreographed copy:
  *   1) Lockup + typed slogan hold, then rise out
- *   2) Giant extruded “3” spins in 3D + “décadas” + 1998 subtitle
+ *   2) Giant extruded years numeral spins in 3D + “anos” + 1998 subtitle
  *   3) Copy lines occupy the slot one at a time; last line leaves
  *   4) Pin washes dark → paper as the tooth dissolves into Manifesto
  *

@@ -12,7 +12,7 @@ import {
 } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { siteConfig } from "@/config/site";
+import { siteConfig, whatsappHref } from "@/config/site";
 import { copy } from "@/content/copy";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -315,7 +315,7 @@ export function SiteHeader() {
         </nav>
 
         <a
-          href={siteConfig.whatsapp}
+          href={whatsappHref()}
           className="site-header-cta"
           target="_blank"
           rel="noopener noreferrer"
@@ -366,7 +366,7 @@ export function SiteHeader() {
           ))}
         </nav>
         <a
-          href={siteConfig.whatsapp}
+          href={whatsappHref()}
           className="site-header-cta site-header-cta--panel"
           target="_blank"
           rel="noopener noreferrer"

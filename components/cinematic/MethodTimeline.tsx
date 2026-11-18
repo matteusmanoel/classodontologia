@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Method timeline — sticky scrolltelling of how instruments evolved.
+ * Method timeline — sticky scrolltelling of how instruments evolved (paper field).
  * Desktop + motion: one pinned stage, beats crossfade on scrub.
  * Mobile / reduced-motion: stacked editorial list on a gold rail.
  * Plates accept real images later; SVG construction stands in until then.
@@ -14,6 +14,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import { StoryLine } from "@/components/brand/StoryLine";
 import { StorySpine } from "@/components/brand/StorySpine";
+import { LoopVideo } from "@/components/ui/LoopVideo";
 import { copy } from "@/content/copy";
 import {
   methodBeats,
@@ -87,10 +88,10 @@ function MethodMotifMark({ kind }: { kind: MethodMotif }) {
 function MethodPlate({ beat, priority = false }: { beat: MethodBeat; priority?: boolean }) {
   return (
     <figure className="method-plate">
-      <StoryLine kind="crop-tl" tone="dark" className="method-plate-crop method-plate-crop--tl" />
-      <StoryLine kind="crop-tr" tone="dark" className="method-plate-crop method-plate-crop--tr" />
-      <StoryLine kind="crop-bl" tone="dark" className="method-plate-crop method-plate-crop--bl" />
-      <StoryLine kind="crop-br" tone="dark" className="method-plate-crop method-plate-crop--br" />
+      <StoryLine kind="crop-tl" tone="paper" className="method-plate-crop method-plate-crop--tl" />
+      <StoryLine kind="crop-tr" tone="paper" className="method-plate-crop method-plate-crop--tr" />
+      <StoryLine kind="crop-bl" tone="paper" className="method-plate-crop method-plate-crop--bl" />
+      <StoryLine kind="crop-br" tone="paper" className="method-plate-crop method-plate-crop--br" />
       <div className="method-plate-frame">
         {beat.imageSrc ? (
           <Image
@@ -108,6 +109,7 @@ function MethodPlate({ beat, priority = false }: { beat: MethodBeat; priority?: 
             <span className="method-plate-pending">{copy.method.placeholderCaption}</span>
           </div>
         )}
+        {beat.videoSrc ? <LoopVideo src={beat.videoSrc} /> : null}
         <svg
           className="method-plate-grid"
           viewBox="0 0 160 100"
@@ -262,10 +264,10 @@ function MethodDesktopScene() {
     <div
       ref={shellRef}
       className="method-tl-shell"
-      style={{ height: `${BEATS * 100}vh` }}
+      style={{ height: `${BEATS * 85}vh` }}
     >
       <div className="method-tl-stage">
-        <StorySpine tone="dark" columns={2} />
+        <StorySpine tone="paper" columns={2} />
         <div className="method-tl-layout">
           <div className="method-tl-copy">
             {methodBeats.map((beat, index) => (
