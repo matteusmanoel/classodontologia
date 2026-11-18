@@ -27,9 +27,9 @@ test.describe("condensed narrative", () => {
       "specialties",
       "method",
       "specialists",
-      "selected-by-class",
       "place",
     ]);
+    await expect(page.locator("#selected-by-class")).toHaveCount(0);
   });
 
   test("hero carries the new promise, not the old study-of-the-face lines", async ({

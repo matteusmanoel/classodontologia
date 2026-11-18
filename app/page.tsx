@@ -8,7 +8,8 @@ import { ClinicFolioSection } from "@/components/sections/ClinicFolioSection";
 import { SpecialtiesSection } from "@/components/sections/SpecialtiesSection";
 import { MethodSection } from "@/components/sections/MethodSection";
 import { SpecialistsSection } from "@/components/sections/SpecialistsSection";
-import { SelectedByClassSection } from "@/components/sections/SelectedByClassSection";
+// Brand rail (banner-marcas.webp) hidden until the clinic confirms the marks.
+// import { SelectedByClassSection } from "@/components/sections/SelectedByClassSection";
 import { LocationSection } from "@/components/sections/LocationSection";
 import { SoftCTA } from "@/components/ui/SoftCTA";
 
@@ -23,7 +24,7 @@ import { SoftCTA } from "@/components/ui/SoftCTA";
  *   ACT 04 Method        paper      (+ soft CTA 3)
  *   ----   wash          paper → dark
  *   ACT 05 Specialists   dark       (+ soft CTA 4)
- *   ACT 06 Selected      dark (brand marquee)
+ *   ACT 06 Selected      dark (brand marquee) — commented out
  *   ACT 07 Place         map close + primary CTAs
  *
  * Server Component (ADR-007). Layout provides <main id="main-content">.
@@ -43,7 +44,7 @@ export default function Home() {
       <PaletteWash from="#f3efe6" to="#080808" hold={0.9} ease="power2.inOut" />
       <SpecialistsSection />
       <SoftCTA id="specialists" tone="dark" />
-      <SelectedByClassSection />
+      {/* <SelectedByClassSection /> */}
       <LocationSection />
     </>
   );
